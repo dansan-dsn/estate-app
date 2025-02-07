@@ -37,25 +37,21 @@ const GoogleLoginScreen = () => {
   }, [response]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View>
-        <TouchableOpacity
-          style={styles.googleBtn}
-          onPress={() => promptAsync()}
-          disabled={!request}
-        >
-          <FontAwesome
-            name="google"
-            size={20}
-            color="white"
-            style={styles.icon}
-          />
-          <Text style={styles.btnText}>Continue with Google</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    <View>
+      <TouchableOpacity
+        style={styles.googleBtn}
+        onPress={() => promptAsync()}
+        disabled={!request}
+      >
+        <FontAwesome
+          name="google"
+          size={20}
+          color="white"
+          style={styles.icon}
+        />
+        <Text style={styles.btnText}>Continue with Google</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
