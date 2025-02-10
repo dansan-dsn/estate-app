@@ -15,7 +15,6 @@ const propertySchema = new mongoose.Schema(
     rooms: Number,
     petPolicy: String,
     images: [String],
-    videos: [String],
     location: {
       type: { type: String, enum: ["Point"], default: "Point" },
       coordinates: [Number],
