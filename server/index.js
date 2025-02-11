@@ -1,4 +1,4 @@
-require("dotenv").config(); // configureing .env
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -9,6 +9,7 @@ const session = require("express-session");
 const userRoute = require("./routes/userRoute");
 const propertyRoute = require("./routes/propertyRoute");
 const reportingRoute = require("./routes/reportingRoute");
+const reviewsRoute = require("./routes/reviewsRoute");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(passport.session());
 app.use("/api/users", userRoute);
 app.use("/api/property", propertyRoute);
 app.use("/api/reports", reportingRoute);
+app.use("/api/reviews", reviewsRoute);
 
 // Start Server
 app.listen(PORT, () => {
