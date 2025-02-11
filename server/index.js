@@ -8,6 +8,7 @@ const passport = require("passport");
 const session = require("express-session");
 const userRoute = require("./routes/userRoute");
 const propertyRoute = require("./routes/propertyRoute");
+const reportingRoute = require("./routes/reportingRoute");
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(passport.session());
 // Routes
 app.use("/api/users", userRoute);
 app.use("/api/property", propertyRoute);
+app.use("/api/reports", reportingRoute);
 
 // Start Server
 app.listen(PORT, () => {
