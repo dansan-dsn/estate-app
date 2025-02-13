@@ -75,9 +75,7 @@ const registerUser = async (req, res) => {
     }
 
     if (password.length < 5) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 5 characters long" });
+      return res.status(400).json({ message: "Password too short" });
     }
 
     const existingUser = await userModel.findOne({
@@ -86,7 +84,7 @@ const registerUser = async (req, res) => {
 
     if (existingUser) {
       return res.status(400).json({
-        message: "A user with this email or phone number already exists",
+        message: "Email or phone number already exists",
       });
     }
 

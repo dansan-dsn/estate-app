@@ -14,12 +14,21 @@ import {
 import GoogleLoginScreen from "./GoogleLoginScreen";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
+import Toast from "react-native-toast-message"; // Import Toast
 
-const RegisterScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
+type RegisterScreenProps = {
+  navigation: {
+    navigate: (screen: string) => void;
+  };
+};
+
+const baseUrl = "http://192.168.55.221:5000/api";
+
+const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
+  const [email, setEmail] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
 
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -27,20 +36,76 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleRegister = async () => {
     if (!email || !phoneNumber || !password) {
-      alert("Please fill in all fields");
+      Toast.show({
+        type: "error",
+        text1: "Please fill in all fields",
+      });
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/register", {
+      const response = await axios.post(`${baseUrl}/users/register`, {
         email,
         phoneNumber,
         password,
       });
-      alert(response.data.message);
+
+      Toast.show({
+        type: "success",
+        text1: response.data.message || "Registration successful!",
+      });
       navigation.navigate("Login");
-    } catch (error) {
-      alert(error.response?.data?.message || "Registration failed");
+    } catch (error: any) {
+      if (error.response) {
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 400:
+            if (data.message === "All fields are required") {
+              Toast.show({
+                type: "error",
+                text1: "Please fill in all fields",
+              });
+            } else if (data.message === "Password too short") {
+              Toast.show({
+                type: "error",
+                text1: "Password too short",
+              });
+            } else if (
+              data.message === "Email or phone number already exists"
+            ) {
+              Toast.show({
+                type: "error",
+                text1: "Email or phone number already exists",
+              });
+            } else {
+              Toast.show({
+                type: "error",
+                text1: "Invalid request. Please check your input.",
+              });
+            }
+            break;
+
+          case 500:
+            Toast.show({
+              type: "error",
+              text1: "Server error. Please try again later.",
+            });
+            break;
+
+          default:
+            Toast.show({
+              type: "error",
+              text1: "An unexpected error occurred. Please try again.",
+            });
+            break;
+        }
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Network error. Please check your connection.",
+        });
+      }
     }
   };
 
@@ -143,7 +208,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    // backgroundColor: "lightblue",
   },
   heading: {
     textAlign: "center",

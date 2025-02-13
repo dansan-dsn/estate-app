@@ -12,11 +12,20 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import GoogleLoginScreen from "./GoogleLoginScreen";
+import Toast from "react-native-toast-message"; // Import Toast
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
+type LoginScreenProps = {
+  navigation: {
+    navigate: (screen: string) => void;
+  };
+};
+
+const baseUrl = "http://192.168.55.221:5000/api";
+
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
 
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -24,22 +33,60 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert("Please fill in all fields");
+      Toast.show({
+        type: "error",
+        text1: "Please fill in all fields",
+      });
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/register", {
+      const response = await axios.post(`${baseUrl}/users/login`, {
         email,
         password,
       });
-      alert(response.data.message);
-      navigation.navigate("Login");
-    } catch (error) {
+
+      Toast.show({
+        type: "success",
+        text1: "Login successful!",
+      });
+      navigation.navigate("Register"); // Replace "Home" with your desired screen
+    } catch (error: any) {
       if (error.response) {
-        alert(error.response.data.message || "Registration failed");
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 400:
+            Toast.show({
+              type: "error",
+              text1:
+                data.message || "Invalid request. Please check your input.",
+            });
+            break;
+          case 401:
+            Toast.show({
+              type: "error",
+              text1: data.message || "Invalid credentials",
+            });
+            break;
+          case 500:
+            Toast.show({
+              type: "error",
+              text1: "Server error. Please try again later.",
+            });
+            break;
+          default:
+            Toast.show({
+              type: "error",
+              text1: "An unexpected error occurred. Please try again.",
+            });
+            break;
+        }
       } else {
-        alert("An error occurred. Please try again.");
+        Toast.show({
+          type: "error",
+          text1: "Network error. Please check your connection.",
+        });
       }
     }
   };
@@ -52,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container}>
-          <Text style={styles.heading}>Hello, Welcome back !</Text>
+          <Text style={styles.heading}>Hello, Welcome back!</Text>
           <View style={styles.inputContainer}>
             <FontAwesome
               name="envelope"
@@ -65,6 +112,8 @@ const LoginScreen = ({ navigation }) => {
               value={email}
               onChangeText={setEmail}
               style={styles.input}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
           </View>
           <View style={styles.inputContainer}>
@@ -114,7 +163,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 16,
-    // backgroundColor: "lightblue",
   },
   heading: {
     textAlign: "center",

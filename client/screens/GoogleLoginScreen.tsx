@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import axios from "axios";
+import Toast from "react-native-toast-message"; // Import Toast for better user feedback
 
-const GoogleLoginScreen = () => {
+const baseUrl = "http://192.168.55.221:5000/api/users";
+
+const GoogleLoginScreen: React.FC = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: "Your_secrete_id",
-    redirectUri: "http://localhost:5000/api/users/auth/google/callback",
+    clientId: "", // Replace with your actual Google Client ID
+    redirectUri: `${baseUrl}/auth/google/callback`,
   });
 
   useEffect(() => {
@@ -22,17 +19,29 @@ const GoogleLoginScreen = () => {
 
     if (response?.type === "success") {
       const { token } = response.params;
-      alert("Google login successful");
 
-      // Send token to backend for authentication
-      fetch("http://localhost:5000/api/users/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log("Server Response:", data))
-        .catch((err) => console.error("Error:", err));
+      // Send token to backend for authentication using axios
+      const authenticateWithBackend = async () => {
+        try {
+          const res = await axios.post(`${baseUrl}/auth/google`, {
+            token,
+          });
+
+          Toast.show({
+            type: "success",
+            text1: "Google login successful!",
+          });
+          console.log("Server Response:", res.data);
+        } catch (error: any) {
+          console.error("Error:", error);
+          Toast.show({
+            type: "error",
+            text1: error.response?.data?.message || "Google login failed",
+          });
+        }
+      };
+
+      authenticateWithBackend();
     }
   }, [response]);
 

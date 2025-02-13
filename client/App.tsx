@@ -3,20 +3,26 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
+import Toast from "react-native-toast-message"; // Import Toast
+import { toastConfig } from "./utils/toastConfig"; // Import toastConfig
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
-          // options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Login" component={LoginScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      {/* Add Toast component here */}
+      <Toast config={toastConfig} />
+    </>
   );
 }
