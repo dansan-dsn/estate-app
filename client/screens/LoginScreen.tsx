@@ -48,9 +48,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
       Toast.show({
         type: "success",
-        text1: "Login successful!",
+        text1: "Logged in successful!",
       });
-      navigation.navigate("Register"); // Replace "Home" with your desired screen
+      navigation.navigate("Home");
     } catch (error: any) {
       if (error.response) {
         const { status, data } = error.response;
