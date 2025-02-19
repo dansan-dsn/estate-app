@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Button, Alert, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const PropertiesScreen = () => {
+const ExploreScreen = () => {
   const navigation = useNavigation();
   const isAuthenticated = false; // Replace with actual authentication logic
 
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PropertiesScreen;
+export default ExploreScreen;

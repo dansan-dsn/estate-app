@@ -1,16 +1,15 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, RouteProp } from "@react-navigation/native";
-import { FontAwesome } from "@expo/vector-icons"; // Icons
+import { NavigationContainer } from "@react-navigation/native";
+import { FontAwesome } from "@expo/vector-icons"; // Ensure IconName is imported
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import { HomeScreen } from "./screens/HomeScreen";
-import PropertiesScreen from "./screens/PropertiesScreen";
-import FavoritesScreen from "./screens/FavoritesScreen";
-import MessagesScreen from "./screens/MessagesScreen";
+import ExploreScreen from "./screens/ExploreScreen"; // Ensure you have this screen
+import SavedScreen from "./screens/SavedScreen"; // Ensure you have this screen
 import ProfileScreen from "./screens/ProfileScreen";
-import Toast from "react-native-toast-message";
+import Toast, { ToastConfig } from "react-native-toast-message"; // Ensure ToastConfig is imported
 import { toastConfig } from "./utils/toastConfig";
 
 // Define types for navigation
@@ -21,11 +20,13 @@ type RootStackParamList = {
 
 type RootTabParamList = {
   Home: undefined;
-  Properties: undefined;
-  Favorites: undefined;
-  Messages: undefined;
+  Explore: undefined;
+  Saved: undefined;
   Profile: undefined;
 };
+
+// Define a type for the icon names
+type IconNames = "home" | "compass" | "bookmark" | "user" | "question";
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -44,16 +45,14 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName: string;
+          let iconName: IconNames;
 
           if (route.name === "Home") {
             iconName = "home";
-          } else if (route.name === "Properties") {
-            iconName = "building";
-          } else if (route.name === "Favorites") {
-            iconName = "heart";
-          } else if (route.name === "Messages") {
-            iconName = "envelope";
+          } else if (route.name === "Explore") {
+            iconName = "compass";
+          } else if (route.name === "Saved") {
+            iconName = "bookmark";
           } else if (route.name === "Profile") {
             iconName = "user";
           } else {
@@ -65,13 +64,50 @@ const TabNavigator = () => {
         tabBarActiveTintColor: "#d41340",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: { backgroundColor: "white", paddingBottom: 5 },
+        tabBarItemStyle: {
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Properties" component={PropertiesScreen} />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Messages" component={MessagesScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+          headerStyle: { backgroundColor: "#f4511e" },
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontWeight: "bold" },
+        }}
+      />
+      <Tab.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          headerStyle: { backgroundColor: "#f4511e" },
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontWeight: "bold" },
+        }}
+      />
+      <Tab.Screen
+        name="Saved"
+        component={SavedScreen}
+        options={{
+          headerStyle: { backgroundColor: "#f4511e" },
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontWeight: "bold" },
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerStyle: { backgroundColor: "#f4511e" },
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontWeight: "bold" },
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -83,7 +119,7 @@ export default function App() {
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>
-      <Toast config={toastConfig} />
+      <Toast config={toastConfig as ToastConfig} /> {/* Ensure correct type */}
     </>
   );
 }

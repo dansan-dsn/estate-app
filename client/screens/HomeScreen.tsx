@@ -1,20 +1,21 @@
 import React from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ImageBackground,
   ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
 } from "react-native";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import Notification from "../components/Notification"; // Importing the notification icon
+import SearchBar from "../components/SearchBar"; // Importing the search bar
+import Category from "../components/Category"; // Importing the category badges
 
 export const HomeScreen = () => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header Section */}
+      {/* Header Section with Notification Icon */}
       <ImageBackground
-        source={require("../assets/estate.jpg")} // Replace with your image
+        source={require("../assets/estate.jpg")}
         style={styles.header}
         imageStyle={styles.headerImage}
       >
@@ -24,27 +25,17 @@ export const HomeScreen = () => {
         </Text>
       </ImageBackground>
 
-      {/* Action Buttons Section */}
-      <View style={styles.actionsContainer}>
-        <TouchableOpacity style={styles.actionButton}>
-          <MaterialIcons name="attach-money" size={40} color="#4CAF50" />
-          <Text style={styles.actionText}>Buy</Text>
-        </TouchableOpacity>
+      {/* Search Bar */}
+      <SearchBar />
 
-        <TouchableOpacity style={styles.actionButton}>
-          <FontAwesome5 name="hand-holding-usd" size={40} color="#FFA000" />
-          <Text style={styles.actionText}>Rent</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.actionButton}>
-          <MaterialIcons name="house" size={40} color="#2196F3" />
-          <Text style={styles.actionText}>Sell</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Category Badges */}
+      <Category />
 
       {/* Featured Properties Section */}
       <View style={styles.featuredContainer}>
         <Text style={styles.sectionTitle}>Featured Properties</Text>
+
+        {/* Property Cards */}
         <View style={styles.propertyCard}>
           <ImageBackground
             source={require("../assets/estate.jpg")} // Replace with your image
@@ -54,6 +45,7 @@ export const HomeScreen = () => {
             <View style={styles.propertyOverlay}>
               <Text style={styles.propertyPrice}>$500,000</Text>
               <Text style={styles.propertyLocation}>New York, USA</Text>
+              <Text style={styles.propertyType}>4 Bed, 3 Bath</Text>
             </View>
           </ImageBackground>
         </View>
@@ -67,6 +59,7 @@ export const HomeScreen = () => {
             <View style={styles.propertyOverlay}>
               <Text style={styles.propertyPrice}>$1,200/month</Text>
               <Text style={styles.propertyLocation}>Los Angeles, USA</Text>
+              <Text style={styles.propertyType}>2 Bed, 2 Bath</Text>
             </View>
           </ImageBackground>
         </View>
@@ -90,51 +83,33 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
-    color: "#FFF",
+    color: "#5c5d61",
     textAlign: "center",
     marginBottom: 10,
   },
   headerSubtitle: {
-    fontSize: 16,
-    color: "#FFF",
+    fontSize: 18,
+    color: "#de7935",
     textAlign: "center",
-  },
-  actionsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 20,
-  },
-  actionButton: {
-    alignItems: "center",
-    backgroundColor: "#FFF",
-    padding: 15,
-    borderRadius: 10,
-    width: "30%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  actionText: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: "600",
+    paddingHorizontal: 20,
   },
   featuredContainer: {
     padding: 20,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    color: "#333",
   },
   propertyCard: {
     marginBottom: 20,
     borderRadius: 10,
     overflow: "hidden",
+    backgroundColor: "#FFF",
+    elevation: 3,
   },
   propertyImage: {
     height: 200,
@@ -145,15 +120,22 @@ const styles = StyleSheet.create({
   },
   propertyOverlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 10,
+    padding: 15,
   },
   propertyPrice: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#FFF",
   },
   propertyLocation: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#FFF",
   },
+  propertyType: {
+    fontSize: 14,
+    color: "#FFF",
+    marginTop: 5,
+  },
 });
+
+export default HomeScreen;
