@@ -9,11 +9,11 @@ import {
 import Notification from "../components/Notification"; // Importing the notification icon
 import SearchBar from "../components/SearchBar"; // Importing the search bar
 import Category from "../components/Category"; // Importing the category badges
+import PropertyCard from "../components/PropertyCard";
 
 export const HomeScreen = () => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header Section with Notification Icon */}
       <ImageBackground
         source={require("../assets/estate.jpg")}
         style={styles.header}
@@ -21,48 +21,17 @@ export const HomeScreen = () => {
       >
         <Text style={styles.headerTitle}>Find Your Dream Property</Text>
         <Text style={styles.headerSubtitle}>
-          Explore thousands of properties for sale, rent, or investment.
+          Explore thousands of properties for rent.
         </Text>
       </ImageBackground>
 
-      {/* Search Bar */}
       <SearchBar />
 
-      {/* Category Badges */}
       <Category />
 
-      {/* Featured Properties Section */}
       <View style={styles.featuredContainer}>
         <Text style={styles.sectionTitle}>Featured Properties</Text>
-
-        {/* Property Cards */}
-        <View style={styles.propertyCard}>
-          <ImageBackground
-            source={require("../assets/estate.jpg")} // Replace with your image
-            style={styles.propertyImage}
-            imageStyle={styles.propertyImageStyle}
-          >
-            <View style={styles.propertyOverlay}>
-              <Text style={styles.propertyPrice}>$500,000</Text>
-              <Text style={styles.propertyLocation}>New York, USA</Text>
-              <Text style={styles.propertyType}>4 Bed, 3 Bath</Text>
-            </View>
-          </ImageBackground>
-        </View>
-
-        <View style={styles.propertyCard}>
-          <ImageBackground
-            source={require("../assets/estate.jpg")} // Replace with your image
-            style={styles.propertyImage}
-            imageStyle={styles.propertyImageStyle}
-          >
-            <View style={styles.propertyOverlay}>
-              <Text style={styles.propertyPrice}>$1,200/month</Text>
-              <Text style={styles.propertyLocation}>Los Angeles, USA</Text>
-              <Text style={styles.propertyType}>2 Bed, 2 Bath</Text>
-            </View>
-          </ImageBackground>
-        </View>
+        <PropertyCard />
       </View>
     </ScrollView>
   );
@@ -103,38 +72,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
-  },
-  propertyCard: {
-    marginBottom: 20,
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "#FFF",
-    elevation: 3,
-  },
-  propertyImage: {
-    height: 200,
-    justifyContent: "flex-end",
-  },
-  propertyImageStyle: {
-    borderRadius: 10,
-  },
-  propertyOverlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 15,
-  },
-  propertyPrice: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#FFF",
-  },
-  propertyLocation: {
-    fontSize: 16,
-    color: "#FFF",
-  },
-  propertyType: {
-    fontSize: 14,
-    color: "#FFF",
-    marginTop: 5,
   },
 });
 

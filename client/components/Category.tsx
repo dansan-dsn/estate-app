@@ -1,14 +1,27 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
-const categories = ["Buy", "Rent", "Sell", "Invest"];
+const categories = [
+  { name: "House", iconName: "home" },
+  { name: "Apartment", iconName: "building" },
+  { name: "Hotel", iconName: "hotel" },
+  { name: "Room", iconName: "hotel" },
+];
+
+type iconName = string;
 
 const Category = () => {
   return (
     <View style={styles.badgesContainer}>
       {categories.map((category, index) => (
         <TouchableOpacity key={index} style={styles.badge}>
-          <Text style={styles.badgeText}>{category}</Text>
+          <FontAwesome
+            name={category.iconName as string}
+            size={20}
+            color="#522426"
+          />
+          <Text style={styles.badgeText}>{category.name}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -18,21 +31,27 @@ const Category = () => {
 const styles = StyleSheet.create({
   badgesContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
+    flexWrap: "wrap", // Allow items to wrap onto the next line
+    justifyContent: "space-between", // Even spacing between items
     marginTop: 20,
     marginHorizontal: 20,
+    backgroundColor: "#fff",
+    elevation: 3,
+    borderRadius: 10,
+    padding: 10,
   },
   badge: {
-    backgroundColor: "#f4511e",
+    flexDirection: "column", // Stack the icon and text vertically
+    alignItems: "center", // Center icon and text horizontally
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 1,
     margin: 5,
-    borderRadius: 20,
-    elevation: 3,
+    backgroundColor: "#fff",
   },
   badgeText: {
-    color: "#fff",
+    color: "#4f5463",
     fontWeight: "bold",
+    marginTop: 5, // Space between the icon and text
   },
 });
 
