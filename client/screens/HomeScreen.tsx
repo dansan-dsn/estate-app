@@ -5,15 +5,17 @@ import {
   View,
   Text,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
-import Notification from "../components/Notification"; // Importing the notification icon
-import SearchBar from "../components/SearchBar"; // Importing the search bar
-import Category from "../components/Category"; // Importing the category badges
+import Notification from "../components/Notification";
+import SearchBar from "../components/SearchBar";
+import Category from "../components/Category";
 import PropertyCard from "../components/PropertyCard";
 
 export const HomeScreen = () => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Header Section */}
       <ImageBackground
         source={require("../assets/estate.jpg")}
         style={styles.header}
@@ -21,17 +23,42 @@ export const HomeScreen = () => {
       >
         <Text style={styles.headerTitle}>Find Your Dream Property</Text>
         <Text style={styles.headerSubtitle}>
-          Explore thousands of properties for rent.
+          Explore thousands of properties for rent and sale.
         </Text>
       </ImageBackground>
 
+      {/* Search Bar */}
       <SearchBar />
 
+      {/* Categories */}
       <Category />
 
-      <View style={styles.featuredContainer}>
+      {/* Featured Properties */}
+      <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>Featured Properties</Text>
         <PropertyCard />
+      </View>
+
+      {/* Recommended for You */}
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>Recommended for You</Text>
+        <PropertyCard />
+      </View>
+
+      {/* Latest Listings */}
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>Latest Listings</Text>
+        <PropertyCard />
+      </View>
+
+      {/* Call to Action: List Your Property */}
+      <View style={styles.callToActionContainer}>
+        <Text style={styles.callToActionText}>
+          Want to sell or rent your property?
+        </Text>
+        <TouchableOpacity style={styles.callToActionButton}>
+          <Text style={styles.callToActionButtonText}>List Your Property</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -64,7 +91,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingHorizontal: 20,
   },
-  featuredContainer: {
+  sectionContainer: {
     padding: 20,
   },
   sectionTitle: {
@@ -72,6 +99,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
+  },
+  callToActionContainer: {
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+    marginVertical: 20,
+    borderRadius: 10,
+  },
+  callToActionText: {
+    fontSize: 18,
+    color: "#555",
+    marginBottom: 10,
+  },
+  callToActionButton: {
+    backgroundColor: "#de7935",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  callToActionButtonText: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 
