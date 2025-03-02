@@ -1,0 +1,83 @@
+Explore
+	- Search bar: Allow users to search location , price and property type.
+	- Filter & Sort Button: Open a model for filtering by property type, price, location
+	- Feature Listing: A horizontal scrollable listing with premium or freemium property
+	- Property List/ Grid View: Display price with image, price, location and key details
+	- Map View toggle: Switch between list view and map view
+	Sub Screens:
+	   Property details
+		- Large Property Image(swipe able)
+		- price, address and description
+		- Features(bedrooms, bathroom, square footage and amenities)
+		- Contact agent button
+		- Saved/Unsaved property
+		- Location map with nearby amenities
+		- Schedule a tour button
+	   Filter and Sorting Modal
+		- Price range selector
+		- Property type dropdown (apartment, house, commercial etc.)
+		- Bedrooms and bathrooms selection
+		- Sort by (Newest, Price Low-High, Price High-Low)
+
+Favorite
+	- Header(Favorite title)
+	- Tabs / segments:
+		- All(default view)
+		- viewed (recently viewed or save property)
+	- Property List/grid
+	- Empty sate message: Encourages user to save property
+      sub screens:
+		- Property details(same as explore)
+
+Account
+	- Profile Picture & Name (Editable)
+	- Email & Phone Number (Editable)
+	- Property Listings (if user is an agent)
+		- “My Listings” tab with active and sold properties
+		- “Add New Listing” button
+	- Saved searches: Allow users to save searches for given criteria
+	- Message/Chat: if communication with agent is required
+	- Logout Button
+	  sub screens:
+		- Edit Profile
+		- My Listings(for owners or agents)
+		- Saved searches (Manage them)
+Settings
+	- Layout Structures
+	      - Account settings: Change password, two step authentication
+	      - Notifications: Push notification, email notification
+	      - Language and currency: choose lang, and preferred currency
+	      - Privacy and security: manage data permissions and Delete account options
+	      - Help & support: FAQ section, contact support and report a problem
+	      - About & Legal: terms & conditions, privacy policy, app version
+	      	sub screens:
+			- Edit account info
+			- Manage notifications
+			- Help Center (FAQs & Support Ticket Submission)
+
+Additional Considerations:
+Onboarding Screens – A walkthrough for first-time users.
+Dark Mode Support – A toggle in Settings.
+Agent-Specific Features – If supporting property agents, they may need additional features like analytics or messaging.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons"; // Ensure IconName is imported
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
-import { HomeScreen } from "./screens/HomeScreen";
+import ExploreScreen from "./screens/ExploreScreen";
 import FavoritesScreen from "./screens/FavoritesScreen"; // Ensure you have this screen
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen"; // Ensure you have this screen
@@ -79,7 +79,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen
         name="Discover"
-        component={HomeScreen}
+        component={ExploreScreen}
         options={{
           headerShown: false,
           headerStyle: { backgroundColor: "#f4511e" },
@@ -91,7 +91,7 @@ const TabNavigator = () => {
         name="Favorites"
         component={FavoritesScreen}
         options={{
-          headerShown: false,
+          // headerShown: false,
           headerStyle: { backgroundColor: "#f4511e" },
           headerTitleAlign: "center",
           headerTitleStyle: { fontWeight: "bold" },

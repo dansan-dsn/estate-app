@@ -1,111 +1,94 @@
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  ImageSourcePropType,
+} from "react-native";
+// import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import FavoriteBadge from "./FavoriteBadge";
 
-const properties = [
-  {
-    img: require("../assets/estate.jpg"),
-    price: "$1,200",
-    location: "Los Angeles, USA",
-    type: "2 Bed | 2 Bath",
-    tag: "Rented", // status is "Rented"
-  },
-  {
-    img: require("../assets/estate.jpg"),
-    price: "$500000",
-    location: "New York, USA",
-    type: "4 Bed | 3 Bath",
-    tag: "Free", // status is "Free"
-  },
-];
+const { width, height } = Dimensions.get("window");
 
-const PropertyCard = () => {
-  // Helper function to determine the background color based on the status
-  const getTagColor = (status: string) => {
-    if (status === "Rented") {
-      return "green"; // Green for Rented
-    } else if (status === "Free") {
-      return "blue"; // Blue for Free (or any other color you like)
-    }
-    return "gray"; // Default color if status is not recognized
-  };
+interface Property {
+  id: string;
+  name: string;
+  price: number;
+  location: string;
+  image: ImageSourcePropType;
+  status?: string;
+}
 
+interface PropertyDetails {
+  item: Property;
+  onPress: () => void;
+}
+const PropertyCard: React.FC<PropertyDetails> = ({ item, onPress }) => {
   return (
-    <View>
-      {properties.map((property, index) => (
-        <ImageBackground
-          key={index}
-          source={property.img} // Replace with your image
-          style={styles.propertyImage}
-          imageStyle={styles.propertyImageStyle}
-        >
-          <View style={styles.propertyOverlay}>
-            <Text style={styles.propertyPrice}>{property.price}</Text>
-            <Text style={styles.propertyLocation}>{property.location}</Text>
-            <Text style={styles.propertyType}>{property.type}</Text>
-            <View
-              style={[
-                styles.propertyTagContainer,
-                { backgroundColor: getTagColor(property.tag) }, // Dynamic color based on status
-              ]}
-            >
-              <Text style={styles.propertyTag}>{property.tag}</Text>
-            </View>
-          </View>
-        </ImageBackground>
-      ))}
-    </View>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.6}>
+      <View style={styles.propertyCard}>
+        <View style={styles.imageContainer}>
+          <Image source={item.image} style={styles.propertyImage} />
+          <FavoriteBadge />
+        </View>
+        <View style={styles.propertyDetails}>
+          <Text style={styles.propertyName}>{item.name}</Text>
+          <Text style={styles.propertyPrice}>
+            ${item.price.toLocaleString()}
+          </Text>
+          <Text style={styles.propertyLocation}>{item.location}</Text>
+          <Text style={styles.propertyStatus}>{item.status}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
+export default PropertyCard;
+
 const styles = StyleSheet.create({
   propertyCard: {
-    marginBottom: 20, // Add spacing between each card
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "#FFF",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginVertical: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
     elevation: 3,
+    overflow: "hidden",
+  },
+  imageContainer: {
+    position: "relative",
   },
   propertyImage: {
-    height: 200,
-    justifyContent: "flex-end",
-    marginBottom: 20, // Optional if you want extra space below each image background
+    width: width * 0.9,
+    height: height * 0.3,
+    borderRadius: 12,
+    alignSelf: "center",
+    marginTop: 10,
   },
-  propertyImageStyle: {
-    borderRadius: 10,
-  },
-  propertyOverlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  propertyDetails: {
     padding: 15,
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 10,
   },
-  propertyPrice: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#FFF",
-  },
-  propertyLocation: {
-    fontSize: 16,
-    color: "#FFF",
-  },
-  propertyType: {
-    fontSize: 14,
-    color: "#FFF",
-    marginTop: 5,
-  },
-  propertyTagContainer: {
-    position: "absolute", // Position tag on the right side
-    top: 15, // Space from the top of the card
-    right: 15, // Space from the right side
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    borderRadius: 40, // Make it a rounded pill
-  },
-  propertyTag: {
-    fontSize: 14,
+  propertyName: { fontSize: 18, fontWeight: "bold" },
+  propertyPrice: { fontSize: 16, color: "#008000", marginVertical: 5 },
+  propertyLocation: { fontSize: 14, color: "#666" },
+  propertyStatus: {
+    position: "absolute",
+    bottom: 18,
+    right: 16,
+    backgroundColor: "blue",
     color: "white",
-    fontWeight: "bold",
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 20,
+    // textTransform: "capitalize",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
-
-export default PropertyCard;

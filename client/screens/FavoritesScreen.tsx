@@ -1,108 +1,139 @@
-import React, { useState } from "react";
 import {
-  View,
-  Text,
   StyleSheet,
-  FlatList,
+  Text,
+  View,
+  ImageBackground,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import PropertyCard from "../components/PropertyCard";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import Icon from "react-native-vector-icons/FontAwesome"; // Import the heart icon
+
+const propertiesData = [
+  {
+    id: 1,
+    img: require("../assets/estate.jpg"),
+    price: "$1,200",
+    location: "Los Angeles, USA",
+    type: "2 Bed | 2 Bath",
+    tag: "Rented", // status is "Rented"
+    like: "true", // Liked property
+  },
+  {
+    id: 2,
+    img: require("../assets/estate.jpg"),
+    price: "$500,000",
+    location: "New York, USA",
+    type: "4 Bed | 3 Bath",
+    tag: "Free", // status is "Free"
+    like: "false", // Not liked property
+  },
+];
 
 const FavoritesScreen = () => {
-  const [favorites, setFavorites] = useState([
-    { id: "1", title: "Luxury Apartment in New York" },
-    { id: "2", title: "Modern Villa in Los Angeles" },
-    { id: "3", title: "Beach House in Miami" },
-  ]);
+  const [properties, setProperties] = useState(propertiesData);
 
-  const removeFavorite = (id) => {
-    setFavorites(favorites.filter((property) => property.id !== id));
+  // Helper function to determine the background color based on the status
+  const getTagColor = (status: string) => {
+    if (status === "Rented") {
+      return "green"; // Green for Rented
+    } else if (status === "Free") {
+      return "blue"; // Blue for Free (or any other color you like)
+    }
+    return "gray"; // Default color if status is not recognized
+  };
+
+  // Toggle like status
+  const toggleLike = (id: number) => {
+    setProperties((prevProperties) =>
+      prevProperties.map((property) =>
+        property.id === id
+          ? { ...property, like: property.like === "true" ? "false" : "true" }
+          : property
+      )
+    );
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerTitle}>Saved Properties</Text>
-
-      {favorites.length > 0 ? (
-        <FlatList
-          data={favorites}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.propertyContainer}>
-              <PropertyCard title={item.title} />
-              <TouchableOpacity
-                style={styles.removeButton}
-                onPress={() => removeFavorite(item.id)}
-              >
-                <Ionicons name="heart-dislike-outline" size={24} color="red" />
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-      ) : (
-        <View style={styles.emptyContainer}>
-          <Ionicons name="heart-outline" size={50} color="#999" />
-          <Text style={styles.emptyText}>
-            You haven't saved any properties yet.
-          </Text>
-          <TouchableOpacity style={styles.exploreButton}>
-            <Text style={styles.exploreButtonText}>Explore Properties</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      {properties
+        .filter((property) => property.like === "true") // Filter liked properties
+        .map((property, index) => (
+          <View key={property.id} style={styles.propertyCard}>
+            <ImageBackground
+              source={property.img} // Replace with your image
+              style={styles.propertyImage}
+              imageStyle={styles.propertyImageStyle}
+            >
+              <View style={styles.propertyOverlay}>
+                <Text style={styles.propertyPrice}>{property.price}</Text>
+                <Text style={styles.propertyLocation}>{property.location}</Text>
+                <Text style={styles.propertyType}>{property.type}</Text>
+                <View
+                  style={[
+                    styles.propertyTagContainer,
+                    { backgroundColor: getTagColor(property.tag) }, // Dynamic color based on status
+                  ]}
+                >
+                  <Text style={styles.propertyTag}>{property.tag}</Text>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        ))}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F5F5F5",
-    padding: 20,
-    paddingTop: 60,
+  scrollViewContainer: {
+    padding: 10,
   },
-  headerTitle: {
-    fontSize: 26,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  propertyContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 15,
+  propertyCard: {
+    marginBottom: 20, // Add spacing between each card
     borderRadius: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    overflow: "hidden",
+    backgroundColor: "#FFF",
+    elevation: 3,
   },
-  removeButton: {
-    padding: 8,
+  propertyImage: {
+    height: 200,
+    justifyContent: "flex-end",
   },
-  emptyContainer: {
-    alignItems: "center",
-    marginTop: 50,
+  propertyImageStyle: {
+    borderRadius: 10,
   },
-  emptyText: {
-    fontSize: 18,
-    color: "#777",
-    marginTop: 10,
+  propertyOverlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 15,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
   },
-  exploreButton: {
-    marginTop: 15,
-    backgroundColor: "#de7935",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+  propertyPrice: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#FFF",
   },
-  exploreButtonText: {
+  propertyLocation: {
     fontSize: 16,
-    color: "#fff",
+    color: "#FFF",
+  },
+  propertyType: {
+    fontSize: 14,
+    color: "#FFF",
+    marginTop: 5,
+  },
+  propertyTagContainer: {
+    position: "absolute", // Position tag on the right side
+    top: 15, // Space from the top of the card
+    right: 15, // Space from the right side
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 40, // Make it a rounded pill
+  },
+  propertyTag: {
+    fontSize: 14,
+    color: "white",
     fontWeight: "bold",
   },
 });
