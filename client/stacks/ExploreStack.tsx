@@ -15,7 +15,8 @@ const ExploreStackNavigator = () => (
     <ExploreStack.Screen
       name="PropertyDetails"
       component={PropertyDetails}
-      options={{ headerTitle: "Property Details" }}
+      // options={{ headerTitle: "Property Details" }}
+      options={{ headerShown: false }}
     />
   </ExploreStack.Navigator>
 );

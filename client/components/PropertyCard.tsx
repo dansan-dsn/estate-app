@@ -17,6 +17,9 @@ interface Property {
   id: string;
   name: string;
   price: number;
+  bed: number;
+  bath: number;
+  distance: number;
   location: string;
   image: ImageSourcePropType;
   status?: string;
@@ -28,7 +31,7 @@ interface PropertyDetails {
 }
 const PropertyCard: React.FC<PropertyDetails> = ({ item, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.6}>
+    <TouchableOpacity onPress={onPress} activeOpacity={1}>
       <View style={styles.propertyCard}>
         <View style={styles.imageContainer}>
           <Image source={item.image} style={styles.propertyImage} />
@@ -39,6 +42,11 @@ const PropertyCard: React.FC<PropertyDetails> = ({ item, onPress }) => {
           <Text style={styles.propertyPrice}>
             ${item.price.toLocaleString()}
           </Text>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <Text style={styles.propertyBath}>
+              {item.bed}bed | {item.bath}bath | {item.distance} sqft
+            </Text>
+          </View>
           <Text style={styles.propertyLocation}>{item.location}</Text>
           <Text style={styles.propertyStatus}>{item.status}</Text>
         </View>
@@ -76,8 +84,16 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   propertyName: { fontSize: 18, fontWeight: "bold" },
-  propertyPrice: { fontSize: 16, color: "#008000", marginVertical: 5 },
-  propertyLocation: { fontSize: 14, color: "#666" },
+  propertyPrice: {
+    fontSize: 17,
+    color: "#008000",
+    marginVertical: 5,
+    fontWeight: "bold",
+  },
+  propertyBath: {
+    color: "gray",
+  },
+  propertyLocation: { fontSize: 14, color: "#666", fontWeight: "bold" },
   propertyStatus: {
     position: "absolute",
     bottom: 18,
