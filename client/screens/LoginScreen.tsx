@@ -13,6 +13,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import GoogleLoginScreen from "./GoogleLoginScreen";
 import Toast from "react-native-toast-message"; // Import Toast
+import { useAuth } from "../context/AuthContext";
 
 type LoginScreenProps = {
   navigation: {
@@ -26,6 +27,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
+
+  const { login } = useAuth();
 
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -46,11 +49,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         password,
       });
 
+      const userData = response.data;
+      login(userData);
+
       Toast.show({
         type: "success",
         text1: "Logged in successful!",
       });
-      navigation.navigate("Home");
+      navigation.navigate("Explore");
     } catch (error: any) {
       if (error.response) {
         const { status, data } = error.response;
