@@ -60,7 +60,6 @@ Onboarding Screens – A walkthrough for first-time users.
 Dark Mode Support – A toggle in Settings.
 Agent-Specific Features – If supporting property agents, they may need additional features like analytics or messaging.
 
-// hello am on kali now
 
 
 

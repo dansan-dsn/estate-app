@@ -4,14 +4,17 @@ import Toast, { ToastConfig } from "react-native-toast-message";
 import { toastConfig } from "./utils/toastConfig";
 import TabNavigator from "./stacks/TabNavigator";
 import { AuthProvider } from "./context/AuthContext";
+import { FavoriteProvider } from "./context/FavoriteContext";
 
 export default function App() {
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <TabNavigator />
-      </NavigationContainer>
-      <Toast config={toastConfig as ToastConfig} />
+      <FavoriteProvider>
+        <NavigationContainer>
+          <TabNavigator />
+        </NavigationContainer>
+        <Toast config={toastConfig as ToastConfig} />
+      </FavoriteProvider>
     </AuthProvider>
   );
 }

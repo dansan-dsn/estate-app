@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useFavorite } from "../context/FavoriteContext";
 
-const FavoriteBadge = () => {
+const FavoriteBadge = ({ id }) => {
+  const { favorites, toggleFavorite } = useFavorite(); // Get favorites state and toggle function
+  const isFavorite = favorites[id] || false; // Check if this specific id is favorited
+
   return (
-    <View style={styles.favoriteBadge}>
-      <Ionicons name="heart" size={24} color="#c7c8c9" />
-    </View>
+    <TouchableOpacity onPress={() => toggleFavorite(id)} style={styles.favoriteBadge}>
+      <Ionicons name="heart" size={24} color={isFavorite ? "red" : "#c7c8c9"} />
+    </TouchableOpacity>
   );
 };
 
@@ -23,5 +27,10 @@ const styles = StyleSheet.create({
     height: 35,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5, 
   },
 });

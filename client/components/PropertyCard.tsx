@@ -35,7 +35,7 @@ const PropertyCard: React.FC<PropertyDetails> = ({ item, onPress }) => {
       <View style={styles.propertyCard}>
         <View style={styles.imageContainer}>
           <Image source={item.image} style={styles.propertyImage} />
-          <FavoriteBadge />
+          <FavoriteBadge id={item.id}/>
         </View>
         <View style={styles.propertyDetails}>
           <Text style={styles.propertyName}>{item.name}</Text>
@@ -44,7 +44,7 @@ const PropertyCard: React.FC<PropertyDetails> = ({ item, onPress }) => {
           </Text>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <Text style={styles.propertyBath}>
-              {item.bed}bed | {item.bath}bath | {item.distance} sqft
+              {item.bed}bed | {item.bath}bath, {item.distance} sqft
             </Text>
           </View>
           <Text style={styles.propertyLocation}>{item.location}</Text>

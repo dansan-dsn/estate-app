@@ -10,6 +10,7 @@ import React from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../types";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import FavoriteBadge from "../components/FavoriteBadge";
 
 // Type for the route parameters
@@ -40,7 +41,7 @@ const PropertyDetails = () => {
 
           {/* Favorite Badge (Top-Right, slightly lower) */}
           <View style={styles.favoriteBadgeContainer}>
-            <FavoriteBadge />
+            <FavoriteBadge id={Property?.id}/>
           </View>
         </View>
 
@@ -67,11 +68,18 @@ const PropertyDetails = () => {
               borderRadius: 20,
               flexDirection: "row",
               justifyContent: "space-between",
+              alignItems: 'center',
             }}
           >
-            <Text style={{ paddingHorizontal: 10 }}>{Property?.bed} beds</Text>
-            <Text style={{ paddingHorizontal: 10 }}>{Property?.bath} bath</Text>
-            <Text style={{ paddingHorizontal: 10 }}>{Property?.latitude}</Text>
+            <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
+              <Text style={{color: 'blue'}}>{Property?.bed}</Text> <FontAwesome name="bed" size={24} color="#000"/>
+            </Text>
+            <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
+              <Text style={{color: 'blue'}}>{Property?.bath}</Text> <FontAwesome name="bath" size={24} color="#000"/>
+            </Text>
+            <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
+              <Text style={{color: 'blue'}}>56</Text> <FontAwesome name="bath" size={24} color="#000"/>
+            </Text>
           </View>
         </View>
 
