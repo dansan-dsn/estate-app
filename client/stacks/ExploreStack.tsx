@@ -8,7 +8,7 @@ const ExploreStack = createStackNavigator();
 const ExploreStackNavigator = () => (
   <ExploreStack.Navigator>
     <ExploreStack.Screen
-      name="Explore"
+      name="ExploreScreen"
       component={ExploreScreen}
       options={{ headerShown: false }} // Hide header in ExploreScreen
     />

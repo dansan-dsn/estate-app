@@ -24,13 +24,13 @@ const PropertyDetails = () => {
   const { Property } = route.params;
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* Image container with overlay back button */}
         <View style={styles.imageContainer}>
           <Image source={Property?.image} style={styles.image} />
 
-          {/* Back Button (Top-Left) */}
+          {/* Back Button */}
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => navigation.goBack()}
@@ -49,62 +49,67 @@ const PropertyDetails = () => {
           <Text style={styles.title}>
             {Property?.name ?? "Unknown Property"}
           </Text>
-          <Text style={styles.price}>
-            ${Property?.price?.toLocaleString() ?? "N/A"}
-          </Text>
-          <Text style={{ color: "gray" }}>
-            {Property?.bed}bed | {Property?.bath}bath | {Property?.distance}{" "}
+          <Text style={{ color: "gray", marginBottom: 3, fontSize: 16 }}>
+            {Property?.latitude}S, {Property?.longitude}N | {Property?.distance}{" "}
             sqft
-          </Text>
-          <Text style={{ color: "gray" }}>
-            {Property?.latitude}S, {Property?.longitude} N
           </Text>
           <Text style={styles.location}>
             {Property?.location ?? "Location not specified"}
           </Text>
-          <Text style={styles.status}>{Property?.status ?? "Available"}</Text>
-        </View>
-
-        <View style={styles.additionalInfoContainer}>
-          <Text style={styles.propertyType}>
-            Type: {Property?.propertyType ?? "N/A"}
-          </Text>
-          <Text style={styles.beds}>Beds: {Property?.bed ?? "N/A"}</Text>
-          <Text style={styles.baths}>Baths: {Property?.bath ?? "N/A"}</Text>
           <Text style={styles.broker}>Broker: {Property?.broker ?? "N/A"}</Text>
           <Text style={styles.description}>
             {Property?.description ?? "No description available."}
           </Text>
+          <View
+            style={{
+              backgroundColor: "#ebedf7",
+              padding: 15,
+              borderRadius: 20,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={{ paddingHorizontal: 10 }}>{Property?.bed} beds</Text>
+            <Text style={{ paddingHorizontal: 10 }}>{Property?.bath} bath</Text>
+            <Text style={{ paddingHorizontal: 10 }}>{Property?.latitude}</Text>
+          </View>
         </View>
+
+        {/* Contact Broker Button */}
+        <TouchableOpacity style={styles.contactButton}>
+          <Text style={styles.contactText}>Contact Broker</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
+      {/* Fixed Bottom Buttons */}
+      <View style={styles.bottomButtonsContainer}>
+        <Text style={styles.propertyPrice}>
+          ${Property?.price?.toLocaleString() ?? "N/A"}
+        </Text>
+        <TouchableOpacity style={styles.rentButton}>
+          <Text style={styles.buttonText}>Rent Now</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 export default PropertyDetails;
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-    backgroundColor: "#f8f8f8",
-  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    overflow: "hidden",
+  },
+  scrollContainer: {
+    paddingBottom: 100, // Prevent content from being overlapped by bottom buttons
   },
   imageContainer: {
     position: "relative",
   },
   image: {
     width: "100%",
-    height: 250,
+    height: 300,
     resizeMode: "cover",
   },
   backButton: {
@@ -114,7 +119,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 50,
-    zIndex: 1, // Ensure it's above the image
   },
   detailsContainer: {
     padding: 20,
@@ -122,7 +126,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 5,
     color: "#333",
   },
   price: {
@@ -136,41 +140,65 @@ const styles = StyleSheet.create({
     color: "#666",
     marginBottom: 8,
   },
-  status: {
+  broker: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#007bff",
-  },
-  additionalInfoContainer: {
-    padding: 20,
-    backgroundColor: "#f1f1f1",
-    marginTop: 10,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  propertyType: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 8,
-  },
-  beds: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 8,
-  },
-  baths: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 8,
-  },
-  broker: {
-    fontSize: 16,
-    color: "#333",
     marginBottom: 8,
   },
   description: {
     fontSize: 16,
     color: "#333",
+    marginBottom: 20,
+  },
+  contactButton: {
+    backgroundColor: "#392f94",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  contactText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  bottomButtonsContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    padding: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+  },
+  propertyPrice: {
+    flex: 1,
+    padding: 15,
+    marginHorizontal: 5,
+    borderRadius: 45,
+    // backgroundColor: "#e4e5eb",
+    fontSize: 22,
+    color: "#000",
+    fontWeight: "bold",
+    alignItems: "center",
+  },
+  rentButton: {
+    flex: 1,
+    backgroundColor: "green",
+    padding: 15,
+    marginHorizontal: 5,
+    borderRadius: 45,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   favoriteBadgeContainer: {
     position: "absolute",

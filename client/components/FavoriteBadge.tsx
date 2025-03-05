@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 const FavoriteBadge = () => {
   return (
     <View style={styles.favoriteBadge}>
-      <Ionicons name="heart-outline" size={24} color="#000" />
+      <Ionicons name="heart" size={24} color="#c7c8c9" />
     </View>
   );
 };

@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
   propertyDetails: {
     padding: 15,
   },
-  propertyName: { fontSize: 18, fontWeight: "bold" },
+  propertyName: { fontSize: 18, fontWeight: "bold", color: "#525254" },
   propertyPrice: {
     fontSize: 17,
-    color: "#008000",
+    color: "#ab0f0f",
     marginVertical: 5,
     fontWeight: "bold",
   },
