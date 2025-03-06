@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ExploreStackNavigator from "./ExploreStack";
+import ExploreScreen from "../screens/ExploreScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
@@ -59,7 +59,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen
         name="Explore"
-        component={ExploreStackNavigator}
+        component={ExploreScreen}
         options={{
           headerShown: false,
           headerStyle: { backgroundColor: "white" },

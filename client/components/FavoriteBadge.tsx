@@ -3,7 +3,12 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFavorite } from "../context/FavoriteContext";
 
-const FavoriteBadge = ({ id }) => {
+// Define props type for FavoriteBadge
+interface FavoriteBadgeProps {
+  id: string; // Ensures id is always a string
+}
+
+const FavoriteBadge: React.FC<FavoriteBadgeProps> = ({ id }) => {
   const { favorites, toggleFavorite } = useFavorite(); // Get favorites state and toggle function
   const isFavorite = favorites[id] || false; // Check if this specific id is favorited
 

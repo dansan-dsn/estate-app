@@ -5,17 +5,34 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Animated,
 } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { RootStackParamList } from "../types";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import FavoriteBadge from "../components/FavoriteBadge";
+import MapView, { Marker } from 'react-native-maps';
+
+// Define Property Type
+type PropertyType = {
+  id: string;
+  image: any;
+  name: string;
+  latitude: number;
+  longitude: number;
+  distance: number;
+  location: string;
+  broker: string;
+  description: string;
+  bed: number;
+  bath: number;
+  price: number;
+};
 
 // Type for the route parameters
 type PropertyDetailsRouteProp = RouteProp<
-  RootStackParamList,
+  { PropertyDetails: { Property: PropertyType } },
   "PropertyDetails"
 >;
 
@@ -24,32 +41,50 @@ const PropertyDetails = () => {
   const route = useRoute<PropertyDetailsRouteProp>();
   const { Property } = route.params;
 
+  const scrollY = useRef(new Animated.Value(0)).current; // Animated scroll value
+
+  // Interpolate opacity based on scroll position to fade out the image
+  const opacity = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [100, 0], // Image fades out as you scroll
+    extrapolate: 'clamp',
+  });
+
+  // Interpolate background color based on scroll position
+  const backgroundColor = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: ['transparent', '#edf1f7'], // Starts transparent and becomes white after scrolling
+    extrapolate: 'clamp',
+  });
+
+  const [isExpanded, setIsExpanded] = useState(false)
+  const sentences = Property?.description.split(".");
+  const slice = sentences.slice(0, 2).join(".") + ".";
+  const remainingSlice = sentences.slice(2).join(".");
+  const toggleExpansion = () => setIsExpanded(!isExpanded)
+
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <Animated.ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Image container with overlay back button */}
         <View style={styles.imageContainer}>
-          <Image source={Property?.image} style={styles.image} />
-
-          {/* Back Button */}
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back" size={24} color="#000" />
-          </TouchableOpacity>
-
-          {/* Favorite Badge (Top-Right, slightly lower) */}
-          <View style={styles.favoriteBadgeContainer}>
-            <FavoriteBadge id={Property?.id}/>
-          </View>
+          <Animated.Image 
+            source={Property?.image} 
+            style={[styles.image, { opacity }]} // Apply opacity only to the image
+          />
         </View>
 
         {/* Property Details */}
         <View style={styles.detailsContainer}>
-          <Text style={styles.title}>
-            {Property?.name ?? "Unknown Property"}
-          </Text>
+          <Text style={styles.title}>{Property?.name ?? "Unknown Property"}</Text>
           <Text style={{ color: "gray", marginBottom: 3, fontSize: 16 }}>
             {Property?.latitude}S, {Property?.longitude}N | {Property?.distance}{" "}
             sqft
@@ -58,8 +93,16 @@ const PropertyDetails = () => {
             {Property?.location ?? "Location not specified"}
           </Text>
           <Text style={styles.broker}>Broker: {Property?.broker ?? "N/A"}</Text>
+          
           <Text style={styles.description}>
-            {Property?.description ?? "No description available."}
+          {slice}
+          {isExpanded && "" + remainingSlice}
+
+          <TouchableOpacity onPress={toggleExpansion}>
+            <Text style={{color: 'black', fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
+              {isExpanded ? "Show Less" : "Show More"}
+            </Text>
+          </TouchableOpacity>
           </Text>
           <View
             style={{
@@ -72,13 +115,13 @@ const PropertyDetails = () => {
             }}
           >
             <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
-              <Text style={{color: 'blue'}}>{Property?.bed}</Text> <FontAwesome name="bed" size={24} color="#000"/>
+              <Text style={{ color: 'blue' }}>{Property?.bed}</Text> <FontAwesome name="bed" size={24} color="#000" />
             </Text>
             <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
-              <Text style={{color: 'blue'}}>{Property?.bath}</Text> <FontAwesome name="bath" size={24} color="#000"/>
+              <Text style={{ color: 'blue' }}>{Property?.bath}</Text> <FontAwesome name="bath" size={24} color="#000" />
             </Text>
             <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
-              <Text style={{color: 'blue'}}>56</Text> <FontAwesome name="bath" size={24} color="#000"/>
+              <Text style={{ color: 'blue' }}>56</Text> <FontAwesome name="bath" size={24} color="#000" />
             </Text>
           </View>
         </View>
@@ -87,7 +130,35 @@ const PropertyDetails = () => {
         <TouchableOpacity style={styles.contactButton}>
           <Text style={styles.contactText}>Contact Broker</Text>
         </TouchableOpacity>
-      </ScrollView>
+
+        {/* Map View */}
+        <View style={styles.mapContainer}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: Property?.latitude ?? 37.78825,
+              longitude: Property?.longitude ?? -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            <Marker coordinate={{ latitude: Property?.latitude ?? 37.78825, longitude: Property?.longitude ?? -122.4324 }} />
+          </MapView>
+        </View>
+      </Animated.ScrollView>
+
+      {/* Fixed Top Buttons (Back and Favorite) */}
+      <Animated.View style={[styles.fixedTopContainer, { backgroundColor }]}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#000" />
+        </TouchableOpacity>
+        <View style={styles.favoriteBadgeContainer}>
+          <FavoriteBadge id={Property?.id} />
+        </View>
+      </Animated.View>
 
       {/* Fixed Bottom Buttons */}
       <View style={styles.bottomButtonsContainer}>
@@ -114,19 +185,45 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: "relative",
+    width: "100%",
+    height: 300, // Ensure the image takes up the whole screen height
+    overflow: "hidden", // Ensure the image does not spill outside the container
   },
   image: {
     width: "100%",
-    height: 300,
+    height: "100%", // Image will fill the container height
     resizeMode: "cover",
   },
   backButton: {
     position: "absolute",
     top: 50,
     left: 15,
-    backgroundColor: "white",
+    backgroundColor: "white", // White background for back button
     padding: 10,
     borderRadius: 50,
+    zIndex: 1, // Ensure the back button is always on top
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  favoriteBadgeContainer: {
+    position: "absolute",
+    top: 40,
+    right: 16,
+    zIndex: 1, // Ensure the favorite badge stays on top
+  },
+  fixedTopContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 60, // Increase the height of the background area
+    paddingHorizontal: 15, // Add horizontal padding to ensure elements don't touch edges
+    zIndex: 1, // Keeps it above the image
   },
   detailsContainer: {
     padding: 20,
@@ -136,12 +233,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
     color: "#333",
-  },
-  price: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#28a745",
-    marginBottom: 8,
   },
   location: {
     fontSize: 16,
@@ -172,6 +263,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  mapContainer: {
+    marginBottom: 20,
+    height: 200,
+  },
+  map: {
+    flex: 1,
+  },
   bottomButtonsContainer: {
     position: "absolute",
     bottom: 0,
@@ -189,7 +287,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginHorizontal: 5,
     borderRadius: 45,
-    // backgroundColor: "#e4e5eb",
     fontSize: 22,
     color: "#000",
     fontWeight: "bold",
@@ -207,10 +304,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
-  },
-  favoriteBadgeContainer: {
-    position: "absolute",
-    top: 40, // Adjust this value to move the badge lower
-    right: 16,
   },
 });

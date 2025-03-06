@@ -2,25 +2,26 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
-const categories = [
+// Define a type for the category data
+interface CategoryItem {
+  name: string;
+  iconName: keyof typeof FontAwesome.glyphMap; // Ensures valid FontAwesome icon names
+}
+
+// Define the categories array with proper typing
+const categories: CategoryItem[] = [
   { name: "House", iconName: "home" },
   { name: "Apartment", iconName: "building" },
   { name: "Hotel", iconName: "hotel" },
   { name: "Room", iconName: "hotel" },
 ];
 
-type iconName = string;
-
-const Category = () => {
+const Category: React.FC = () => {
   return (
     <View style={styles.badgesContainer}>
       {categories.map((category, index) => (
         <TouchableOpacity key={index} style={styles.badge}>
-          <FontAwesome
-            name={category.iconName as string}
-            size={20}
-            color="#522426"
-          />
+          <FontAwesome name={category.iconName} size={20} color="#522426" />
           <Text style={styles.badgeText}>{category.name}</Text>
         </TouchableOpacity>
       ))}

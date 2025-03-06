@@ -1,141 +1,124 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import React, { useState } from "react";
-import Icon from "react-native-vector-icons/FontAwesome"; // Import the heart icon
+import React from "react";
+import { View, FlatList, StyleSheet, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import PropertyCard from "../components/PropertyCard";
+import { useFavorite } from "../context/FavoriteContext";
 
-const propertiesData = [
+// Import the Property type
+interface Property {
+  id: string;
+  name: string;
+  price: number;
+  location: string;
+  latitude: number;
+  longitude: number;
+  propertyType: string;
+  bed: number;
+  bath: number;
+  distance: number;
+  broker: string;
+  description: string;
+  image: any; // Image asset
+  status?: string;
+}
+
+// Define the root stack type
+type RootStackParamList = {
+  PropertyDetails: { Property: Property };
+};
+
+// Define the navigation prop type
+type FavoriteScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "PropertyDetails"
+>;
+
+// Use the same properties data from ExploreScreen
+const properties: Property[] = [
   {
-    id: 1,
-    img: require("../assets/estate.jpg"),
-    price: "$1,200",
-    location: "Los Angeles, USA",
-    type: "2 Bed | 2 Bath",
-    tag: "Rented", // status is "Rented"
-    like: "true", // Liked property
+    id: "1",
+    name: "Luxury Apartment",
+    price: 1200000,
+    location: "New York, NY",
+    propertyType: "Villa",
+    latitude: 40.7128,
+    longitude: -74.006,
+    bed: 3,
+    bath: 2,
+    distance: 10,
+    broker: "John Doe",
+    description: "A beautiful luxury apartment.",
+    image: require("../assets/house3.webp"),
+    status: "Pending",
   },
   {
-    id: 2,
-    img: require("../assets/estate.jpg"),
-    price: "$500,000",
-    location: "New York, USA",
-    type: "4 Bed | 3 Bath",
-    tag: "Free", // status is "Free"
-    like: "false", // Not liked property
+    id: "2",
+    name: "Modern Villa",
+    price: 2500000,
+    location: "Los Angeles, CA",
+    propertyType: "Apartment",
+    latitude: 34.0522,
+    longitude: -118.2437,
+    bed: 4,
+    bath: 3,
+    distance: 15,
+    broker: "Jane Smith",
+    description: "A spacious and modern villa.",
+    image: require("../assets/house2.jpg"),
+    status: "For sale",
+  },
+  {
+    id: "3",
+    name: "Modern Villa",
+    price: 2500000,
+    location: "Los Angeles, CA",
+    propertyType: "Rentals",
+    latitude: 34.0522,
+    longitude: -118.2437,
+    bed: 4,
+    bath: 3,
+    distance: 20,
+    broker: "Emily Johnson",
+    description: "A modern villa with a great view.",
+    image: require("../assets/house4.jpg"),
+    status: "Rented",
   },
 ];
 
-const FavoritesScreen = () => {
-  const [properties, setProperties] = useState(propertiesData);
+const FavoriteScreen = () => {
+  const navigation = useNavigation<FavoriteScreenNavigationProp>();
+  const { favorites } = useFavorite(); // Get favorite state
 
-  // Helper function to determine the background color based on the status
-  const getTagColor = (status: string) => {
-    if (status === "Rented") {
-      return "green"; // Green for Rented
-    } else if (status === "Free") {
-      return "blue"; // Blue for Free (or any other color you like)
-    }
-    return "gray"; // Default color if status is not recognized
-  };
-
-  // Toggle like status
-  const toggleLike = (id: number) => {
-    setProperties((prevProperties) =>
-      prevProperties.map((property) =>
-        property.id === id
-          ? { ...property, like: property.like === "true" ? "false" : "true" }
-          : property
-      )
-    );
-  };
+  // Filter the properties to only show favorited ones
+  const favoriteProperties = properties.filter((property) => favorites[property.id]);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      {properties
-        .filter((property) => property.like === "true") // Filter liked properties
-        .map((property, index) => (
-          <View key={property.id} style={styles.propertyCard}>
-            <ImageBackground
-              source={property.img} // Replace with your image
-              style={styles.propertyImage}
-              imageStyle={styles.propertyImageStyle}
-            >
-              <View style={styles.propertyOverlay}>
-                <Text style={styles.propertyPrice}>{property.price}</Text>
-                <Text style={styles.propertyLocation}>{property.location}</Text>
-                <Text style={styles.propertyType}>{property.type}</Text>
-                <View
-                  style={[
-                    styles.propertyTagContainer,
-                    { backgroundColor: getTagColor(property.tag) }, // Dynamic color based on status
-                  ]}
-                >
-                  <Text style={styles.propertyTag}>{property.tag}</Text>
-                </View>
-              </View>
-            </ImageBackground>
-          </View>
-        ))}
-    </ScrollView>
+    <View style={styles.container}>
+      {favoriteProperties.length > 0 ? (
+        <FlatList
+          data={favoriteProperties}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <PropertyCard item={item} onPress={() => navigation.navigate("PropertyDetails", { Property: item })} />
+          )}
+        />
+      ) : (
+        <Text style={styles.noFavorites}>No favorites yet</Text>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    padding: 10,
-  },
-  propertyCard: {
-    marginBottom: 20, // Add spacing between each card
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "#FFF",
-    elevation: 3,
-  },
-  propertyImage: {
-    height: 200,
-    justifyContent: "flex-end",
-  },
-  propertyImageStyle: {
-    borderRadius: 10,
-  },
-  propertyOverlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 15,
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 10,
-  },
-  propertyPrice: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#FFF",
-  },
-  propertyLocation: {
-    fontSize: 16,
-    color: "#FFF",
-  },
-  propertyType: {
-    fontSize: 14,
-    color: "#FFF",
-    marginTop: 5,
-  },
-  propertyTagContainer: {
-    position: "absolute", // Position tag on the right side
-    top: 15, // Space from the top of the card
-    right: 15, // Space from the right side
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    borderRadius: 40, // Make it a rounded pill
-  },
-  propertyTag: {
-    fontSize: 14,
-    color: "white",
-    fontWeight: "bold",
+  container: { flex: 1, backgroundColor: "#fff", padding: 1 },
+  noFavorites: {
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+    color: "gray",
   },
 });
 
-export default FavoritesScreen;
+export default FavoriteScreen;
