@@ -80,6 +80,7 @@ const TabNavigator = () => {
         name="Account"
         component={ProfileScreen}
         options={{
+          headerShown: false,
           headerStyle: { backgroundColor: "white" },
           headerTitleAlign: "center",
           headerTitleStyle: { fontWeight: "bold" },
