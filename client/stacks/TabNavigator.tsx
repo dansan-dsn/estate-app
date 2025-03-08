@@ -90,6 +90,7 @@ const TabNavigator = () => {
         name="More"
         component={SettingsScreen}
         options={{
+          headerShown: false,
           headerStyle: { backgroundColor: "white" },
           headerTitleAlign: "center",
           headerTitleStyle: { fontWeight: "bold" },
