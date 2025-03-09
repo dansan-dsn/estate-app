@@ -71,6 +71,7 @@ const TabNavigator = () => {
         name="Favorites"
         component={FavoritesScreen}
         options={{
+          headerShown: false,
           headerStyle: { backgroundColor: "white" },
           headerTitleAlign: "center",
           headerTitleStyle: { fontWeight: "bold" },
