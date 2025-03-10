@@ -2,7 +2,7 @@ export const propertyData = [
   {
     id: "1",
     name: "Luxury Apartment",
-    price: 1200000,
+    price: 120,
     location: "New York, NY",
     propertyType: "Villa",
     latitude: 40.7128,
@@ -18,7 +18,7 @@ export const propertyData = [
   {
     id: "2",
     name: "Modern Villa",
-    price: 2500000,
+    price: 250,
     location: "Los Angeles, CA",
     propertyType: "Apartment",
     latitude: 34.0522,
