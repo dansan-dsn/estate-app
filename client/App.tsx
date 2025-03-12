@@ -5,16 +5,19 @@ import { toastConfig } from "./utils/toastConfig";
 import MainStackNavigator from "./stacks/MainStackNavigator";
 import { AuthProvider } from "./context/AuthContext";
 import { FavoriteProvider } from "./context/FavoriteContext";
+import { DataProvider } from "./context/DataContext";
 
 export default function App() {
   return (
     <AuthProvider>
-      <FavoriteProvider>
-        <NavigationContainer>
-          <MainStackNavigator />
-        </NavigationContainer>
-        <Toast config={toastConfig as ToastConfig} />
-      </FavoriteProvider>
+      <DataProvider>
+        <FavoriteProvider>
+          <NavigationContainer>
+            <MainStackNavigator />
+          </NavigationContainer>
+          <Toast config={toastConfig as ToastConfig} />
+        </FavoriteProvider>
+      </DataProvider>
     </AuthProvider>
   );
 }

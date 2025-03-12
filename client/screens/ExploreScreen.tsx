@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { View, FlatList, StyleSheet, Text } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { View, FlatList, StyleSheet, Text, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Header from "../components/Header";
 import PropertyCard from "../components/property/PropertyCard";
 import MapView, { Marker } from "react-native-maps";
-import { propertyData } from "../utils/properties";
+import { DataContext } from "../context/DataContext";
 
 // Define the Property type
 interface Property {
@@ -37,19 +37,35 @@ type ExploreScreenNavigationProp = StackNavigationProp<
   "Explore"
 >;
 
-// Sample properties with latitude and longitude
-const properties: Property[] = propertyData;
-
 const ExploreScreen = () => {
+  const context = useContext(DataContext);
+
+  if (!context) {
+    return <Text>Loading...</Text>;
+  }
+
+  const { data, isRefreshing, fetchData } = context;
   const navigation = useNavigation<ExploreScreenNavigationProp>();
   const [isMapView, setIsMapView] = useState(false);
   const [minPrice, setMinPrice] = useState<number | string>("");
   const [maxPrice, setMaxPrice] = useState<number | string>("");
   const [priceError, setPriceError] = useState<string>("");
-  const [filteredProperties, setFilteredProperties] =
-    useState<Property[]>(properties); // Default to all properties
 
-  const toggleView = () => {
+  // Ensure properties are correctly typed
+  const properties: Property[] = (data as unknown as Property[]) || [];
+
+  // Use useEffect to update filtered properties when data is available
+  const [priceFilteredProperties, setPriceFilteredProperties] = useState<
+    Property[]
+  >([]);
+
+  useEffect(() => {
+    if (properties.length > 0) {
+      setPriceFilteredProperties(properties);
+    }
+  }, [properties]); // Update when properties change
+
+  const toggleMapView = () => {
     setIsMapView(!isMapView);
   };
 
@@ -57,7 +73,7 @@ const ExploreScreen = () => {
     navigation.navigate("PropertyDetails", { Property });
   };
 
-  // This function will be passed to Header to trigger price filtering
+  // Apply filtering logic
   const applyFilter = (
     minPrice: number | string,
     maxPrice: number | string
@@ -67,24 +83,23 @@ const ExploreScreen = () => {
     const filtered = properties.filter(
       (property) => property.price >= min && property.price <= max
     );
-    setFilteredProperties(filtered); // Apply the filter
+    setPriceFilteredProperties(filtered);
   };
 
   return (
     <View style={styles.container}>
       <Header
         isMapView={isMapView}
-        toggleView={toggleView}
+        toggleView={toggleMapView}
         minPrice={minPrice}
         maxPrice={maxPrice}
         priceError={priceError}
         setMinPrice={setMinPrice}
         setMaxPrice={setMaxPrice}
         setPriceError={setPriceError}
-        onApplyFilter={applyFilter} // Pass the applyFilter function
+        onApplyFilter={applyFilter}
       />
-      {filteredProperties.length === 0 ? (
-        // Show message if no properties match the filter
+      {priceFilteredProperties.length === 0 ? (
         <View style={styles.noResultsContainer}>
           <Text style={styles.noResultsText}>
             No properties available for this price range
@@ -96,13 +111,13 @@ const ExploreScreen = () => {
             <MapView
               style={styles.mapView}
               initialRegion={{
-                latitude: properties[0]?.latitude || 37.7749, // Default to first property or a default location
+                latitude: properties[0]?.latitude || 37.7749,
                 longitude: properties[0]?.longitude || -122.4194,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
               }}
             >
-              {filteredProperties.map((property) => (
+              {priceFilteredProperties.map((property) => (
                 <Marker
                   key={property.id}
                   coordinate={{
@@ -116,7 +131,7 @@ const ExploreScreen = () => {
             </MapView>
           ) : (
             <FlatList
-              data={filteredProperties}
+              data={priceFilteredProperties}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
@@ -125,6 +140,12 @@ const ExploreScreen = () => {
                   onPress={() => handleNavigate(item)}
                 />
               )}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={fetchData}
+                />
+              }
             />
           )}
         </>
