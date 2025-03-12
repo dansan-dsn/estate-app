@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PropertyCard from "../components/PropertyCard";
+import PropertyCard from "../components/property/PropertyCard";
 import { useFavorite } from "../context/FavoriteContext";
 import { propertyData } from "../utils/properties";
 import { useSafeAreaInsets } from "react-native-safe-area-context"; // Import useSafeAreaInsets

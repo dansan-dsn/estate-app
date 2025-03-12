@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useFavorite } from "../context/FavoriteContext";
+import { useFavorite } from "../../context/FavoriteContext";
 
 // Define props type for FavoriteBadge
 interface FavoriteBadgeProps {
@@ -13,7 +13,10 @@ const FavoriteBadge: React.FC<FavoriteBadgeProps> = ({ id }) => {
   const isFavorite = favorites[id] || false; // Check if this specific id is favorited
 
   return (
-    <TouchableOpacity onPress={() => toggleFavorite(id)} style={styles.favoriteBadge}>
+    <TouchableOpacity
+      onPress={() => toggleFavorite(id)}
+      style={styles.favoriteBadge}
+    >
       <Ionicons name="heart" size={24} color={isFavorite ? "red" : "#c7c8c9"} />
     </TouchableOpacity>
   );
@@ -36,6 +39,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5, 
+    elevation: 5,
   },
 });

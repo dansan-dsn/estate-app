@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Header from "../components/Header";
-import PropertyCard from "../components/PropertyCard";
+import PropertyCard from "../components/property/PropertyCard";
 import MapView, { Marker } from "react-native-maps";
 import { propertyData } from "../utils/properties";
 
@@ -33,8 +33,8 @@ type RootStackParamList = {
 
 // Define the navigation prop type
 type ExploreScreenNavigationProp = StackNavigationProp<
-    RootStackParamList,
-    "Explore"
+  RootStackParamList,
+  "Explore"
 >;
 
 // Sample properties with latitude and longitude
@@ -46,7 +46,8 @@ const ExploreScreen = () => {
   const [minPrice, setMinPrice] = useState<number | string>("");
   const [maxPrice, setMaxPrice] = useState<number | string>("");
   const [priceError, setPriceError] = useState<string>("");
-  const [filteredProperties, setFilteredProperties] = useState<Property[]>(properties); // Default to all properties
+  const [filteredProperties, setFilteredProperties] =
+    useState<Property[]>(properties); // Default to all properties
 
   const toggleView = () => {
     setIsMapView(!isMapView);
@@ -57,68 +58,78 @@ const ExploreScreen = () => {
   };
 
   // This function will be passed to Header to trigger price filtering
-  const applyFilter = (minPrice: number | string, maxPrice: number | string) => {
+  const applyFilter = (
+    minPrice: number | string,
+    maxPrice: number | string
+  ) => {
     const min = minPrice ? Number(minPrice) : 0;
     const max = maxPrice ? Number(maxPrice) : Infinity;
-    const filtered = properties.filter((property) => property.price >= min && property.price <= max);
+    const filtered = properties.filter(
+      (property) => property.price >= min && property.price <= max
+    );
     setFilteredProperties(filtered); // Apply the filter
   };
 
   return (
-      <View style={styles.container}>
-        <Header
-            isMapView={isMapView}
-            toggleView={toggleView}
-            minPrice={minPrice}
-            maxPrice={maxPrice}
-            priceError={priceError}
-            setMinPrice={setMinPrice}
-            setMaxPrice={setMaxPrice}
-            setPriceError={setPriceError}
-            onApplyFilter={applyFilter} // Pass the applyFilter function
-        />
-        {filteredProperties.length === 0 ? (
-            // Show message if no properties match the filter
-            <View style={styles.noResultsContainer}>
-              <Text style={styles.noResultsText}>No properties available for this price range</Text>
-            </View>
-        ) : (
-            <>
-              {isMapView ? (
-                  <MapView
-                      style={styles.mapView}
-                      initialRegion={{
-                        latitude: properties[0]?.latitude || 37.7749, // Default to first property or a default location
-                        longitude: properties[0]?.longitude || -122.4194,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                      }}
-                  >
-                    {filteredProperties.map((property) => (
-                        <Marker
-                            key={property.id}
-                            coordinate={{
-                              latitude: property.latitude,
-                              longitude: property.longitude,
-                            }}
-                            title={property.name}
-                            description={property.location}
-                        />
-                    ))}
-                  </MapView>
-              ) : (
-                  <FlatList
-                      data={filteredProperties}
-                      showsVerticalScrollIndicator={false}
-                      keyExtractor={(item) => item.id}
-                      renderItem={({ item }) => (
-                          <PropertyCard item={item} onPress={() => handleNavigate(item)} />
-                      )}
-                  />
+    <View style={styles.container}>
+      <Header
+        isMapView={isMapView}
+        toggleView={toggleView}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        priceError={priceError}
+        setMinPrice={setMinPrice}
+        setMaxPrice={setMaxPrice}
+        setPriceError={setPriceError}
+        onApplyFilter={applyFilter} // Pass the applyFilter function
+      />
+      {filteredProperties.length === 0 ? (
+        // Show message if no properties match the filter
+        <View style={styles.noResultsContainer}>
+          <Text style={styles.noResultsText}>
+            No properties available for this price range
+          </Text>
+        </View>
+      ) : (
+        <>
+          {isMapView ? (
+            <MapView
+              style={styles.mapView}
+              initialRegion={{
+                latitude: properties[0]?.latitude || 37.7749, // Default to first property or a default location
+                longitude: properties[0]?.longitude || -122.4194,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              {filteredProperties.map((property) => (
+                <Marker
+                  key={property.id}
+                  coordinate={{
+                    latitude: property.latitude,
+                    longitude: property.longitude,
+                  }}
+                  title={property.name}
+                  description={property.location}
+                />
+              ))}
+            </MapView>
+          ) : (
+            <FlatList
+              data={filteredProperties}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <PropertyCard
+                  item={item}
+                  onPress={() => handleNavigate(item)}
+                />
               )}
-            </>
-        )}
-      </View>
+            />
+          )}
+        </>
+      )}
+    </View>
   );
 };
 

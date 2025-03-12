@@ -11,8 +11,8 @@ import React, { useRef, useState } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import FavoriteBadge from "../components/FavoriteBadge";
-import MapView, { Marker } from 'react-native-maps';
+import FavoriteBadge from "../components/property/FavoriteBadge";
+import MapView, { Marker } from "react-native-maps";
 
 // Define Property Type
 type PropertyType = {
@@ -47,21 +47,21 @@ const PropertyDetails = () => {
   const opacity = scrollY.interpolate({
     inputRange: [0, 200],
     outputRange: [100, 0], // Image fades out as you scroll
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   // Interpolate background color based on scroll position
   const backgroundColor = scrollY.interpolate({
     inputRange: [0, 200],
-    outputRange: ['transparent', '#edf1f7'], // Starts transparent and becomes white after scrolling
-    extrapolate: 'clamp',
+    outputRange: ["transparent", "#edf1f7"], // Starts transparent and becomes white after scrolling
+    extrapolate: "clamp",
   });
 
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
   const sentences = Property?.description.split(".");
   const slice = sentences.slice(0, 2).join(".") + ".";
   const remainingSlice = sentences.slice(2).join(".");
-  const toggleExpansion = () => setIsExpanded(!isExpanded)
+  const toggleExpansion = () => setIsExpanded(!isExpanded);
 
   return (
     <View style={styles.container}>
@@ -76,15 +76,17 @@ const PropertyDetails = () => {
       >
         {/* Image container with overlay back button */}
         <View style={styles.imageContainer}>
-          <Animated.Image 
-            source={Property?.image} 
+          <Animated.Image
+            source={Property?.image}
             style={[styles.image, { opacity }]} // Apply opacity only to the image
           />
         </View>
 
         {/* Property Details */}
         <View style={styles.detailsContainer}>
-          <Text style={styles.title}>{Property?.name ?? "Unknown Property"}</Text>
+          <Text style={styles.title}>
+            {Property?.name ?? "Unknown Property"}
+          </Text>
           <Text style={{ color: "gray", marginBottom: 3, fontSize: 16 }}>
             {Property?.latitude}S, {Property?.longitude}N | {Property?.distance}{" "}
             sqft
@@ -93,16 +95,23 @@ const PropertyDetails = () => {
             {Property?.location ?? "Location not specified"}
           </Text>
           <Text style={styles.broker}>Broker: {Property?.broker ?? "N/A"}</Text>
-          
-          <Text style={styles.description}>
-          {slice}
-          {isExpanded && "" + remainingSlice}
 
-          <TouchableOpacity onPress={toggleExpansion}>
-            <Text style={{color: 'black', fontWeight: 'bold', marginLeft: 10, fontSize: 15}}>
-              {isExpanded ? "Show Less" : "Show More"}
-            </Text>
-          </TouchableOpacity>
+          <Text style={styles.description}>
+            {slice}
+            {isExpanded && "" + remainingSlice}
+
+            <TouchableOpacity onPress={toggleExpansion}>
+              <Text
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  marginLeft: 10,
+                  fontSize: 15,
+                }}
+              >
+                {isExpanded ? "Show Less" : "Show More"}
+              </Text>
+            </TouchableOpacity>
           </Text>
           <View
             style={{
@@ -111,17 +120,20 @@ const PropertyDetails = () => {
               borderRadius: 20,
               flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: 'center',
+              alignItems: "center",
             }}
           >
-            <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
-              <Text style={{ color: 'blue' }}>{Property?.bed}</Text> <FontAwesome name="bed" size={24} color="#000" />
+            <Text style={{ paddingHorizontal: 10, fontWeight: "bold" }}>
+              <Text style={{ color: "blue" }}>{Property?.bed}</Text>{" "}
+              <FontAwesome name="bed" size={24} color="#000" />
             </Text>
-            <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
-              <Text style={{ color: 'blue' }}>{Property?.bath}</Text> <FontAwesome name="bath" size={24} color="#000" />
+            <Text style={{ paddingHorizontal: 10, fontWeight: "bold" }}>
+              <Text style={{ color: "blue" }}>{Property?.bath}</Text>{" "}
+              <FontAwesome name="bath" size={24} color="#000" />
             </Text>
-            <Text style={{ paddingHorizontal: 10, fontWeight: 'bold' }}>
-              <Text style={{ color: 'blue' }}>56</Text> <FontAwesome name="bath" size={24} color="#000" />
+            <Text style={{ paddingHorizontal: 10, fontWeight: "bold" }}>
+              <Text style={{ color: "blue" }}>56</Text>{" "}
+              <FontAwesome name="bath" size={24} color="#000" />
             </Text>
           </View>
         </View>
@@ -142,7 +154,12 @@ const PropertyDetails = () => {
               longitudeDelta: 0.0421,
             }}
           >
-            <Marker coordinate={{ latitude: Property?.latitude ?? 37.78825, longitude: Property?.longitude ?? -122.4324 }} />
+            <Marker
+              coordinate={{
+                latitude: Property?.latitude ?? 37.78825,
+                longitude: Property?.longitude ?? -122.4324,
+              }}
+            />
           </MapView>
         </View>
       </Animated.ScrollView>
