@@ -8,15 +8,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-interface SearchProp {
-  isMapView: boolean;
-  toggleView: () => void;
-}
-
-const SearchBar: React.FC<SearchProp> = ({ isMapView, toggleView }) => {
+const SearchBar = ({ isMapView, toggleView }) => {
   const [searchContent, setSearchContent] = useState("");
 
-  const handleSearch = (value: string) => {
+  const handleSearch = (value) => {
     setSearchContent(value);
   };
   return (

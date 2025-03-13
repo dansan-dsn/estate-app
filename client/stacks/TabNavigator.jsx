@@ -6,23 +6,14 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import { Ionicons } from "@expo/vector-icons";
 
-type RootTabParamList = {
-  Explore: undefined;
-  Favorites: undefined;
-  Account: undefined;
-  More: undefined;
-};
-
-const Tab = createBottomTabNavigator<RootTabParamList>();
-
-type IconNames = "search" | "heart" | "person-circle" | "cog" | "help-circle";
+const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName: IconNames;
+          let iconName;
 
           if (route.name === "Explore") {
             iconName = "search";

@@ -2,44 +2,20 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ScrollView,
   TouchableOpacity,
   Animated,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import FavoriteBadge from "../components/property/FavoriteBadge";
 import MapView, { Marker } from "react-native-maps";
 
-// Define Property Type
-type PropertyType = {
-  id: string;
-  image: any;
-  name: string;
-  latitude: number;
-  longitude: number;
-  distance: number;
-  location: string;
-  broker: string;
-  description: string;
-  bed: number;
-  bath: number;
-  price: number;
-};
-
-// Type for the route parameters
-type PropertyDetailsRouteProp = RouteProp<
-  { PropertyDetails: { Property: PropertyType } },
-  "PropertyDetails"
->;
-
 const PropertyDetails = () => {
   const navigation = useNavigation();
-  const route = useRoute<PropertyDetailsRouteProp>();
-  const { Property } = route.params;
+  const route = useRoute();
+  const { Property } = route.params || {};
 
   const scrollY = useRef(new Animated.Value(0)).current; // Animated scroll value
 
@@ -58,7 +34,8 @@ const PropertyDetails = () => {
   });
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const sentences = Property?.description.split(".");
+  const description = Property?.description || "";
+  const sentences = description.split(".");
   const slice = sentences.slice(0, 2).join(".") + ".";
   const remainingSlice = sentences.slice(2).join(".");
   const toggleExpansion = () => setIsExpanded(!isExpanded);
@@ -98,7 +75,7 @@ const PropertyDetails = () => {
 
           <Text style={styles.description}>
             {slice}
-            {isExpanded && "" + remainingSlice}
+            {isExpanded + remainingSlice}
 
             <TouchableOpacity onPress={toggleExpansion}>
               <Text

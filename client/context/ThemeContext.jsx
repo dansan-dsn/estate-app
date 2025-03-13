@@ -1,9 +1,9 @@
 // components/CustomText.tsx
 import React from "react";
-import { Text, TextProps } from "react-native";
+import { Text } from "react-native";
 
 // Custom Text component that automatically applies the Poppins font family
-const CustomText = ({ style, ...props }: TextProps) => {
+const CustomText = ({ style, ...props }) => {
   return <Text style={[{ fontFamily: "Poppins" }, style]} {...props} />;
 };
 

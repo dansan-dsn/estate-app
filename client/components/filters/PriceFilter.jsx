@@ -9,17 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal"; // Import the Modal component
 
-interface PriceProps {
-  minPrice: number | string;
-  maxPrice: number | string;
-  priceError: string | null;
-  setMinPrice: React.Dispatch<React.SetStateAction<number | string>>;
-  setMaxPrice: React.Dispatch<React.SetStateAction<number | string>>;
-  setPriceError: React.Dispatch<React.SetStateAction<string>>;
-  onApplyFilter: (minPrice: number | string, maxPrice: number | string) => void;
-}
-
-const PriceFilter: React.FC<PriceProps> = ({
+const PriceFilter = ({
   minPrice,
   maxPrice,
   setMinPrice,
@@ -34,7 +24,7 @@ const PriceFilter: React.FC<PriceProps> = ({
     setModalVisible(!isModalVisible);
   };
 
-  const handleMinPriceChange = (value: string) => {
+  const handleMinPriceChange = (value) => {
     setMinPrice(value);
     if (maxPrice && Number(value) > Number(maxPrice)) {
       setPriceError("Max Price can't be less than Min Price");
@@ -43,7 +33,7 @@ const PriceFilter: React.FC<PriceProps> = ({
     }
   };
 
-  const handleMaxPriceChange = (value: string) => {
+  const handleMaxPriceChange = (value) => {
     setMaxPrice(value);
     if (minPrice && Number(value) < Number(minPrice)) {
       setPriceError("Max Price can't be less than Min Price");

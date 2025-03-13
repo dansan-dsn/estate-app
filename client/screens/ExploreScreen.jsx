@@ -1,63 +1,30 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, FlatList, StyleSheet, Text, RefreshControl } from "react-native";
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import Header from "../components/Header";
 import PropertyCard from "../components/property/PropertyCard";
 import MapView, { Marker } from "react-native-maps";
-import { DataContext } from "../context/DataContext";
-
-// Define the Property type
-interface Property {
-  id: string;
-  name: string;
-  price: number;
-  location: string;
-  latitude: number;
-  longitude: number;
-  propertyType: string;
-  bed: number;
-  bath: number;
-  distance: number;
-  broker: string;
-  description: string;
-  image: any; // Image asset
-  status?: string;
-}
-
-// Define the root stack type
-type RootStackParamList = {
-  Explore: undefined;
-  PropertyDetails: { Property: Property };
-};
-
-// Define the navigation prop type
-type ExploreScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  "Explore"
->;
+import { propertyData } from "../utils/properties";
 
 const ExploreScreen = () => {
-  const context = useContext(DataContext);
+  const navigation = useNavigation();
 
-  if (!context) {
-    return <Text>Loading...</Text>;
-  }
-
-  const { data, isRefreshing, fetchData } = context;
-  const navigation = useNavigation<ExploreScreenNavigationProp>();
   const [isMapView, setIsMapView] = useState(false);
-  const [minPrice, setMinPrice] = useState<number | string>("");
-  const [maxPrice, setMaxPrice] = useState<number | string>("");
-  const [priceError, setPriceError] = useState<string>("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [priceError, setPriceError] = useState("");
 
-  // Ensure properties are correctly typed
-  const properties: Property[] = (data as unknown as Property[]) || [];
+  const properties = propertyData;
 
   // Use useEffect to update filtered properties when data is available
-  const [priceFilteredProperties, setPriceFilteredProperties] = useState<
-    Property[]
-  >([]);
+  const [priceFilteredProperties, setPriceFilteredProperties] = useState([]);
 
   useEffect(() => {
     if (properties.length > 0) {
@@ -69,15 +36,12 @@ const ExploreScreen = () => {
     setIsMapView(!isMapView);
   };
 
-  const handleNavigate = (Property: Property) => {
-    navigation.navigate("PropertyDetails", { Property });
+  const handleNavigate = (property) => {
+    navigation.navigate("PropertyDetails", { property });
   };
 
   // Apply filtering logic
-  const applyFilter = (
-    minPrice: number | string,
-    maxPrice: number | string
-  ) => {
+  const applyFilter = (minPrice, maxPrice) => {
     const min = minPrice ? Number(minPrice) : 0;
     const max = maxPrice ? Number(maxPrice) : Infinity;
     const filtered = properties.filter(
@@ -101,9 +65,14 @@ const ExploreScreen = () => {
       />
       {priceFilteredProperties.length === 0 ? (
         <View style={styles.noResultsContainer}>
-          <Text style={styles.noResultsText}>
-            No properties available for this price range
-          </Text>
+          <Image
+            source={require("../assets/images/no-data.png")}
+            style={styles.emptyImage}
+          />
+          <Text style={styles.noProperty}>No Property found</Text>
+          <TouchableOpacity>
+            <Text style={styles.searchProperty}>Search Properties</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <>
@@ -140,12 +109,6 @@ const ExploreScreen = () => {
                   onPress={() => handleNavigate(item)}
                 />
               )}
-              refreshControl={
-                <RefreshControl
-                  refreshing={isRefreshing}
-                  onRefresh={fetchData}
-                />
-              }
             />
           )}
         </>
@@ -168,6 +131,31 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#888",
     textAlign: "center",
+  },
+  emptyImage: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+    resizeMode: "contain", // Ensures image is well-suited for the screen
+  },
+  noProperty: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "gray",
+    fontFamily: "Poppins", // Same font family for consistency
+    marginBottom: 10,
+  },
+  searchProperty: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#fff", // Dark gray color
+    fontWeight: "bold",
+    fontFamily: "Poppins",
+    marginTop: 5,
+    backgroundColor: "#322f2f",
+    padding: 6,
+    paddingHorizontal: 10,
+    borderRadius: 25,
   },
 });
 

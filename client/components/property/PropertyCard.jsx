@@ -6,36 +6,19 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  ImageSourcePropType,
 } from "react-native";
-// import { NavigationProp, ParamListBase } from "@react-navigation/native";
+
 import FavoriteBadge from "./FavoriteBadge";
 
 const { width, height } = Dimensions.get("window");
 
-interface Property {
-  id: string;
-  name: string;
-  price: number;
-  bed: number;
-  bath: number;
-  distance: number;
-  location: string;
-  image: ImageSourcePropType;
-  status?: string;
-}
-
-interface PropertyDetails {
-  item: Property;
-  onPress: () => void;
-}
-const PropertyCard: React.FC<PropertyDetails> = ({ item, onPress }) => {
+const PropertyCard = ({ item, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={1}>
       <View style={styles.propertyCard}>
         <View style={styles.imageContainer}>
           <Image source={item.image} style={styles.propertyImage} />
-          <FavoriteBadge id={item.id}/>
+          <FavoriteBadge id={item.id} />
         </View>
         <View style={styles.propertyDetails}>
           <Text style={styles.propertyName}>{item.name}</Text>
