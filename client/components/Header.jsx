@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 10,
     elevation: 4,
-    paddingTop: 60,
   },
   filterTabs: {
     flexDirection: "row",

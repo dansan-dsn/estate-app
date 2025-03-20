@@ -6,15 +6,20 @@ import {
   Text,
   Image,
   TouchableOpacity,
+    ScrollView,
+    RefreshControl
 } from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import PropertyCard from "../components/property/PropertyCard";
 import MapView, { Marker } from "react-native-maps";
 import { propertyData } from "../utils/properties";
+// import { RefreshContext } from "../context/RefreshContext";
 
 const ExploreScreen = () => {
   const navigation = useNavigation();
+  // const { refreshing, onRefresh } = useContext(RefreshContext);
 
   const [isMapView, setIsMapView] = useState(false);
   const [minPrice, setMinPrice] = useState("");
@@ -37,7 +42,7 @@ const ExploreScreen = () => {
   };
 
   const handleNavigate = (property) => {
-    navigation.navigate("PropertyDetails", { property });
+    navigation.navigate("PropertyDetails", { Property: property });
   };
 
   // Apply filtering logic
@@ -51,7 +56,12 @@ const ExploreScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+      //     // refreshControl={
+      //   // <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      // }
+      >
       <Header
         isMapView={isMapView}
         toggleView={toggleMapView}
@@ -113,7 +123,8 @@ const ExploreScreen = () => {
           )}
         </>
       )}
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

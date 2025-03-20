@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -7,22 +7,18 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Modal from "react-native-modal"; // Import the Modal component
+import RBSheet from "react-native-raw-bottom-sheet"; // Import raw-bottom-sheet
 
 const PriceFilter = ({
-  minPrice,
-  maxPrice,
-  setMinPrice,
-  setMaxPrice,
-  priceError,
-  setPriceError,
-  onApplyFilter,
-}) => {
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
+                       minPrice,
+                       maxPrice,
+                       setMinPrice,
+                       setMaxPrice,
+                       priceError,
+                       setPriceError,
+                       onApplyFilter,
+                     }) => {
+  const bottomSheetRef = useRef();
 
   const handleMinPriceChange = (value) => {
     setMinPrice(value);
@@ -43,25 +39,30 @@ const PriceFilter = ({
   };
 
   const handleApplyFilter = () => {
-    setModalVisible(false);
+    bottomSheetRef.current.close(); // Close the bottom sheet when applying the filter
     onApplyFilter(minPrice, maxPrice); // Trigger the filter application
   };
 
   return (
-    <View>
-      <TouchableOpacity style={styles.filterOption} onPress={toggleModal}>
-        <Text>Price</Text>
-      </TouchableOpacity>
-      {/* Bottom Modal Component */}
-      <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        style={styles.modal}
-      >
-        <View style={styles.modalContent}>
+      <View>
+        <TouchableOpacity style={styles.filterOption} onPress={() => bottomSheetRef.current.open()}>
+          <Text>Price</Text>
+        </TouchableOpacity>
+
+        {/* Raw Bottom Sheet */}
+        <RBSheet
+            ref={bottomSheetRef}
+            height={230}
+            openDuration={250}
+            closeOnPressBack={true}
+            closeOnPressMask={true}
+            customStyles={{
+              container: styles.modalContent,
+            }}
+        >
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Price Range</Text>
-            <TouchableOpacity onPress={toggleModal}>
+            <TouchableOpacity onPress={() => bottomSheetRef.current.close()}>
               <Ionicons name="close" size={24} color="#000" />
             </TouchableOpacity>
           </View>
@@ -71,56 +72,55 @@ const PriceFilter = ({
             <View style={styles.inputWrapper}>
               <Text style={styles.rangeLabel}>Min Price</Text>
               <TextInput
-                style={styles.inputField}
-                keyboardType="numeric"
-                placeholder="No min"
-                value={minPrice.toString()}
-                onChangeText={handleMinPriceChange}
+                  style={styles.inputField}
+                  keyboardType="numeric"
+                  placeholder="No min"
+                  value={minPrice ? minPrice.toString() : ""}
+                  onChangeText={handleMinPriceChange}
               />
               {minPrice && (
-                <Ionicons
-                  name="close-circle"
-                  size={20}
-                  color="#888"
-                  style={styles.closeIcon}
-                  onPress={() => setMinPrice("")}
-                />
+                  <Ionicons
+                      name="close-circle"
+                      size={20}
+                      color="#888"
+                      style={styles.closeIcon}
+                      onPress={() => setMinPrice("")}
+                  />
               )}
             </View>
 
             <View style={styles.inputWrapper}>
               <Text style={styles.rangeLabel}>Max Price</Text>
               <TextInput
-                style={styles.inputField}
-                keyboardType="numeric"
-                placeholder="No max"
-                value={maxPrice.toString()}
-                onChangeText={handleMaxPriceChange}
+                  style={styles.inputField}
+                  keyboardType="numeric"
+                  placeholder="No max"
+                  value={maxPrice ? maxPrice.toString() : ""}
+                  onChangeText={handleMaxPriceChange}
               />
               {maxPrice && (
-                <Ionicons
-                  name="close-circle"
-                  size={20}
-                  color="#888"
-                  style={styles.closeIcon}
-                  onPress={() => setMaxPrice("")}
-                />
+                  <Ionicons
+                      name="close-circle"
+                      size={20}
+                      color="#888"
+                      style={styles.closeIcon}
+                      onPress={() => setMaxPrice("")}
+                  />
               )}
             </View>
           </View>
           {priceError ? (
-            <Text style={styles.maxMinError}>{priceError}</Text>
+              <Text style={styles.maxMinError}>{priceError}</Text>
           ) : null}
           <TouchableOpacity
-            style={[styles.closeButton, priceError && { opacity: 0.5 }]}
-            onPress={handleApplyFilter}
-            disabled={!!priceError}
+              style={[styles.closeButton, priceError && { opacity: 0.5 }]}
+              onPress={handleApplyFilter}
+              disabled={!!priceError}
           >
             <Text style={styles.closeButtonText}>View Homes</Text>
           </TouchableOpacity>
-        </View>
-      </Modal>
-    </View>
+        </RBSheet>
+      </View>
   );
 };
 
@@ -134,17 +134,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     paddingHorizontal: 15,
-  },
-  filterButton: {
-    padding: 8,
-    backgroundColor: "#322f2f",
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modal: {
-    justifyContent: "flex-end",
-    margin: 0, // Remove default margin
   },
   modalContent: {
     backgroundColor: "white",

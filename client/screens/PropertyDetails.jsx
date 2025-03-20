@@ -75,7 +75,7 @@ const PropertyDetails = () => {
 
           <Text style={styles.description}>
             {slice}
-            {isExpanded + remainingSlice}
+            {isExpanded && remainingSlice}
 
             <TouchableOpacity onPress={toggleExpansion}>
               <Text
