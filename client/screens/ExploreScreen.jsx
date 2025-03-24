@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   FlatList,
@@ -6,8 +6,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
-    ScrollView,
-    RefreshControl
+  StatusBar
 } from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -15,26 +14,24 @@ import Header from "../components/Header";
 import PropertyCard from "../components/property/PropertyCard";
 import MapView, { Marker } from "react-native-maps";
 import { propertyData } from "../utils/properties";
-// import { RefreshContext } from "../context/RefreshContext";
 
 const ExploreScreen = () => {
   const navigation = useNavigation();
-  // const { refreshing, onRefresh } = useContext(RefreshContext);
 
   const [isMapView, setIsMapView] = useState(false);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [priceError, setPriceError] = useState("");
+  const [beds, setBeds] = useState("");
+  const [baths, setBaths] = useState("");
 
   const properties = propertyData;
 
   // Use useEffect to update filtered properties when data is available
-  const [priceFilteredProperties, setPriceFilteredProperties] = useState([]);
+  const [filteredProperties, setFilteredProperties] = useState([]);
 
   useEffect(() => {
-    if (properties.length > 0) {
-      setPriceFilteredProperties(properties);
-    }
+      setFilteredProperties(properties);
   }, [properties]); // Update when properties change
 
   const toggleMapView = () => {
@@ -46,22 +43,25 @@ const ExploreScreen = () => {
   };
 
   // Apply filtering logic
-  const applyFilter = (minPrice, maxPrice) => {
+  const applyFilter = () => {
     const min = minPrice ? Number(minPrice) : 0;
     const max = maxPrice ? Number(maxPrice) : Infinity;
-    const filtered = properties.filter(
-      (property) => property.price >= min && property.price <= max
-    );
-    setPriceFilteredProperties(filtered);
+    const bedsFilter = beds ? Number(beds) : 0;
+    const bathsFilter = baths ? Number(baths) : 0;
+
+    const filtered = properties.filter(property => {
+      const priceMatch = property.price >= min && property.price <= max;
+      const bedsMatch = beds ? property.bed >= bedsFilter : true;
+      const bathsMatch = baths ? property.bath >= bathsFilter : true;
+      return priceMatch && bedsMatch && bathsMatch;
+    });
+
+    setFilteredProperties(filtered);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-      //     // refreshControl={
-      //   // <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      // }
-      >
+      <StatusBar translucent backgroundColor="transparent" />
       <Header
         isMapView={isMapView}
         toggleView={toggleMapView}
@@ -71,9 +71,13 @@ const ExploreScreen = () => {
         setMinPrice={setMinPrice}
         setMaxPrice={setMaxPrice}
         setPriceError={setPriceError}
+        beds={beds}
+        baths={baths}
+        setBeds={setBeds}
+        setBaths={setBaths}
         onApplyFilter={applyFilter}
       />
-      {priceFilteredProperties.length === 0 ? (
+      {filteredProperties.length === 0 ? (
         <View style={styles.noResultsContainer}>
           <Image
             source={require("../assets/images/no-data.png")}
@@ -96,7 +100,7 @@ const ExploreScreen = () => {
                 longitudeDelta: 0.0421,
               }}
             >
-              {priceFilteredProperties.map((property) => (
+              {filteredProperties.map((property) => (
                 <Marker
                   key={property.id}
                   coordinate={{
@@ -110,7 +114,7 @@ const ExploreScreen = () => {
             </MapView>
           ) : (
             <FlatList
-              data={priceFilteredProperties}
+              data={filteredProperties}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
@@ -123,7 +127,6 @@ const ExploreScreen = () => {
           )}
         </>
       )}
-      </ScrollView>
     </SafeAreaView>
   );
 };

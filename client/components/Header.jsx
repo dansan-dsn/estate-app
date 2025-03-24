@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "./filters/SearchBar";
 import PriceFilter from "./filters/PriceFilter";
+import BedBathFilter from "./filters/BedBathFilter";
 
 const Header = ({
   isMapView,
@@ -20,6 +20,10 @@ const Header = ({
   priceError,
   setPriceError,
   onApplyFilter,
+  beds,
+  baths,
+  setBeds,
+  setBaths
 }) => {
   return (
     <View style={styles.header}>
@@ -40,9 +44,13 @@ const Header = ({
         />
 
         {/* Bed and Bath filter */}
-        <TouchableOpacity style={styles.filterOption}>
-          <Text>Bed/Bath</Text>
-        </TouchableOpacity>
+        <BedBathFilter 
+          beds={beds}
+          baths={baths}
+          setBeds={setBeds}
+          setBaths={setBaths}
+          onApplyFilter={onApplyFilter}
+        />
 
         {/* Property type filter */}
         <TouchableOpacity style={styles.filterOption}>
