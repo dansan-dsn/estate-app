@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useFavorite } from "../../context/FavoriteContext";
+import { useFavorite } from "@/hooks/FavoriteContext";
 
 const FavoriteBadge = ({ id }) => {
   const { favorites, toggleFavorite } = useFavorite(); // Get favorites state and toggle function

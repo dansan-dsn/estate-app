@@ -12,7 +12,7 @@ export const propertyData = [
     distance: 10,
     broker: "John Doe",
     description: "A beautiful luxury apartment.",
-    image: require("../assets/images/house3.webp"),
+    image: require("@/assets/images/house3.webp"),
     status: "Pending",
   },
   {
@@ -28,7 +28,7 @@ export const propertyData = [
     distance: 15,
     broker: "Jane Smith",
     description: "A spacious and modern villa.",
-    image: require("../assets/images/house2.jpg"),
+    image: require("@/assets/images/house2.jpg"),
     status: "For sale",
   },
   {
@@ -45,7 +45,7 @@ export const propertyData = [
     broker: "Emily Johnson",
     description:
       "A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.",
-    image: require("../assets/images/house4.jpg"),
+    image: require("@/assets/images/house4.jpg"),
     status: "Rented",
   },
   {
@@ -61,7 +61,7 @@ export const propertyData = [
     distance: 15,
     broker: "Jane Smith",
     description: "A spacious and modern villa.",
-    image: require("../assets/images/house2.jpg"),
+    image: require("@/assets/images/house2.jpg"),
     status: "For sale",
   },
   {
@@ -78,7 +78,7 @@ export const propertyData = [
     broker: "Emily Johnson",
     description:
       "A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.A modern villa with a great view.",
-    image: require("../assets/images/house4.jpg"),
+    image: require("@/assets/images/house4.jpg"),
     status: "Rented",
   },
 ];

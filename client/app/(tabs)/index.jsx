@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import Header from "../components/Header";
-import PropertyCard from "../components/property/PropertyCard";
+import Header from "@/components/Header";
+import PropertyCard from "@/components/property/PropertyCard";
 import MapView, { Marker } from "react-native-maps";
-import { propertyData } from "../utils/properties";
+import { propertyData } from "@/constants/properties";
 
 const ExploreScreen = () => {
   const navigation = useNavigation();
@@ -39,7 +39,7 @@ const ExploreScreen = () => {
   };
 
   const handleNavigate = (property) => {
-    navigation.navigate("PropertyDetails", { Property: property });
+    navigation.navigate("property-details", { Property: property });
   };
 
   // Apply filtering logic
@@ -80,7 +80,7 @@ const ExploreScreen = () => {
       {filteredProperties.length === 0 ? (
         <View style={styles.noResultsContainer}>
           <Image
-            source={require("../assets/images/no-data.png")}
+            source={require("@/assets/images/no-data.png")}
             style={styles.emptyImage}
           />
           <Text style={styles.noProperty}>No Property found</Text>

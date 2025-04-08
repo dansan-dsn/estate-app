@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-import GoogleLoginScreen from "./GoogleLoginScreen";
+import GoogleLogin from "./google-login";
 import Toast from "react-native-toast-message"; // Import Toast
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "@/hooks/AuthContext";
 
 const baseUrl = "http://192.168.55.221:5000/api";
 
@@ -142,12 +142,12 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.btnText}>Sign In</Text>
           </TouchableOpacity>
           <Text style={{ textAlign: "center", fontWeight: "bold" }}>Or</Text>
-          <GoogleLoginScreen />
+          <GoogleLogin />
           <Text style={{ textAlign: "center", marginTop: 10 }}>
             Without an account?{" "}
             <Text
               style={{ color: "#3e4df7", fontWeight: "bold" }}
-              onPress={() => navigation.navigate("Register")}
+              onPress={() => navigation.navigate("register")}
             >
               Register
             </Text>

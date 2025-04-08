@@ -11,7 +11,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import GoogleLoginScreen from "./GoogleLoginScreen";
+import GoogleLogin from "./google-login";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import Toast from "react-native-toast-message"; // Import Toast
@@ -180,13 +180,13 @@ const RegisterScreen = ({ navigation }) => {
             </TouchableOpacity>
 
             <Text style={{ textAlign: "center", fontWeight: "bold" }}>Or</Text>
-            <GoogleLoginScreen />
+            <GoogleLogin />
 
             <Text style={{ textAlign: "center", marginTop: 10 }}>
               Already have an account?{" "}
               <Text
                 style={{ color: "#3e4df7", fontWeight: "bold" }}
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("login")}
               >
                 Login
               </Text>
