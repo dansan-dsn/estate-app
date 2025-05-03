@@ -6,10 +6,10 @@ const uri = process.env.DB_URI;
 const PORT = process.env.PORT || 5000;
 const passport = require("passport");
 const session = require("express-session");
-const userRoute = require("./routes/userRoute");
-const propertyRoute = require("./routes/propertyRoute");
-const reportingRoute = require("./routes/reportingRoute");
-const reviewsRoute = require("./routes/reviewsRoute");
+const userRoute = require("./routes/user.route");
+const propertyRoute = require("./routes/property.route");
+const reportingRoute = require("./routes/reporting.route");
+const reviewsRoute = require("./routes/reviews.route");
 
 const app = express();
 

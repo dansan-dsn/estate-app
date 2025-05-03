@@ -1,5 +1,5 @@
-const reviewsModel = require("../models/reviewsModel");
-const UserModel = require("../models/userModel");
+const reviewsModel = require("../models/reviews.model");
+const UserModel = require("../models/user.model");
 
 const createReview = async (req, res) => {
   try {

@@ -1,5 +1,5 @@
-const reportingModel = require("../models/reportingModel");
-const User = require("../models/userModel");
+const reportingModel = require("../models/reporting.model");
+const User = require("../models/user.model");
 
 // Create a new report
 const createReport = async (req, res) => {

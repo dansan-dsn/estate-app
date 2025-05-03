@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const userModel = require("../models/userModel");
+const userModel = require("../models/user.model");
 
 if (
   !process.env.GOOGLE_CLIENT_ID ||
