@@ -2,17 +2,57 @@ import { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import {
   Appbar,
-  Text,
+  Card,
   SegmentedButtons,
-  TouchableRipple,
+  Text,
+  Button,
 } from "react-native-paper";
+import MapView from "react-native-maps"; // You'll need to install this
 
 export default function Home() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("map"); // Default to map view
   const segmentaView = [
     { label: "Map", value: "map" },
     { label: "List", value: "list" },
   ];
+
+  // Render the appropriate view based on selection
+  const renderContent = () => {
+    switch (value) {
+      case "map":
+        return (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        );
+      case "list":
+        return (
+          <View style={styles.listContainer}>
+            <Card>
+              <Card.Title title="Card Title" subtitle="Card Subtitle" />
+              <Card.Content>
+                <Text variant="titleLarge">Card title</Text>
+                <Text variant="bodyMedium">Card content</Text>
+              </Card.Content>
+              <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+              <Card.Actions>
+                <Button>Cancel</Button>
+                <Button>Ok</Button>
+              </Card.Actions>
+            </Card>
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Appbar.Header
@@ -24,7 +64,6 @@ export default function Home() {
           zIndex: 1,
         }}
       >
-        {/* Search Field and Sort Icon */}
         <View style={styles.searchContainer}>
           <TextInput placeholder="Type something" style={styles.searchField} />
           <Appbar.Action
@@ -34,7 +73,6 @@ export default function Home() {
           />
         </View>
 
-        {/* Tabs for Map and List */}
         <View style={styles.tabContainer}>
           <SegmentedButtons
             value={value}
@@ -43,6 +81,8 @@ export default function Home() {
           />
         </View>
       </Appbar.Header>
+
+      {renderContent()}
     </View>
   );
 }
@@ -73,14 +113,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     gap: 20,
   },
-  tab: {
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    backgroundColor: "#fff",
+  map: {
+    flex: 1,
+    width: "100%",
   },
-  tabText: {
-    fontSize: 14,
-    fontWeight: "500",
+  listContainer: {
+    flex: 1,
+    padding: 16,
+    marginTop: 40,
+  },
+  listItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
 });
