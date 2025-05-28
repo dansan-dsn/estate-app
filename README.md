@@ -66,7 +66,7 @@ npx expo start
 ```
 
 ### Frontend Installation
-```
+```bash
 cd ../server
 
 # Install dependencies
