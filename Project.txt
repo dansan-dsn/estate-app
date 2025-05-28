@@ -61,24 +61,11 @@ Dark Mode Support – A toggle in Settings.
 Agent-Specific Features – If supporting property agents, they may need additional features like analytics or messaging.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+erDiagram
+    PROPERTY ||--o{ OFFER : receives
+    PROPERTY ||--o{ MEDIA : has
+    USER ||--o{ PROPERTY : owns
+    USER ||--o{ APPOINTMENT : schedules
+    AGENT ||--o{ PROPERTY : lists
+    AGENT ||--o{ CMA : prepares
+    TRANSACTION ||--|| ESCROW : uses
