@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { Card, Text, Icon, useTheme } from "react-native-paper";
 import { Property } from "@/shared/interfaces/property";
 import { MaterialIcons } from "@expo/vector-icons";
-// import home5 from "@/assets/images/home5.jpg";
+import { useThemeStore } from "@/stores/useTheme";
 
 interface PropertyCardProps {
   property: Property;
@@ -12,7 +12,7 @@ interface PropertyCardProps {
 const home5 = require("@/assets/images/home5.jpg");
 
 export default function PropertyCard({ property, onPress }: PropertyCardProps) {
-  const theme = useTheme();
+  const { colors } = useThemeStore();
 
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -27,15 +27,13 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
 
   return (
     <Card style={styles.card} onPress={onPress}>
-      <Card.Cover source={home5} style={styles.coverImage} />
+      <Card.Cover source={primaryImage} style={styles.coverImage} />
 
       <View style={styles.favoriteButton}>
-        <Icon source="heart-outline" size={24} color={theme.colors.error} />
+        <Icon source="heart-outline" size={24} color={colors.error} />
       </View>
 
-      <View
-        style={[styles.priceBadge, { backgroundColor: theme.colors.primary }]}
-      >
+      <View style={[styles.priceBadge, { backgroundColor: colors.primary }]}>
         <Text variant="titleMedium" style={styles.priceText}>
           {formattedPrice}
         </Text>
@@ -47,11 +45,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
         </Text>
 
         <View style={styles.locationRow}>
-          <MaterialIcons
-            name="location-on"
-            size={16}
-            color={theme.colors.primary}
-          />
+          <MaterialIcons name="location-on" size={16} color={colors.primary} />
           <Text variant="bodyMedium" style={styles.locationText}>
             {property.address?.city}, {property.address?.state}
           </Text>
@@ -60,11 +54,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
         <View style={styles.featuresContainer}>
           {property.features?.bedrooms && (
             <View style={styles.featureItem}>
-              <MaterialIcons
-                name="bed"
-                size={16}
-                color={theme.colors.onSurface}
-              />
+              <MaterialIcons name="bed" size={16} color={colors.background} />
               <Text variant="bodySmall">{property.features.bedrooms}</Text>
             </View>
           )}
@@ -74,7 +64,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
               <MaterialIcons
                 name="bathtub"
                 size={16}
-                color={theme.colors.onSurface}
+                color={colors.background}
               />
               <Text variant="bodySmall">{property.features.bathrooms}</Text>
             </View>
@@ -85,7 +75,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
               <MaterialIcons
                 name="straighten"
                 size={16}
-                color={theme.colors.onSurface}
+                color={colors.background}
               />
               <Text variant="bodySmall">
                 {property.features.floor_area} sqm

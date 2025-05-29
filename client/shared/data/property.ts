@@ -1,9 +1,9 @@
 import { Property } from "@/shared/interfaces/property";
-// import home1 from "@/assets/images/home1.jpg";
-// import home2 from "@/assets/images/home2.jpeg";
-// import home3 from "@/assets/images/home3.jpg";
-// import home4 from "@/assets/images/home4.jpg";
-// import home5 from "@/assets/images/home5.jpg";
+import home1 from "@/assets/images/home1.jpg";
+import home2 from "@/assets/images/home2.jpeg";
+import home3 from "@/assets/images/home3.jpg";
+import home4 from "@/assets/images/home4.jpg";
+import home5 from "@/assets/images/home5.jpg";
 
 export const properties: Partial<Property[]> = [
   {
@@ -34,11 +34,11 @@ export const properties: Partial<Property[]> = [
     media: {
       images: [
         {
-          url: "https://example.com/image1.jpg",
+          url: home1,
           caption: "Image 1",
         },
         {
-          url: "https://example.com/image1.jpg",
+          url: home2,
           caption: "Image 1",
         },
       ],
@@ -77,12 +77,12 @@ export const properties: Partial<Property[]> = [
     media: {
       images: [
         {
-          url: "https://example.com/image2.jpg",
+          url: home3,
           caption: "Front view",
           is_primary: true,
         },
         {
-          url: "https://example.com/image2b.jpg",
+          url: home4,
           caption: "Backyard view",
         },
       ],
@@ -169,11 +169,11 @@ export const properties: Partial<Property[]> = [
     media: {
       images: [
         {
-          url: "https://example.com/image1.jpg",
+          url: home5,
           caption: "Image 1",
         },
         {
-          url: "https://example.com/image1.jpg",
+          url: home1,
           caption: "Image 1",
         },
       ],
@@ -212,12 +212,12 @@ export const properties: Partial<Property[]> = [
     media: {
       images: [
         {
-          url: "https://example.com/image2.jpg",
+          url: home2,
           caption: "Front view",
           is_primary: true,
         },
         {
-          url: "https://example.com/image2b.jpg",
+          url: home3,
           caption: "Backyard view",
         },
       ],

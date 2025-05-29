@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 type ProperyStatus = "available" | "sold" | "rented";
 type HeatingType = "electric" | "gas" | "none" | "central";
 
@@ -58,7 +60,7 @@ interface PropertyConstruction {
 
 interface PropertyMedia {
   images: {
-    url: string;
+    url: ImageSourcePropType;
     caption: string;
     is_primary?: boolean;
   }[];

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { View, Text } from "react-native";
 import MapView, { Region } from "react-native-maps";
+import { useThemeStore } from "@/stores/useTheme";
 
 export default function ExploreMapView() {
+  const { colors } = useThemeStore();
   const [region, setRegion] = useState<Region>({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -22,10 +24,10 @@ export default function ExploreMapView() {
         onRegionChangeComplete={handleRegionChange}
       />
       <View style={{ position: "absolute", top: 50, left: 10 }}>
-        <Text style={{ fontSize: 16, color: "red", fontWeight: "bold" }}>
+        <Text style={{ fontSize: 16, color: colors.error, fontWeight: "bold" }}>
           Lat: {region.latitude.toFixed(5)}
         </Text>
-        <Text style={{ fontSize: 16, color: "red", fontWeight: "bold" }}>
+        <Text style={{ fontSize: 16, color: colors.error, fontWeight: "bold" }}>
           Lng: {region.longitude.toFixed(5)}
         </Text>
       </View>

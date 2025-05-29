@@ -1,16 +1,20 @@
 import { useState, useRef } from "react";
+import { useRouter } from "expo-router";
 import { View, StyleSheet, TextInput, FlatList, Animated } from "react-native";
-import { Appbar, SegmentedButtons } from "react-native-paper";
+import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
 import PropertyCard from "@/components/cards/PropertyCard";
 import ExploreMapView from "@/components/Maps/ExploreMapview";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { properties } from "@/shared/data/property";
+import { useThemeStore } from "@/stores/useTheme";
 
 export default function Home() {
   const [value, setValue] = useState("map");
   const [search, setSearch] = useState("");
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList>(null);
+  const router = useRouter();
+  const { colors } = useThemeStore();
 
   const segmentaView = [
     { label: "Map", value: "map" },
@@ -34,7 +38,12 @@ export default function Home() {
             ref={flatListRef}
             data={properties}
             renderItem={({ item }) => (
-              <PropertyCard property={item} onPress={() => {}} />
+              <PropertyCard
+                property={item}
+                onPress={() => {
+                  router.push(`/property/${item.property_id}`);
+                }}
+              />
             )}
             showsVerticalScrollIndicator={false}
             onScroll={Animated.event(
@@ -51,35 +60,47 @@ export default function Home() {
   };
 
   return (
-    <View style={styles.container}>
-      <Appbar.Header style={[styles.appHeader]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Appbar.Header
+        style={[styles.appHeader, { backgroundColor: colors.headerBackground }]}
+      >
         <View style={styles.headerContainer}>
           <View style={styles.searchContainer}>
             <TextInput
               placeholder="Search for a property"
-              style={styles.searchField}
+              style={[styles.searchField, { backgroundColor: colors.white }]}
               value={search}
               onChangeText={(newSearch) => setSearch(newSearch)}
             />
             <MaterialIcons
               name="search"
               size={24}
-              color="black"
+              color={colors.icon}
               style={styles.searchIcon}
             />
             {search && (
               <MaterialIcons
                 name="clear"
                 size={24}
-                color="black"
-                style={styles.clearIcon}
+                color={colors.white}
+                style={[styles.clearIcon, { backgroundColor: colors.primary }]}
                 onPress={() => setSearch("")}
               />
             )}
           </View>
+          <View style={{ position: "relative" }}>
+            <Badge style={[styles.badge, { backgroundColor: colors.error }]}>
+              3
+            </Badge>
+            <Appbar.Action
+              icon="bell"
+              style={[styles.sortBtn, { backgroundColor: colors.white }]}
+              onPress={() => {}}
+            />
+          </View>
           <Appbar.Action
-            icon="sort"
-            style={styles.sortBtn}
+            icon="sort-variant"
+            style={[styles.sortBtn, { backgroundColor: colors.white }]}
             onPress={() => {}}
           />
         </View>
@@ -107,6 +128,13 @@ export default function Home() {
           value={value}
           onValueChange={setValue}
           buttons={segmentaView}
+          theme={{
+            colors: {
+              primary: colors.primary,
+              onPrimary: colors.white,
+              secondaryContainer: colors.chipBackground,
+            },
+          }}
         />
       </Animated.View>
 
@@ -124,7 +152,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
     paddingVertical: 10,
-    backgroundColor: "#a99cb5",
     zIndex: 2,
     elevation: 4,
   },
@@ -142,24 +169,20 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: "absolute",
-    top: 6,
+    top: 8,
     left: 5,
     fontSize: 27,
-    color: "#49484a",
   },
   clearIcon: {
     position: "absolute",
-    top: 9,
+    top: 11,
     right: 15,
     fontSize: 14,
-    backgroundColor: "#463fa6",
     padding: 2,
     borderRadius: 20,
-    color: "#fff",
   },
   searchField: {
     flex: 1,
-    backgroundColor: "#fff",
     borderRadius: 50,
     marginBottom: 8,
     marginRight: 8,
@@ -168,7 +191,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   sortBtn: {
-    backgroundColor: "#fff",
     borderRadius: 50,
     marginBottom: 8,
   },
@@ -185,5 +207,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 10,
     paddingTop: 45,
+  },
+  badge: {
+    position: "absolute",
+    top: -1,
+    right: -1,
+    zIndex: 2,
   },
 });
