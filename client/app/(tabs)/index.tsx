@@ -1,52 +1,58 @@
-import { useState } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
-import {
-  Appbar,
-  Card,
-  SegmentedButtons,
-  Text,
-  Button,
-} from "react-native-paper";
-import MapView from "react-native-maps"; // You'll need to install this
+import { useState, useRef } from "react";
+import { useRouter } from "expo-router";
+import { View, StyleSheet, TextInput, FlatList, Animated } from "react-native";
+import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
+import PropertyCard from "@/components/cards/PropertyCard";
+import ExploreMapView from "@/components/Maps/ExploreMapview";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { properties } from "@/shared/data/property";
+import { useThemeStore } from "@/stores/useTheme";
 
 export default function Home() {
-  const [value, setValue] = useState("map"); // Default to map view
+  const [value, setValue] = useState("map");
+  const [search, setSearch] = useState("");
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef<FlatList>(null);
+  const router = useRouter();
+  const { colors } = useThemeStore();
+
   const segmentaView = [
     { label: "Map", value: "map" },
     { label: "List", value: "list" },
   ];
 
-  // Render the appropriate view based on selection
+  // Animation for hiding segmented buttons on scroll
+  const headerTranslateY = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: [0, -50],
+    extrapolate: "clamp",
+  });
+
   const renderContent = () => {
     switch (value) {
       case "map":
-        return (
-          <MapView
-            style={styles.map}
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
-        );
+        return <ExploreMapView />;
       case "list":
         return (
-          <View style={styles.listContainer}>
-            <Card>
-              <Card.Title title="Card Title" subtitle="Card Subtitle" />
-              <Card.Content>
-                <Text variant="titleLarge">Card title</Text>
-                <Text variant="bodyMedium">Card content</Text>
-              </Card.Content>
-              <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-              <Card.Actions>
-                <Button>Cancel</Button>
-                <Button>Ok</Button>
-              </Card.Actions>
-            </Card>
-          </View>
+          <Animated.FlatList
+            ref={flatListRef}
+            data={properties}
+            renderItem={({ item }) => (
+              <PropertyCard
+                property={item}
+                onPress={() => {
+                  router.push(`/property/${item.property_id}`);
+                }}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true }
+            )}
+            scrollEventThrottle={16}
+            contentContainerStyle={styles.listContent}
+          />
         );
       default:
         return null;
@@ -54,33 +60,83 @@ export default function Home() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Appbar.Header
-        style={{
-          flexDirection: "column",
-          alignItems: "flex-start",
-          paddingVertical: 10,
-          backgroundColor: "#56475e",
-          zIndex: 1,
-        }}
+        style={[styles.appHeader, { backgroundColor: colors.headerBackground }]}
       >
-        <View style={styles.searchContainer}>
-          <TextInput placeholder="Type something" style={styles.searchField} />
+        <View style={styles.headerContainer}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              placeholder="Search for a property"
+              style={[styles.searchField, { backgroundColor: colors.white }]}
+              value={search}
+              onChangeText={(newSearch) => setSearch(newSearch)}
+            />
+            <MaterialIcons
+              name="search"
+              size={24}
+              color={colors.icon}
+              style={styles.searchIcon}
+            />
+            {search && (
+              <MaterialIcons
+                name="clear"
+                size={24}
+                color={colors.white}
+                style={[styles.clearIcon, { backgroundColor: colors.primary }]}
+                onPress={() => setSearch("")}
+              />
+            )}
+          </View>
+          <View style={{ position: "relative" }}>
+            <Badge style={[styles.badge, { backgroundColor: colors.error }]}>
+              3
+            </Badge>
+            <Appbar.Action
+              icon="bell"
+              style={[styles.sortBtn, { backgroundColor: colors.white }]}
+              onPress={() => {}}
+            />
+          </View>
           <Appbar.Action
-            icon="sort"
-            style={{ marginRight: 8, backgroundColor: "#fff" }}
+            icon="sort-variant"
+            style={[styles.sortBtn, { backgroundColor: colors.white }]}
             onPress={() => {}}
           />
         </View>
-
-        <View style={styles.tabContainer}>
-          <SegmentedButtons
-            value={value}
-            onValueChange={setValue}
-            buttons={segmentaView}
-          />
-        </View>
       </Appbar.Header>
+
+      <Animated.View
+        style={[
+          styles.tabContainer,
+          {
+            transform: [{ translateY: headerTranslateY }],
+            opacity: scrollY.interpolate({
+              inputRange: [0, 30],
+              outputRange: [1, 0],
+              extrapolate: "clamp",
+            }),
+            position: "absolute",
+            top: 110,
+            left: 0,
+            right: 0,
+            zIndex: 1,
+          },
+        ]}
+      >
+        <SegmentedButtons
+          value={value}
+          onValueChange={setValue}
+          buttons={segmentaView}
+          theme={{
+            colors: {
+              primary: colors.primary,
+              onPrimary: colors.white,
+              secondaryContainer: colors.chipBackground,
+            },
+          }}
+        />
+      </Animated.View>
 
       {renderContent()}
     </View>
@@ -90,41 +146,72 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    fontFamily: "Poppins-SemiBold",
   },
-  searchContainer: {
+  appHeader: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    paddingVertical: 10,
+    zIndex: 2,
+    elevation: 4,
+  },
+  headerContainer: {
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
+    justifyContent: "space-between",
     width: "100%",
+  },
+  searchContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  searchIcon: {
+    position: "absolute",
+    top: 8,
+    left: 5,
+    fontSize: 27,
+  },
+  clearIcon: {
+    position: "absolute",
+    top: 11,
+    right: 15,
+    fontSize: 14,
+    padding: 2,
+    borderRadius: 20,
   },
   searchField: {
     flex: 1,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    height: 40,
+    borderRadius: 50,
+    marginBottom: 8,
     marginRight: 8,
+    paddingHorizontal: 34,
+    height: 40,
+    fontSize: 15,
+  },
+  sortBtn: {
+    borderRadius: 50,
+    marginBottom: 8,
   },
   tabContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    marginTop: 10,
     gap: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 10,
   },
-  map: {
-    flex: 1,
-    width: "100%",
+  listContent: {
+    paddingBottom: 20,
+    paddingHorizontal: 10,
+    paddingTop: 45,
   },
-  listContainer: {
-    flex: 1,
-    padding: 16,
-    marginTop: 40,
-  },
-  listItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+  badge: {
+    position: "absolute",
+    top: -1,
+    right: -1,
+    zIndex: 2,
   },
 });

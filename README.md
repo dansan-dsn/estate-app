@@ -9,35 +9,40 @@
 A cross-platform real estate application with React Native (Expo) frontend and Node.js backend with MongoDB.
 
 ![Real Estate App Preview](https://via.placeholder.com/800x400/2D3748/FFFFFF?text=Real+Estate+App+Preview)  
-*(Replace with actual screenshot)*
+_(actual screenshot required)_
 
 ## ✨ Features
 
 ### 🏠 Property Management
+
 - Property listings with filters (price, location, type)
 - High-quality image galleries
 - Virtual tours integration
 - Favorite/save properties
 
 ### 👤 User System
+
 - Secure authentication (JWT)
 - User profiles with preferences
 - Role-based access (Buyers, Agents, Admins)
 - Notification system
 
 ### 🔍 Search & Discovery
+
 - Advanced search with maps integration
 - AI-powered recommendations
 - Neighborhood insights
 - Price history tracking
 
 ### 💬 Communication
+
 - In-app messaging
 - Appointment scheduling
 - Agent contact system
 - Document sharing
 
 ### ⚡ Tech Stack
+
 - **Frontend**: React Native with Expo + Native Paper UI
 - **Backend**: Node.js + Express + Mongoose (MongoDB)
 - **Real-time**: Socket.io for instant updates
@@ -46,6 +51,7 @@ A cross-platform real estate application with React Native (Expo) frontend and N
 ## 🛠️ Setup
 
 ### Prerequisites
+
 - Node.js `v18+`
 - npm `v9+`
 - Expo CLI (`npm install -g expo-cli`)
@@ -53,6 +59,7 @@ A cross-platform real estate application with React Native (Expo) frontend and N
 - Git
 
 ### Frontend Installation
+
 ```bash
 # Clone repository
 git clone https://github.com/dansan-dsn/real-estate-app.git
@@ -66,6 +73,7 @@ npx expo start
 ```
 
 ### Frontend Installation
+
 ```bash
 cd ../server
 
@@ -77,3 +85,4 @@ cp .env.example .env
 
 # Start development server
 npm run dev
+```
