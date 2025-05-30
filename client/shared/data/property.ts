@@ -1,9 +1,10 @@
 import { Property } from "@/shared/interfaces/property";
-import home1 from "@/assets/images/home1.jpg";
-import home2 from "@/assets/images/home2.jpeg";
-import home3 from "@/assets/images/home3.jpg";
-import home4 from "@/assets/images/home4.jpg";
-import home5 from "@/assets/images/home5.jpg";
+import { ImageSourcePropType } from "react-native";
+const home1: ImageSourcePropType = require("@/assets/images/home1.jpg");
+const home2: ImageSourcePropType = require("@/assets/images/home2.jpeg");
+const home3: ImageSourcePropType = require("@/assets/images/home3.jpg");
+const home4: ImageSourcePropType = require("@/assets/images/home4.jpg");
+const home5: ImageSourcePropType = require("@/assets/images/home5.jpg");
 
 export const properties: Partial<Property[]> = [
   {
@@ -84,6 +85,10 @@ export const properties: Partial<Property[]> = [
         {
           url: home4,
           caption: "Backyard view",
+        },
+        {
+          url: home2,
+          caption: "Image 1",
         },
       ],
       videos: [

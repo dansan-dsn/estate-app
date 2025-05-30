@@ -2,19 +2,24 @@ import { useState, useRef } from "react";
 import { useRouter } from "expo-router";
 import { View, StyleSheet, TextInput, FlatList, Animated } from "react-native";
 import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
-import PropertyCard from "@/components/cards/PropertyCard";
+import PropertyCard from "@/components/blocks/PropertyCard";
 import ExploreMapView from "@/components/Maps/ExploreMapview";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { properties } from "@/shared/data/property";
 import { useThemeStore } from "@/stores/useTheme";
+import SortModal from "@/components/overlays/SortModal";
 
-export default function Home() {
+export default function Explore() {
   const [value, setValue] = useState("map");
   const [search, setSearch] = useState("");
+  const [sortVisible, setSortVisible] = useState(false);
+
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList>(null);
   const router = useRouter();
   const { colors } = useThemeStore();
+  const showSort = () => setSortVisible(true);
+  const hideSort = () => setSortVisible(false);
 
   const segmentaView = [
     { label: "Map", value: "map" },
@@ -83,7 +88,7 @@ export default function Home() {
                 name="clear"
                 size={24}
                 color={colors.white}
-                style={[styles.clearIcon, { backgroundColor: colors.primary }]}
+                style={[styles.clearIcon, { backgroundColor: colors.info }]}
                 onPress={() => setSearch("")}
               />
             )}
@@ -101,7 +106,7 @@ export default function Home() {
           <Appbar.Action
             icon="sort-variant"
             style={[styles.sortBtn, { backgroundColor: colors.white }]}
-            onPress={() => {}}
+            onPress={showSort}
           />
         </View>
       </Appbar.Header>
@@ -139,6 +144,7 @@ export default function Home() {
       </Animated.View>
 
       {renderContent()}
+      <SortModal visible={sortVisible} onClose={hideSort} />
     </View>
   );
 }
