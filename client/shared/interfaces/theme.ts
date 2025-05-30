@@ -46,3 +46,10 @@ export interface ColorTheme {
   white: string; // Pure white (fixed)
   black: string; // Pure black (fixed)
 }
+
+export interface ColorState {
+  theme: TypeTheme;
+  colors: ColorTheme;
+  setTheme: (theme: TypeTheme) => void;
+  initializeTheme: () => Promise<void>;
+}

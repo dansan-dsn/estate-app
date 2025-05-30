@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BottomNavigation } from "react-native-paper";
 import { Platform } from "react-native";
-import HomeScreen from "@/app/(tabs)/index";
+import HomeScreen from "@/app/(tabs)/explore";
 import FavoriteScreen from "@/app/(tabs)/favorite";
 import AccountScreen from "@/app/(tabs)/account";
 import SettingsScreen from "@/app/(tabs)/settings";
@@ -13,8 +13,8 @@ export default function TabLayout() {
 
   const routes = [
     {
-      key: "index",
-      title: "Home",
+      key: "explore",
+      title: "Explore",
       focusedIcon: "compass",
       unfocusedIcon: "compass-outline",
     },
@@ -39,7 +39,7 @@ export default function TabLayout() {
   ];
 
   const renderScene = BottomNavigation.SceneMap({
-    index: HomeScreen,
+    explore: HomeScreen,
     favorite: FavoriteScreen,
     account: AccountScreen,
     settings: SettingsScreen,
