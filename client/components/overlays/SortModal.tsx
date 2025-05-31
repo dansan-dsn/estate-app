@@ -1,37 +1,46 @@
-import { useRef } from "react";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { useRef, useEffect } from "react";
+import { Button, Dimensions, StatusBar } from "react-native";
+import BottomSheetModal, { BottomSheetRef } from "@/components/ui/BottomSheet";
+import { Text } from "react-native-paper";
 
 interface SortModalProps {
   visible: boolean;
-  onClose: () => void;
+  close: () => void;
 }
 
-export default function SortModal({ visible, onClose }: SortModalProps) {
-  const bottomSheetRef = useRef<BottomSheet>(null);
+export default function SortModal({ visible, close }: SortModalProps) {
+  const bottomSheetRef = useRef<BottomSheetRef>(null);
+
+  useEffect(() => {
+    if (visible) {
+      bottomSheetRef.current?.open();
+    } else {
+      bottomSheetRef.current?.close();
+    }
+  }, [visible]);
 
   return (
-    <BottomSheet
+    <BottomSheetModal
       ref={bottomSheetRef}
-      index={visible ? 0 : -1}
-      snapPoints={["70%"]}
-      enablePanDownToClose
-      onClose={onClose}
+      defaultHeight={300}
+      minHeight={150}
+      maxHeight={Dimensions.get("window").height * 0.9}
+      backdropOpacity={0.7}
+      onClose={close}
     >
-      <View style={styles.contentContainer}>
-        <Text variant="titleMedium">Sort Options</Text>
-        <Button mode="contained" onPress={onClose}>
-          Apply
-        </Button>
-      </View>
-    </BottomSheet>
+      {/* Only render StatusBar when visible */}
+      {visible && (
+        <StatusBar
+          translucent
+          backgroundColor="rgba(0,0,0,0.5)"
+          barStyle="light-content"
+          animated
+        />
+      )}
+      <Text style={{ fontSize: 18, marginBottom: 20 }}>
+        Modal Bottom Sheet Content
+      </Text>
+      <Button title="Close" onPress={() => bottomSheetRef.current?.close()} />
+    </BottomSheetModal>
   );
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    padding: 16,
-  },
-});

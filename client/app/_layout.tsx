@@ -6,6 +6,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { useThemeStore } from "@/stores/useTheme";
+import Loader from "@/components/loaders/Loader";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -18,7 +19,7 @@ export default function RootLayout() {
   }, []);
 
   if (!loaded) {
-    return null;
+    return <Loader />;
   }
 
   // Customize navigation theme with colors from useThemeStore

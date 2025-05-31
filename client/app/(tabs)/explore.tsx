@@ -16,10 +16,10 @@ export default function Explore() {
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList>(null);
+
   const router = useRouter();
+
   const { colors } = useThemeStore();
-  const showSort = () => setSortVisible(true);
-  const hideSort = () => setSortVisible(false);
 
   const segmentaView = [
     { label: "Map", value: "map" },
@@ -106,7 +106,7 @@ export default function Explore() {
           <Appbar.Action
             icon="sort-variant"
             style={[styles.sortBtn, { backgroundColor: colors.white }]}
-            onPress={showSort}
+            onPress={() => setSortVisible(true)}
           />
         </View>
       </Appbar.Header>
@@ -122,7 +122,7 @@ export default function Explore() {
               extrapolate: "clamp",
             }),
             position: "absolute",
-            top: 110,
+            top: 70,
             left: 0,
             right: 0,
             zIndex: 1,
@@ -144,7 +144,7 @@ export default function Explore() {
       </Animated.View>
 
       {renderContent()}
-      <SortModal visible={sortVisible} onClose={hideSort} />
+      <SortModal visible={sortVisible} close={() => setSortVisible(false)} />
     </View>
   );
 }
