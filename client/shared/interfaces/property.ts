@@ -1,19 +1,27 @@
 import { ImageSourcePropType } from "react-native";
 
-type ProperyStatus = "available" | "sold" | "rented";
-type HeatingType = "electric" | "gas" | "none" | "central";
+export type PropertyStatus = "available" | "sold" | "rented";
+export type HeatingType = "electric" | "gas" | "none" | "central";
+export type PropertyType =
+  | "house"
+  | "apartment"
+  | "villa"
+  | "townhouse"
+  | "condo"
+  | "land"
+  | "commercial";
 
 interface PropertyDetails {
   property_id: string;
   title: string;
   description: string;
-  type: string;
+  type: PropertyType;
   category: string;
   price: number;
   currency?: string;
   price_per_sqm?: number;
   year_built?: number;
-  status: ProperyStatus;
+  status: PropertyStatus;
   listing_date: string;
 }
 

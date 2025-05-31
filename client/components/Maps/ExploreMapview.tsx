@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import MapView, { Region } from "react-native-maps";
 import { useThemeStore } from "@/stores/useTheme";
 
@@ -15,6 +15,19 @@ export default function ExploreMapView() {
   const handleRegionChange = (newRegion: Region) => {
     setRegion(newRegion);
   };
+
+  if (Platform.OS === "web") {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ color: colors.error, fontWeight: "bold" }}>
+          Map is not supported on web yet.
+        </Text>
+        <Text style={{ color: colors.error }}>
+          Please use the mobile app to view the map.
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
