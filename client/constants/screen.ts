@@ -1,0 +1,21 @@
+import { Dimensions } from "react-native";
+export const SCREEN_HEIGHT = Dimensions.get("window").height;
+export const SCREEN_WIDTH = Dimensions.get("window").width;
+export const WINDOW_SCREEN = Math.min(SCREEN_HEIGHT, SCREEN_WIDTH);
+export const HEADER_HEIGHT = 60; // Default header height
+export const TAB_BAR_HEIGHT = 50; // Default tab bar height
+export const BOTTOM_SHEET_HEIGHT = 300; // Default bottom sheet height
+export const BOTTOM_SHEET_MIN_HEIGHT = 150; // Minimum height for bottom sheet
+export const BOTTOM_SHEET_MAX_HEIGHT = WINDOW_SCREEN * 0.9; // Maximum height for bottom sheet
+export const MODAL_HEIGHT = 400; // Default modal height
+export const MODAL_MIN_HEIGHT = 200; // Minimum height for modal
+export const MODAL_MAX_HEIGHT = WINDOW_SCREEN * 0.9; // Maximum height for modal
+export const MODAL_WIDTH = SCREEN_WIDTH * 0.9; // Default modal width
+export const MODAL_MIN_WIDTH = SCREEN_WIDTH * 0.7; // Minimum width for modal
+export const MODAL_MAX_WIDTH = SCREEN_WIDTH * 0.95; // Maximum width for modal
+export const TOAST_DURATION = 3000; // Duration for toast messages
+export const TOAST_POSITION = "bottom"; // Position for toast messages
+export const TOAST_OFFSET = 50; // Offset for toast messages from the bottom
+export const TOAST_ANIMATION_DURATION = 300; // Animation duration for toast messages
+export const TOAST_EASING = "ease-in-out"; // Easing function for toast animations
+export const TOAST_BACKGROUND_COLOR = "#333"; // Background color for toast messages
