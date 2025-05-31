@@ -9,7 +9,7 @@ import { properties } from "@/shared/data/property";
 import { useThemeStore } from "@/stores/useTheme";
 import SortModal from "@/components/overlays/SortModal";
 
-export default function Explore() {
+const Explore = () => {
   const [value, setValue] = useState("map");
   const [search, setSearch] = useState("");
   const [sortVisible, setSortVisible] = useState(false);
@@ -26,7 +26,6 @@ export default function Explore() {
     { label: "List", value: "list" },
   ];
 
-  // Animation for hiding segmented buttons on scroll
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, 50],
     outputRange: [0, -50],
@@ -122,7 +121,7 @@ export default function Explore() {
               extrapolate: "clamp",
             }),
             position: "absolute",
-            top: 70,
+            top: 110,
             left: 0,
             right: 0,
             zIndex: 1,
@@ -144,10 +143,12 @@ export default function Explore() {
       </Animated.View>
 
       {renderContent()}
-      <SortModal visible={sortVisible} close={() => setSortVisible(false)} />
+      {sortVisible && (
+        <SortModal visible={sortVisible} close={() => setSortVisible(false)} />
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -221,3 +222,5 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
 });
+
+export default Explore;

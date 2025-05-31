@@ -1,29 +1,25 @@
 import React, {
   forwardRef,
   useImperativeHandle,
-  useState,
   useRef,
   useEffect,
+  useState,
 } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
-  PanResponder,
   Animated,
-  Dimensions,
+  Modal,
+  PanResponder,
   GestureResponderEvent,
   PanResponderGestureState,
-  StatusBar,
-  Platform,
-  BackHandler,
-  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+import { SCREEN_HEIGHT } from "@/constants/screen";
 
 type BottomSheetProps = {
+  visible: boolean;
   children?: React.ReactNode;
   defaultHeight?: number;
   minHeight?: number;
@@ -35,8 +31,6 @@ type BottomSheetProps = {
 };
 
 export type BottomSheetRef = {
-  open: () => void;
-  close: () => void;
   expand: () => void;
   collapse: () => void;
 };
@@ -44,6 +38,7 @@ export type BottomSheetRef = {
 const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
   (
     {
+      visible,
       children,
       defaultHeight = 300,
       maxHeight = SCREEN_HEIGHT * 0.9,
@@ -54,159 +49,153 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     },
     ref
   ) => {
-    const [isVisible, setIsVisible] = useState(false);
     const translateY = useRef(new Animated.Value(maxHeight)).current;
-
-    // Handle Android back button
-    useEffect(() => {
-      if (Platform.OS === "android") {
-        const backHandler = BackHandler.addEventListener(
-          "hardwareBackPress",
-          () => {
-            if (isVisible) {
-              close();
-              return true;
-            }
-            return false;
-          }
-        );
-        return () => backHandler.remove();
-      }
-    }, [isVisible]);
-
-    const panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => draggable,
-      onMoveShouldSetPanResponder: () => draggable,
-      onPanResponderMove: (
-        event: GestureResponderEvent,
-        gestureState: PanResponderGestureState
-      ) => {
-        if (!draggable) return;
-
-        let newTranslateY = gestureState.dy;
-        if (newTranslateY < 0) newTranslateY = 0;
-        if (newTranslateY > maxHeight) newTranslateY = maxHeight;
-        translateY.setValue(newTranslateY);
-      },
-      onPanResponderRelease: (
-        event: GestureResponderEvent,
-        gestureState: PanResponderGestureState
-      ) => {
-        if (!draggable) return;
-
-        if (gestureState.dy > 50) {
-          // Swiped down
-          close();
-        } else if (gestureState.dy < -50) {
-          // Swiped up
-          expand();
-        } else {
-          resetPosition();
-        }
-      },
-    });
-
     const backdropAnim = useRef(new Animated.Value(0)).current;
+    const [isClosing, setIsClosing] = useState(false);
+    const lastTranslateY = useRef(0);
 
-    const open = () => {
-      setIsVisible(true);
-      Animated.parallel([
-        Animated.spring(translateY, { toValue: 0, useNativeDriver: true }),
-        Animated.timing(backdropAnim, {
-          toValue: backdropOpacity,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    };
+    // --- DRAG LOGIC START ---
+    const panResponder = useRef(
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => visible && draggable,
+        onMoveShouldSetPanResponder: () => visible && draggable,
+        onPanResponderGrant: () => {
+          if (!visible) return;
+          translateY.setOffset(lastTranslateY.current);
+        },
+        onPanResponderMove: (
+          e: GestureResponderEvent,
+          gesture: PanResponderGestureState
+        ) => {
+          if (!visible || !draggable) return;
+          let newY = gesture.dy;
+          if (lastTranslateY.current + newY < 0) newY = -lastTranslateY.current;
+          if (lastTranslateY.current + newY > maxHeight)
+            newY = maxHeight - lastTranslateY.current;
+          translateY.setValue(newY);
+        },
+        onPanResponderRelease: (e, gesture) => {
+          if (!visible) return;
+          translateY.flattenOffset();
+          if (gesture.dy > 100) {
+            handleClose();
+            lastTranslateY.current = 0;
+          } else {
+            Animated.spring(translateY, {
+              toValue: 0,
+              useNativeDriver: true,
+            }).start(() => {
+              lastTranslateY.current = 0;
+            });
+          }
+        },
+      })
+    ).current;
+    // --- DRAG LOGIC END ---
 
-    const close = () => {
-      Animated.parallel([
-        Animated.spring(translateY, {
-          toValue: maxHeight,
-          useNativeDriver: true,
-        }),
-        Animated.timing(backdropAnim, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        setIsVisible(false);
-        onClose?.();
-      });
-    };
-
-    const expand = () => {
-      Animated.spring(translateY, {
-        toValue: 0,
-        useNativeDriver: true,
-      }).start();
-    };
-
-    const collapse = () => {
-      Animated.spring(translateY, {
-        toValue: defaultHeight,
-        useNativeDriver: true,
-      }).start();
-    };
-
-    const resetPosition = () => {
-      Animated.spring(translateY, {
-        toValue: 0,
-        useNativeDriver: true,
-      }).start();
-    };
+    // Animate in/out
+    useEffect(() => {
+      let isMounted = true;
+      if (visible) {
+        Animated.parallel([
+          Animated.spring(translateY, { toValue: 0, useNativeDriver: true }),
+          Animated.timing(backdropAnim, {
+            toValue: backdropOpacity,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+        ]).start(() => {
+          if (!isMounted) return;
+          lastTranslateY.current = 0;
+        });
+      } else {
+        Animated.parallel([
+          Animated.spring(translateY, {
+            toValue: maxHeight,
+            useNativeDriver: true,
+          }),
+          Animated.timing(backdropAnim, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+        ]).start(() => {
+          if (!isMounted) return;
+          lastTranslateY.current = 0;
+        });
+      }
+      return () => {
+        isMounted = false;
+        translateY.stopAnimation();
+        backdropAnim.stopAnimation();
+      };
+    }, [visible]);
 
     useImperativeHandle(ref, () => ({
-      open,
-      close,
-      expand,
-      collapse,
+      expand: () => {
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true,
+        }).start();
+      },
+      collapse: () => {
+        Animated.spring(translateY, {
+          toValue: defaultHeight,
+          useNativeDriver: true,
+        }).start();
+      },
     }));
 
-    if (!isVisible) return null;
+    const handleClose = () => {
+      translateY.setValue(maxHeight);
+      backdropAnim.setValue(0);
+      onClose?.();
+    };
+
+    if (!visible && !isClosing) return null;
 
     return (
-      <>
-        <Modal
-          visible={isVisible}
-          animationType="none"
-          transparent
-          onRequestClose={close}
-        >
-          <TouchableWithoutFeedback onPress={close}>
-            <Animated.View
-              style={[
-                styles.overlay,
-                {
-                  opacity: backdropAnim,
-                  marginTop: -(StatusBar.currentHeight ?? 0),
-                  height: SCREEN_HEIGHT + (StatusBar.currentHeight || 0),
-                },
-              ]}
-            />
-          </TouchableWithoutFeedback>
-
+      <Modal
+        visible={visible || isClosing}
+        animationType="none"
+        transparent
+        onRequestClose={handleClose}
+        statusBarTranslucent
+      >
+        <TouchableWithoutFeedback onPress={handleClose}>
           <Animated.View
             style={[
-              styles.container,
+              styles.overlay,
               {
-                height: maxHeight,
-                backgroundColor,
-                transform: [{ translateY }],
-                zIndex: 100,
+                opacity: backdropAnim,
+                // Ensure full screen coverage
+                height: SCREEN_HEIGHT,
+                top: 0,
+                left: 0,
+                right: 0,
+                position: "absolute",
               },
             ]}
-            {...panResponder.panHandlers}
-          >
-            <SafeAreaView edges={["bottom"]} style={styles.content}>
-              {draggable && <View style={styles.dragHandle} />}
-              {children}
-            </SafeAreaView>
-          </Animated.View>
-        </Modal>
-      </>
+          />
+        </TouchableWithoutFeedback>
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              height: maxHeight,
+              backgroundColor,
+              transform: [{ translateY }],
+              zIndex: 100,
+            },
+          ]}
+          {...(draggable ? panResponder.panHandlers : {})}
+        >
+          <SafeAreaView edges={["bottom"]} style={styles.content}>
+            {draggable && <View style={styles.dragHandle} />}
+            {children}
+          </SafeAreaView>
+        </Animated.View>
+      </Modal>
     );
   }
 );
@@ -217,6 +206,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
+    height: SCREEN_HEIGHT,
     backgroundColor: "black",
     zIndex: 99,
   },
@@ -228,6 +218,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     overflow: "hidden",
+    backgroundColor: "white",
   },
   dragHandle: {
     width: 40,
