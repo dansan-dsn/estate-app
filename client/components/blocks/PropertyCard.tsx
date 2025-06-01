@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { Card, Text, Icon, useTheme } from "react-native-paper";
+import { Card, Text, Icon } from "react-native-paper";
 import { Property } from "@/shared/interfaces/property";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeStore } from "@/stores/useTheme";
@@ -26,7 +26,10 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
     home5;
 
   return (
-    <Card style={styles.card} onPress={onPress}>
+    <Card
+      style={[styles.card, { backgroundColor: colors.cardBackground }]}
+      onPress={onPress}
+    >
       <Card.Cover source={primaryImage} style={styles.coverImage} />
 
       <View style={styles.favoriteButton}>
