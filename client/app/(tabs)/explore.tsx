@@ -1,25 +1,70 @@
 import { useState, useRef } from "react";
 import { useRouter } from "expo-router";
-import { View, StyleSheet, TextInput, FlatList, Animated } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  FlatList,
+  Animated,
+  Text,
+} from "react-native";
 import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
 import PropertyCard from "@/components/blocks/PropertyCard";
 import ExploreMapView from "@/components/Maps/ExploreMapview";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { properties } from "@/shared/data/property";
 import { useThemeStore } from "@/stores/useTheme";
-import SortModal from "@/components/overlays/SortModal";
+import SortModal, { PropertyFilters } from "@/components/overlays/SortModal";
+import {
+  PRICE_MAX,
+  PRICE_MIN,
+  PROPERTY_TYPE_OPTIONS,
+  PROPERTY_DATE,
+  PROPERTY_BATH,
+  PROPERTY_BED,
+} from "@/constants/property";
+
+const defaultFilters: PropertyFilters = {
+  min: PRICE_MIN,
+  max: PRICE_MAX,
+  propertyType: PROPERTY_TYPE_OPTIONS[0].value,
+  beds: PROPERTY_BED[0].value,
+  baths: PROPERTY_BATH[0].value,
+  date: PROPERTY_DATE[0].date,
+};
 
 const Explore = () => {
   const [value, setValue] = useState("map");
   const [search, setSearch] = useState("");
   const [sortVisible, setSortVisible] = useState(false);
+  const [filters, setFilters] = useState<PropertyFilters>(defaultFilters);
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList>(null);
 
   const router = useRouter();
-
   const { colors } = useThemeStore();
+
+  const filteredProperties = properties.filter((item) => {
+    if (!item) return false;
+    const priceOk = item.price >= filters.min && item.price <= filters.max;
+    const typeOk =
+      filters.propertyType === "Any" || item.type === filters.propertyType;
+    const bedsOk =
+      filters.beds === "Any" ||
+      item.features?.bedrooms.toString() === filters.beds;
+    const bathsOk =
+      filters.baths === "Any" ||
+      item.features?.bathrooms.toString() === filters.baths;
+    const searchOk =
+      !search ||
+      item.title?.toLowerCase().includes(search.toLowerCase()) ||
+      item.address?.city?.toLowerCase().includes(search.toLowerCase()) ||
+      item.address?.state?.toLowerCase().includes(search.toLowerCase()) ||
+      item.address?.country?.toLowerCase().includes(search.toLowerCase());
+
+    return priceOk && typeOk && bedsOk && bathsOk && searchOk;
+  });
 
   const segmentaView = [
     { label: "Map", value: "map" },
@@ -40,7 +85,7 @@ const Explore = () => {
         return (
           <Animated.FlatList
             ref={flatListRef}
-            data={properties}
+            data={filteredProperties}
             renderItem={({ item }) => (
               <PropertyCard
                 property={item}
@@ -56,12 +101,48 @@ const Explore = () => {
             )}
             scrollEventThrottle={16}
             contentContainerStyle={styles.listContent}
+            ListEmptyComponent={
+              <View style={{ padding: 40, alignItems: "center", opacity: 0.8 }}>
+                <MaterialIcons
+                  name="search-off"
+                  size={64}
+                  color={colors.secondary}
+                />
+                <Text
+                  style={{
+                    marginTop: 16,
+                    color: colors.text,
+                    fontSize: 18,
+                    fontWeight: "600",
+                  }}
+                >
+                  No properties found
+                </Text>
+                <Text
+                  style={{
+                    marginTop: 6,
+                    color: colors.secondary,
+                    fontSize: 15,
+                    textAlign: "center",
+                  }}
+                >
+                  Try adjusting your filters or search terms.
+                </Text>
+              </View>
+            }
           />
         );
       default:
         return null;
     }
   };
+
+  const activeFilterCount =
+    (filters.propertyType !== "Any" ? 1 : 0) +
+    (filters.beds !== "Any" ? 1 : 0) +
+    (filters.baths !== "Any" ? 1 : 0) +
+    (filters.date !== "Any" ? 1 : 0) +
+    (filters.min !== PRICE_MIN || filters.max !== PRICE_MAX ? 1 : 0);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -102,11 +183,20 @@ const Explore = () => {
               onPress={() => {}}
             />
           </View>
-          <Appbar.Action
-            icon="sort-variant"
-            style={[styles.sortBtn, { backgroundColor: colors.white }]}
-            onPress={() => setSortVisible(true)}
-          />
+          <View style={{ position: "relative" }}>
+            {activeFilterCount > 0 && (
+              <Badge
+                style={[styles.badge, { backgroundColor: colors.success }]}
+              >
+                {activeFilterCount}
+              </Badge>
+            )}
+            <Appbar.Action
+              icon="sort-variant"
+              style={[styles.sortBtn, { backgroundColor: colors.white }]}
+              onPress={() => setSortVisible(true)}
+            />
+          </View>
         </View>
       </Appbar.Header>
 
@@ -144,7 +234,12 @@ const Explore = () => {
 
       {renderContent()}
       {sortVisible && (
-        <SortModal visible={sortVisible} close={() => setSortVisible(false)} />
+        <SortModal
+          visible={sortVisible}
+          close={() => setSortVisible(false)}
+          filters={filters}
+          setFilters={setFilters}
+        />
       )}
     </View>
   );

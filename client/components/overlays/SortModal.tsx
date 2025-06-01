@@ -1,31 +1,89 @@
-import BottomSheetModal from "@/components/ui/BottomSheet";
-import { View, StyleSheet, Pressable, ScrollView } from "react-native";
-import { Text, Icon, MD3Colors, Divider } from "react-native-paper";
+import { useState, useRef, useEffect } from "react";
+import { View, StyleSheet, Pressable, Animated } from "react-native";
+import { Text, Icon, MD3Colors, Divider, Button } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
-import { useState } from "react";
 import { SCREEN_HEIGHT } from "@/constants/screen";
+import BottomSheetModal from "@/components/ui/BottomSheet";
+import { Picker } from "@react-native-picker/picker";
+import {
+  PRICE_MAX,
+  PRICE_MIN,
+  PRESET_RANGES,
+  PROPERTY_TYPE_OPTIONS,
+  PROPERTY_DATE,
+  PROPERTY_BATH,
+  PROPERTY_BED,
+} from "@/constants/property";
+import { HEADER_HEIGHT } from "@/constants/screen";
+
+export type PropertyFilters = {
+  min: number;
+  max: number;
+  propertyType: string;
+  beds: string;
+  baths: string;
+  date: string;
+};
 
 interface SortModalProps {
   visible: boolean;
   close: () => void;
+  filters: PropertyFilters;
+  setFilters: (filters: PropertyFilters) => void;
 }
 
-const PRICE_MIN = 0;
-const PRICE_MAX = 2000000;
+const defaultFilters: PropertyFilters = {
+  min: PRICE_MIN,
+  max: PRICE_MAX,
+  propertyType: PROPERTY_TYPE_OPTIONS[0].value,
+  beds: PROPERTY_BED[0].value,
+  baths: PROPERTY_BATH[0].value,
+  date: PROPERTY_DATE[0].date,
+};
 
-const SortModal = ({ visible, close }: SortModalProps) => {
+const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
   const { colors } = useThemeStore();
-  const [minPrice, setMinPrice] = useState("100,000");
-  const [maxPrice, setMaxPrice] = useState("500,000");
-  const [selectedRange, setSelectedRange] = useState<string | null>(null);
 
-  const PRESET_RANGES = [
-    { label: "Any", min: PRICE_MIN, max: PRICE_MAX },
-    { label: "Under $100k", min: PRICE_MIN, max: 100000 },
-    { label: "$100k - $300k", min: 100000, max: 300000 },
-    { label: "$300k - $500k", min: 300000, max: 500000 },
-    { label: "Over $500k", min: 500000, max: PRICE_MAX },
-  ];
+  // Local UI state
+  const [minPrice, setMinPrice] = useState<string>(PRICE_MIN.toLocaleString());
+  const [maxPrice, setMaxPrice] = useState<string>(PRICE_MAX.toLocaleString());
+
+  const [selectedType, setSelectedType] = useState<string>(
+    PROPERTY_TYPE_OPTIONS[0].value
+  );
+  const [selectedDate, setSelectedDate] = useState<string>(
+    PROPERTY_DATE[0].date
+  );
+  const [selectedBed, setSelectedBed] = useState<string>(PROPERTY_BED[0].value);
+  const [selectedBath, setSelectedBath] = useState<string>(
+    PROPERTY_BATH[0].value
+  );
+  const matchedRange = PRESET_RANGES.find(
+    (r) => filters.min === r.min && filters.max === r.max
+  );
+  const [selectedRange, setSelectedRange] = useState<string | null>(
+    matchedRange ? matchedRange.label : PRESET_RANGES[0].label
+  );
+
+  // Sync with parent filters on open
+  useEffect(() => {
+    if (visible) {
+      setMinPrice(filters.min.toLocaleString());
+      setMaxPrice(filters.max.toLocaleString());
+      setSelectedType(filters.propertyType);
+      setSelectedBed(filters.beds);
+      setSelectedBath(filters.baths);
+      setSelectedDate(filters.date);
+
+      const matched = PRESET_RANGES.find(
+        (r) => filters.min === r.min && filters.max === r.max
+      );
+      setSelectedRange(matched ? matched.label : PRESET_RANGES[0].label);
+    }
+  }, [visible, filters]);
+
+  // Animated value for scroll
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   // Handle preset range selection
   const handleSelectRange = (range: (typeof PRESET_RANGES)[0]) => {
@@ -34,91 +92,341 @@ const SortModal = ({ visible, close }: SortModalProps) => {
     setMaxPrice(range.max.toLocaleString());
   };
 
+  // Reset all fields to defaults
+  const handleClearAll = () => {
+    setMinPrice(defaultFilters.min.toLocaleString());
+    setMaxPrice(defaultFilters.max.toLocaleString());
+    setSelectedType(defaultFilters.propertyType);
+    setSelectedBed(defaultFilters.beds);
+    setSelectedBath(defaultFilters.baths);
+    setSelectedDate(defaultFilters.date);
+    setSelectedRange(PRESET_RANGES[0].label);
+    // Optionally immediately apply? Usually not: let user hit "Apply"
+  };
+
   // Apply filter logic
   const handleApply = () => {
     const min = parseInt(minPrice.replace(/,/g, "")) || PRICE_MIN;
     const max = parseInt(maxPrice.replace(/,/g, "")) || PRICE_MAX;
-
-    // Validate min <= max
     const finalMin = Math.min(min, max);
     const finalMax = Math.max(min, max);
 
-    // Apply your filter logic here
-    console.log("Applying filter:", { min: finalMin, max: finalMax });
+    setFilters({
+      min: finalMin,
+      max: finalMax,
+      propertyType: selectedType,
+      beds: selectedBed,
+      baths: selectedBath,
+      date: selectedDate,
+    });
+
     close();
   };
 
   return (
     <BottomSheetModal
       visible={visible}
-      defaultHeight={500}
+      defaultHeight={540}
       maxHeight={SCREEN_HEIGHT * 0.8}
       backdropOpacity={0.7}
       onClose={close}
+      draggable={false}
     >
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.header}>
+      <View style={{ flex: 1 }}>
+        <Animated.View
+          style={[
+            styles.header,
+            {
+              backgroundColor: colors.surfaceVariant,
+              borderBottomColor: "#eee",
+              borderBottomWidth: 1,
+              zIndex: 10,
+              shadowColor: "#000",
+              elevation: 2,
+            },
+          ]}
+        >
           <Text style={[styles.title, { color: colors.text }]}>
             Filter Properties
           </Text>
-          <Pressable onPress={close} style={styles.closeBtn}>
-            <Icon source="close" size={20} color={colors.white} />
-          </Pressable>
-        </View>
-
-        <Divider style={{ backgroundColor: colors.outline }} />
-
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Price Range
-          </Text>
-
-          <View style={styles.presetContainer}>
-            {PRESET_RANGES.map((range) => (
-              <Pressable
-                key={range.label}
-                onPress={() => handleSelectRange(range)}
-                style={[
-                  styles.presetButton,
-                  {
-                    backgroundColor:
-                      selectedRange === range.label
-                        ? colors.primary
-                        : colors.surfaceVariant,
-                  },
-                ]}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Pressable onPress={handleClearAll} style={styles.iconBtn}>
+              <Icon source="refresh" size={20} color={colors.primary} />
+              <Text
+                style={{
+                  color: colors.primary,
+                  marginLeft: 4,
+                  fontWeight: "500",
+                }}
               >
-                <Text
+                Reset
+              </Text>
+            </Pressable>
+            <Pressable onPress={close} style={styles.closeBtn}>
+              <Icon source="close" size={16} color={colors.white} />
+            </Pressable>
+          </View>
+        </Animated.View>
+        <Animated.ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1, marginTop: HEADER_HEIGHT }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: false }
+          )}
+        >
+          <Divider
+            style={{ backgroundColor: colors.outline, marginBottom: 8 }}
+          />
+
+          {/* Property Type */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              Property Type
+            </Text>
+            <View style={styles.pickerWrapper}>
+              <Picker
+                selectedValue={selectedType}
+                onValueChange={setSelectedType}
+                style={{ height: 50, paddingVertical: 8 }}
+                mode="dropdown"
+                dropdownIconColor={colors.textSecondary}
+                itemStyle={{
+                  color: colors.success,
+                  backgroundColor: colors.success,
+                }}
+              >
+                {PROPERTY_TYPE_OPTIONS.map((option, i) => (
+                  <Picker.Item
+                    key={i}
+                    label={option.label}
+                    value={option.value}
+                    color={colors.text}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
+          {/* Price Range */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              Price Range
+            </Text>
+            <View style={styles.presetContainer}>
+              {PRESET_RANGES.map((range) => (
+                <Pressable
+                  key={range.label}
+                  onPress={() => handleSelectRange(range)}
                   style={[
-                    styles.presetButtonText,
+                    styles.presetButton,
                     {
-                      color:
-                        selectedRange === range.label ? "#fff" : colors.text,
+                      backgroundColor:
+                        selectedRange === range.label
+                          ? colors.primary
+                          : colors.surfaceVariant,
+                      borderColor:
+                        selectedRange === range.label
+                          ? colors.primary
+                          : "transparent",
                     },
                   ]}
                 >
-                  {range.label}
+                  <Text
+                    style={[
+                      styles.presetButtonText,
+                      {
+                        color:
+                          selectedRange === range.label ? "#fff" : colors.text,
+                      },
+                    ]}
+                  >
+                    {range.label}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+            <View style={styles.priceInputContainer}>
+              <View style={styles.inputWrapper}>
+                <Text style={[styles.inputLabel, { color: colors.secondary }]}>
+                  Min Price
                 </Text>
-              </Pressable>
-            ))}
+                <View style={styles.inputContainer}>
+                  <Text
+                    style={[styles.currencySymbol, { color: colors.outline }]}
+                  >
+                    $
+                  </Text>
+                  <Text
+                    style={[
+                      styles.input,
+                      {
+                        color: colors.text,
+                        backgroundColor: colors.surfaceVariant,
+                      },
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    selectable
+                    suppressHighlighting
+                  >
+                    {minPrice}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.spacer} />
+              <View style={styles.inputWrapper}>
+                <Text style={[styles.inputLabel, { color: colors.secondary }]}>
+                  Max Price
+                </Text>
+                <View style={styles.inputContainer}>
+                  <Text
+                    style={[styles.currencySymbol, { color: colors.outline }]}
+                  >
+                    $
+                  </Text>
+                  <Text
+                    style={[
+                      styles.input,
+                      {
+                        color: colors.text,
+                        backgroundColor: colors.surfaceVariant,
+                      },
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    selectable
+                    suppressHighlighting
+                  >
+                    {maxPrice}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
 
-        <Pressable
-          style={[
-            styles.applyBtn,
-            {
-              backgroundColor: colors.primary,
-            },
-          ]}
-          onPress={handleApply}
-        >
-          <Text style={styles.applyBtnText}>Apply Filters</Text>
-        </Pressable>
-      </ScrollView>
+          {/* Beds */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              Beds
+            </Text>
+            <View style={styles.presetContainer}>
+              {PROPERTY_BED.map((option) => (
+                <Pressable
+                  key={option.value}
+                  style={[
+                    styles.presetButton,
+                    {
+                      backgroundColor:
+                        selectedBed === option.value
+                          ? colors.primary
+                          : colors.surfaceVariant,
+                      borderColor:
+                        selectedBed === option.value
+                          ? colors.primary
+                          : "transparent",
+                    },
+                  ]}
+                  onPress={() => setSelectedBed(option.value)}
+                >
+                  <Text
+                    style={[
+                      styles.presetButtonText,
+                      {
+                        color:
+                          selectedBed === option.value ? "#fff" : colors.text,
+                      },
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          {/* Bath */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              Bath
+            </Text>
+            <View style={styles.presetContainer}>
+              {PROPERTY_BATH.map((option) => (
+                <Pressable
+                  key={option.value}
+                  style={[
+                    styles.presetButton,
+                    {
+                      backgroundColor:
+                        selectedBath === option.value
+                          ? colors.primary
+                          : colors.surfaceVariant,
+                      borderColor:
+                        selectedBath === option.value
+                          ? colors.primary
+                          : "transparent",
+                    },
+                  ]}
+                  onPress={() => setSelectedBath(option.value)}
+                >
+                  <Text
+                    style={[
+                      styles.presetButtonText,
+                      {
+                        color:
+                          selectedBath === option.value ? "#fff" : colors.text,
+                      },
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          {/* Date Added */}
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              Date Added
+            </Text>
+            <View style={styles.pickerWrapper}>
+              <Picker
+                selectedValue={selectedDate}
+                onValueChange={setSelectedDate}
+                style={{ height: 50, paddingVertical: 8 }}
+                mode="dropdown"
+                dropdownIconColor={colors.textSecondary}
+                itemStyle={{ color: colors.text }}
+              >
+                {PROPERTY_DATE.map((option, i) => (
+                  <Picker.Item
+                    key={i}
+                    label={option.label}
+                    value={option.date}
+                    color={colors.text}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
+          <Pressable
+            style={[
+              styles.applyBtn,
+              {
+                backgroundColor: colors.primary,
+              },
+            ]}
+            onPress={handleApply}
+          >
+            <Text style={styles.applyBtnText}>Apply Filters</Text>
+          </Pressable>
+        </Animated.ScrollView>
+      </View>
     </BottomSheetModal>
   );
 };
@@ -134,16 +442,30 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 16,
     paddingHorizontal: 20,
+    height: HEADER_HEIGHT,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
   },
   title: {
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: "700",
+  },
+  iconBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    backgroundColor: "rgba(0,0,0,0.03)",
   },
   closeBtn: {
-    padding: 8,
+    padding: 6,
     borderRadius: 20,
     backgroundColor: MD3Colors.error50,
     elevation: 2,
+    marginLeft: 8,
   },
   section: {
     paddingHorizontal: 20,
@@ -151,52 +473,77 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "700",
+    marginBottom: 12,
+    letterSpacing: 0.1,
+  },
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    backgroundColor: "#f9f9f9",
+    overflow: "hidden",
     marginBottom: 12,
   },
   presetContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   presetButton: {
     paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     borderRadius: 20,
+    borderWidth: 1.5,
+    marginRight: 8,
+    marginBottom: 8,
   },
   presetButtonText: {
     fontSize: 14,
+    fontWeight: "500",
+    letterSpacing: 0.2,
   },
   priceInputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 10,
+    marginBottom: 8,
+    gap: 12,
   },
   inputWrapper: {
     flex: 1,
   },
   inputLabel: {
-    fontSize: 14,
-    marginBottom: 8,
+    fontSize: 13,
+    marginBottom: 4,
+    fontWeight: "500",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 8,
     overflow: "hidden",
+    backgroundColor: "#f0f0f0",
+    paddingLeft: 24,
+    height: 44,
   },
   currencySymbol: {
     position: "absolute",
     left: 12,
     zIndex: 1,
     fontSize: 16,
+    fontWeight: "600",
+    opacity: 0.7,
   },
   input: {
     flex: 1,
-    height: 48,
-    paddingLeft: 30,
-    paddingRight: 12,
+    height: 44,
     fontSize: 16,
+    paddingLeft: 8,
+    paddingRight: 8,
+    backgroundColor: "transparent",
+    textAlignVertical: "center",
   },
   spacer: {
     width: 16,
@@ -204,16 +551,18 @@ const styles = StyleSheet.create({
   applyBtn: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 14,
+    paddingVertical: 16,
     borderRadius: 8,
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 24,
     elevation: 2,
+    marginBottom: 24,
   },
   applyBtnText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 17,
+    letterSpacing: 0.2,
   },
 });
 
