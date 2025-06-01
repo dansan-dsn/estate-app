@@ -13,7 +13,6 @@
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.4.0",
     "@expo/vector-icons": "^14.1.0",
-    "@lottiefiles/dotlottie-react": "^0.6.5",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
