@@ -1,17 +1,20 @@
-import { Stack, Link } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { View, Image, StyleSheet } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 
+const notFoundImage = require("@/assets/images/not_found.png");
+
 export default function NotFoundScreen() {
   const { colors } = useThemeStore();
+  const router = useRouter();
 
   return (
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <Image
-          source={require("@/assets/images/not_found.jpg")}
+          source={notFoundImage}
           style={styles.image}
           resizeMode="contain"
         />
@@ -21,15 +24,14 @@ export default function NotFoundScreen() {
         >
           Page Not Found
         </Text>
-        <Link href="/" asChild>
-          <Button
-            mode="contained"
-            style={[styles.button, { backgroundColor: colors.primary }]}
-            labelStyle={{ color: colors.white }}
-          >
-            Go Back Home
-          </Button>
-        </Link>
+        <Button
+          mode="contained"
+          style={[styles.button, { backgroundColor: colors.primary }]}
+          labelStyle={{ color: colors.white }}
+          onPress={() => router.push("/(tabs)/explore")}
+        >
+          Go Back Home
+        </Button>
       </View>
     </>
   );

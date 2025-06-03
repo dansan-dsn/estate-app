@@ -7,6 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { useThemeStore } from "@/stores/useTheme";
 import Loader from "@/components/loaders/Loader";
+import GlobalSnackbar from "@/components/ui/Snackbar";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -16,7 +17,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     initializeTheme(); // Load saved theme on app start
-  }, []);
+  }, [initializeTheme]);
 
   if (!loaded) {
     return <Loader />;
@@ -48,8 +49,10 @@ export default function RootLayout() {
               headerBackTitle: "Back",
             }}
           />
+          <Stack.Screen name="notifications" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" options={{ headerShown: false }} />
         </Stack>
+        <GlobalSnackbar />
         <StatusBar style={theme === "light" ? "dark" : "light"} />
       </ThemeProvider>
     </GestureHandlerRootView>
