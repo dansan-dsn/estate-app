@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
 import PropertyCard from "@/components/blocks/PropertyCard";
-import ExploreMapView from "@/components/Maps/ExploreMapview";
+// import ExploreMapView from "@/components/Maps/ExploreMapview";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { properties } from "@/shared/data/property";
 import { useThemeStore } from "@/stores/useTheme";
@@ -23,6 +23,8 @@ import {
   PROPERTY_BATH,
   PROPERTY_BED,
 } from "@/constants/property";
+// import { useSnackbar } from "@/stores/snackbar";
+import { useNotification } from "@/stores/notifications";
 
 const defaultFilters: PropertyFilters = {
   min: PRICE_MIN,
@@ -43,6 +45,8 @@ const Explore = () => {
   const flatListRef = useRef<FlatList>(null);
 
   const router = useRouter();
+  // const { showSnackbar } = useSnackbar();
+  const { getUnreadCount } = useNotification();
   const { colors } = useThemeStore();
 
   const filteredProperties = properties.filter((item) => {
@@ -80,7 +84,8 @@ const Explore = () => {
   const renderContent = () => {
     switch (value) {
       case "map":
-        return <ExploreMapView />;
+        // return <ExploreMapView />;
+        return <Text>Hello</Text>;
       case "list":
         return (
           <Animated.FlatList
@@ -137,6 +142,8 @@ const Explore = () => {
     }
   };
 
+  const unRead = getUnreadCount();
+
   const activeFilterCount =
     (filters.propertyType !== "Any" ? 1 : 0) +
     (filters.beds !== "Any" ? 1 : 0) +
@@ -174,13 +181,25 @@ const Explore = () => {
             )}
           </View>
           <View style={{ position: "relative" }}>
-            <Badge style={[styles.badge, { backgroundColor: colors.error }]}>
-              3
-            </Badge>
+            {unRead > 0 && (
+              <Badge style={[styles.badge, { backgroundColor: colors.error }]}>
+                {unRead > 99 ? "99+" : unRead}
+              </Badge>
+            )}
             <Appbar.Action
               icon="bell"
               style={[styles.sortBtn, { backgroundColor: colors.white }]}
-              onPress={() => {}}
+              onPress={() => {
+                // showSnackbar(
+                //   "You have 3 new notifications.",
+                //   colors.secondary,
+                //   "Undo",
+                //   () => {
+                //     console.log("Undo action");
+                //   }
+                // );
+                router.push("/notifications");
+              }}
             />
           </View>
           <View style={{ position: "relative" }}>

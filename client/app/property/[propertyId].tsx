@@ -34,7 +34,7 @@ export default function PropertyDetails() {
   if (!property) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <Text style={[styles.errorText, { color: colors.secondaryText }]}>
+        <Text style={[styles.errorText, { color: colors.secondary }]}>
           Property not found
         </Text>
       </View>
@@ -81,7 +81,7 @@ export default function PropertyDetails() {
           {
             opacity: headerBackgroundOpacity,
             transform: [{ translateY: headerTranslateY }],
-            backgroundColor: colors.primaryDark,
+            backgroundColor: colors.headerBackground,
           },
         ]}
       />
@@ -200,16 +200,16 @@ export default function PropertyDetails() {
               <Ionicons
                 name={isFavorite ? "heart" : "heart-outline"}
                 size={20}
-                color={isFavorite ? colors.error : colors.secondaryText}
+                color={isFavorite ? colors.error : colors.secondary}
               />
               <Text
-                style={[styles.saveButtonText, { color: colors.secondaryText }]}
+                style={[styles.saveButtonText, { color: colors.secondary }]}
               >
                 Save
               </Text>
             </TouchableOpacity>
           </View>
-          <Text style={[styles.addressText, { color: colors.secondaryText }]}>
+          <Text style={[styles.addressText, { color: colors.secondary }]}>
             {property.address?.street}, {property.address?.city},{" "}
             {property.address?.state} {property.address?.postal_code}
           </Text>
@@ -259,7 +259,7 @@ export default function PropertyDetails() {
                   {property.features.bedrooms}
                 </Text>
                 <Text
-                  style={[styles.featureLabel, { color: colors.secondaryText }]}
+                  style={[styles.featureLabel, { color: colors.secondary }]}
                 >
                   Bedrooms
                 </Text>
@@ -277,7 +277,7 @@ export default function PropertyDetails() {
                   {property.features.bathrooms}
                 </Text>
                 <Text
-                  style={[styles.featureLabel, { color: colors.secondaryText }]}
+                  style={[styles.featureLabel, { color: colors.secondary }]}
                 >
                   Bathrooms
                 </Text>
@@ -295,7 +295,7 @@ export default function PropertyDetails() {
                   {property.features.floor_area} sqft
                 </Text>
                 <Text
-                  style={[styles.featureLabel, { color: colors.secondaryText }]}
+                  style={[styles.featureLabel, { color: colors.secondary }]}
                 >
                   Area
                 </Text>
@@ -314,10 +314,7 @@ export default function PropertyDetails() {
                     {property.features.garage.spaces}
                   </Text>
                   <Text
-                    style={[
-                      styles.featureLabel,
-                      { color: colors.secondaryText },
-                    ]}
+                    style={[styles.featureLabel, { color: colors.secondary }]}
                   >
                     Garage
                   </Text>
@@ -366,9 +363,7 @@ export default function PropertyDetails() {
           <Text style={[styles.sectionTitle, { color: colors.primaryDark }]}>
             Description
           </Text>
-          <Text
-            style={[styles.descriptionText, { color: colors.secondaryText }]}
-          >
+          <Text style={[styles.descriptionText, { color: colors.secondary }]}>
             {property.description}
           </Text>
         </View>

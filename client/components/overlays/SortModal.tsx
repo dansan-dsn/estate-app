@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Pressable, Animated } from "react-native";
-import { Text, Icon, MD3Colors, Divider, Button } from "react-native-paper";
+import { Text, Icon, MD3Colors, Divider } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
-import { SCREEN_HEIGHT } from "@/constants/screen";
+import { SCREEN_HEIGHT, HEADER_HEIGHT } from "@/constants/screen";
 import BottomSheetModal from "@/components/ui/BottomSheet";
 import { Picker } from "@react-native-picker/picker";
 import {
@@ -14,7 +14,6 @@ import {
   PROPERTY_BATH,
   PROPERTY_BED,
 } from "@/constants/property";
-import { HEADER_HEIGHT } from "@/constants/screen";
 
 export type PropertyFilters = {
   min: number;
