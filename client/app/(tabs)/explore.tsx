@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
 import PropertyCard from "@/components/blocks/PropertyCard";
-// import ExploreMapView from "@/components/Maps/ExploreMapview";
+import ExploreMapView from "@/components/Maps/ExploreMapview";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { properties } from "@/shared/data/property";
 import { useThemeStore } from "@/stores/useTheme";
@@ -82,8 +82,8 @@ const Explore = () => {
   const renderContent = () => {
     switch (value) {
       case "map":
-        // return <ExploreMapView />;
-        return <Text>Hello</Text>;
+        return <ExploreMapView />;
+      // return <Text>Hello</Text>;
       case "list":
         return (
           <Animated.FlatList
@@ -188,14 +188,6 @@ const Explore = () => {
               icon="bell"
               style={[styles.sortBtn, { backgroundColor: colors.white }]}
               onPress={() => {
-                // showSnackbar(
-                //   "You have 3 new notifications.",
-                //   colors.secondary,
-                //   "Undo",
-                //   () => {
-                //     console.log("Undo action");
-                //   }
-                // );
                 router.push("/notifications");
               }}
             />
