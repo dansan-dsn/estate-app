@@ -12,12 +12,14 @@ export interface Notification {
 
 export interface NotificationState {
   notifications: Notification[];
+  lastDeleted?: Notification;
   addNotification: (
     notification: Omit<Notification, "id" | "read" | "timestamp">
   ) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
   deleteNotification: (id: string) => void;
+  undo: () => void;
   clearAllNotifications: () => void;
   getUnreadCount: () => number;
   formatTime: (timestamp: string) => string;

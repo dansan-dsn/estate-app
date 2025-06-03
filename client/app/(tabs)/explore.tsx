@@ -23,7 +23,6 @@ import {
   PROPERTY_BATH,
   PROPERTY_BED,
 } from "@/constants/property";
-// import { useSnackbar } from "@/stores/snackbar";
 import { useNotification } from "@/stores/notifications";
 
 const defaultFilters: PropertyFilters = {
@@ -45,7 +44,6 @@ const Explore = () => {
   const flatListRef = useRef<FlatList>(null);
 
   const router = useRouter();
-  // const { showSnackbar } = useSnackbar();
   const { getUnreadCount } = useNotification();
   const { colors } = useThemeStore();
 

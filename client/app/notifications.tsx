@@ -13,6 +13,7 @@ import {
 import { Appbar, IconButton, List, Button } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 import { useNotification } from "@/stores/notifications";
+import { useSnackbar } from "@/stores/snackbar";
 import BottomSheetModal from "@/components/ui/BottomSheet";
 import { SCREEN_HEIGHT } from "@/constants/screen";
 import { formatDistanceToNow } from "date-fns";
@@ -29,6 +30,7 @@ const Notifications = () => {
   const navigation = useNavigation();
   const router = useRouter();
   const { colors } = useThemeStore();
+  const { showSnackbar } = useSnackbar();
   const {
     notifications,
     addNotification,
@@ -36,10 +38,12 @@ const Notifications = () => {
     markAllAsRead,
     clearAllNotifications,
     deleteNotification,
+    undo,
   } = useNotification();
 
   const handleDelete = (id: string) => {
     deleteNotification(id);
+    showSnackbar("Deleted a message", colors.error, "undo", () => undo());
   };
 
   const handleClearAll = () => {
@@ -50,6 +54,7 @@ const Notifications = () => {
   const handleMarkAllAsRead = () => {
     markAllAsRead();
     setVisible(false);
+    showSnackbar("Marked all Messages as unread", colors.textSecondary);
   };
 
   const closeCurrentlyOpenSwipeable = () => {
@@ -266,8 +271,12 @@ const Notifications = () => {
           <View style={[styles.divider, { backgroundColor: colors.divider }]} />
 
           <TouchableOpacity
-            style={styles.optionButton}
+            style={[
+              styles.optionButton,
+              notifications.every((n) => n.read) && { opacity: 0.3 },
+            ]}
             onPress={handleMarkAllAsRead}
+            disabled={notifications.every((n) => n.read)}
           >
             <List.Icon icon="email-mark-as-unread" color={colors.text} />
             <Text style={[styles.optionText, { color: colors.text }]}>

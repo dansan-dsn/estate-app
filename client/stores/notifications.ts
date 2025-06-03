@@ -45,11 +45,27 @@ export const useNotification = create<NotificationState>()(
       },
 
       deleteNotification: (id) => {
-        set((state) => ({
-          notifications: state.notifications.filter(
-            (notification) => notification.id !== id
-          ),
-        }));
+        set((state) => {
+          const notificationsToDelete = state.notifications.find(
+            (n) => n.id === id
+          );
+          return {
+            notifications: state.notifications.filter((n) => n.id !== id),
+            lastDeleted: notificationsToDelete,
+          };
+        });
+      },
+
+      undo: () => {
+        set((state) => {
+          if (state.lastDeleted) {
+            return {
+              notifications: [state.lastDeleted, ...state.notifications],
+              lastDeleted: undefined,
+            };
+          }
+          return {};
+        });
       },
 
       clearAllNotifications: () => {
