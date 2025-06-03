@@ -37,7 +37,7 @@ export default function PropertyDetails() {
   if (!property) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <Text style={[styles.errorText, { color: colors.secondary }]}>
+        <Text style={[styles.errorText, { color: colors.textSecondary }]}>
           Property not found
         </Text>
       </View>
@@ -203,25 +203,30 @@ export default function PropertyDetails() {
             <Text style={[styles.price, { color: colors.primaryDark }]}>
               ${property.price.toLocaleString()}
             </Text>
-            <TouchableOpacity
-              style={[
-                styles.saveButton,
-                { backgroundColor: colors.chipBackground },
-              ]}
-            >
-              <Ionicons
-                name={favorite ? "heart" : "heart-outline"}
-                size={20}
-                color={favorite ? colors.error : colors.secondary}
-              />
-              <Text
-                style={[styles.saveButtonText, { color: colors.secondary }]}
+            {favorite && (
+              <TouchableOpacity
+                style={[
+                  styles.saveButton,
+                  { backgroundColor: colors.chipBackground },
+                ]}
               >
-                Save
-              </Text>
-            </TouchableOpacity>
+                <Ionicons
+                  name={favorite ? "heart" : "heart-outline"}
+                  size={20}
+                  color={favorite ? colors.error : colors.textSecondary}
+                />
+                <Text
+                  style={[
+                    styles.saveButtonText,
+                    { color: colors.textSecondary },
+                  ]}
+                >
+                  Saved
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
-          <Text style={[styles.addressText, { color: colors.secondary }]}>
+          <Text style={[styles.addressText, { color: colors.textSecondary }]}>
             {property.address?.street}, {property.address?.city},{" "}
             {property.address?.state} {property.address?.postal_code}
           </Text>
@@ -271,7 +276,7 @@ export default function PropertyDetails() {
                   {property.features.bedrooms}
                 </Text>
                 <Text
-                  style={[styles.featureLabel, { color: colors.secondary }]}
+                  style={[styles.featureLabel, { color: colors.textSecondary }]}
                 >
                   Bedrooms
                 </Text>
@@ -289,7 +294,7 @@ export default function PropertyDetails() {
                   {property.features.bathrooms}
                 </Text>
                 <Text
-                  style={[styles.featureLabel, { color: colors.secondary }]}
+                  style={[styles.featureLabel, { color: colors.textSecondary }]}
                 >
                   Bathrooms
                 </Text>
@@ -307,7 +312,7 @@ export default function PropertyDetails() {
                   {property.features.floor_area} sqft
                 </Text>
                 <Text
-                  style={[styles.featureLabel, { color: colors.secondary }]}
+                  style={[styles.featureLabel, { color: colors.textSecondary }]}
                 >
                   Area
                 </Text>
@@ -326,7 +331,10 @@ export default function PropertyDetails() {
                     {property.features.garage.spaces}
                   </Text>
                   <Text
-                    style={[styles.featureLabel, { color: colors.secondary }]}
+                    style={[
+                      styles.featureLabel,
+                      { color: colors.textSecondary },
+                    ]}
                   >
                     Garage
                   </Text>
@@ -375,7 +383,9 @@ export default function PropertyDetails() {
           <Text style={[styles.sectionTitle, { color: colors.primaryDark }]}>
             Description
           </Text>
-          <Text style={[styles.descriptionText, { color: colors.secondary }]}>
+          <Text
+            style={[styles.descriptionText, { color: colors.textSecondary }]}
+          >
             {property.description}
           </Text>
         </View>

@@ -23,6 +23,7 @@ interface PropertyDetails {
   year_built?: number;
   status: PropertyStatus;
   listing_date: string;
+  is_favorite?: boolean;
 }
 
 interface PropertyAddress {
