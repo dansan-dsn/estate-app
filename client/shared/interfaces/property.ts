@@ -117,3 +117,9 @@ export interface Property extends PropertyDetails {
   listing_agent?: ListingAgent;
   showings?: Showings;
 }
+
+// property card props
+export interface PropertyCardProps {
+  property: Property;
+  onPress?: () => void;
+}

@@ -14,6 +14,8 @@ import { properties } from "@/shared/data/property";
 import { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeStore } from "@/stores/useTheme";
+import { useFavoriteStore } from "@/stores/favorites";
+import { useSnackbar } from "@/stores/snackbar";
 
 const { width: screenWidth } = Dimensions.get("window");
 const IMAGE_HEIGHT = 350;
@@ -24,8 +26,9 @@ export default function PropertyDetails() {
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
   const { colors } = useThemeStore();
+  const { isFavorite, toggleFavorite } = useFavoriteStore();
+  const { showSnackbar } = useSnackbar();
 
   const property = properties.find(
     (p) => p && String(p.property_id) === String(propertyId)
@@ -40,6 +43,15 @@ export default function PropertyDetails() {
       </View>
     );
   }
+
+  const favorite = Boolean(isFavorite(Number(property.property_id)));
+  const onFavoritePress = () => {
+    toggleFavorite(Number(property.property_id));
+    showSnackbar(
+      favorite ? "Removed from favorites" : "Added to favorites",
+      colors.black
+    );
+  };
 
   // Header animations
   const headerTranslateY = scrollY.interpolate({
@@ -116,12 +128,12 @@ export default function PropertyDetails() {
           <View style={styles.headerActions}>
             <TouchableOpacity
               style={styles.iconButton}
-              onPress={() => setIsFavorite(!isFavorite)}
+              onPress={onFavoritePress}
             >
               <Ionicons
-                name={isFavorite ? "heart" : "heart-outline"}
+                name={favorite ? "heart" : "heart-outline"}
                 size={24}
-                color={isFavorite ? colors.error : colors.white}
+                color={favorite ? colors.error : colors.white}
               />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton}>
@@ -198,9 +210,9 @@ export default function PropertyDetails() {
               ]}
             >
               <Ionicons
-                name={isFavorite ? "heart" : "heart-outline"}
+                name={favorite ? "heart" : "heart-outline"}
                 size={20}
-                color={isFavorite ? colors.error : colors.secondary}
+                color={favorite ? colors.error : colors.secondary}
               />
               <Text
                 style={[styles.saveButtonText, { color: colors.secondary }]}

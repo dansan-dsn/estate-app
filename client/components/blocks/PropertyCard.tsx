@@ -1,18 +1,17 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Card, Text, Icon } from "react-native-paper";
-import { Property } from "@/shared/interfaces/property";
+import { PropertyCardProps } from "@/shared/interfaces/property";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useThemeStore } from "@/stores/useTheme";
-
-interface PropertyCardProps {
-  property: Property;
-  onPress?: () => void;
-}
+import { useFavoriteStore } from "@/stores/favorites";
+import { useSnackbar } from "@/stores/snackbar";
 
 const home5 = require("@/assets/images/home5.jpg");
 
 export default function PropertyCard({ property, onPress }: PropertyCardProps) {
   const { colors } = useThemeStore();
+  const { isFavorite, toggleFavorite } = useFavoriteStore();
+  const { showSnackbar } = useSnackbar();
 
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -25,6 +24,15 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
     property.media?.images?.[0]?.url ||
     home5;
 
+  const favorite = Boolean(isFavorite(Number(property.property_id)));
+  const onFavoritePress = () => {
+    toggleFavorite(Number(property.property_id));
+    showSnackbar(
+      favorite ? "Removed from favorites" : "Added to favorites",
+      colors.black
+    );
+  };
+
   return (
     <Card
       style={[styles.card, { backgroundColor: colors.cardBackground }]}
@@ -32,9 +40,13 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
     >
       <Card.Cover source={primaryImage} style={styles.coverImage} />
 
-      <View style={styles.favoriteButton}>
-        <Icon source="heart-outline" size={24} color={colors.error} />
-      </View>
+      <TouchableOpacity style={styles.favoriteButton} onPress={onFavoritePress}>
+        <Icon
+          source={favorite ? "heart" : "heart-outline"}
+          size={24}
+          color={colors.error}
+        />
+      </TouchableOpacity>
 
       <View style={[styles.priceBadge, { backgroundColor: colors.primary }]}>
         <Text variant="titleMedium" style={styles.priceText}>
