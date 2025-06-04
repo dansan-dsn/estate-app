@@ -23,6 +23,7 @@ interface PropertyDetails {
   year_built?: number;
   status: PropertyStatus;
   listing_date: string;
+  is_favorite?: boolean;
 }
 
 interface PropertyAddress {
@@ -116,4 +117,10 @@ export interface Property extends PropertyDetails {
   finance?: PropertyFinance;
   listing_agent?: ListingAgent;
   showings?: Showings;
+}
+
+// property card props
+export interface PropertyCardProps {
+  property: Property;
+  onPress?: () => void;
 }

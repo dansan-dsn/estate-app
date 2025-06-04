@@ -124,7 +124,7 @@ const Notifications = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Appbar.Header>
+      <Appbar.Header elevated>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Notifications" />
         {notifications.length > 0 && (
