@@ -69,19 +69,19 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
         <View style={styles.featuresContainer}>
           {property.features?.bedrooms && (
             <View style={styles.featureItem}>
-              <MaterialIcons name="bed" size={16} color={colors.background} />
-              <Text variant="bodySmall">{property.features.bedrooms}</Text>
+              <MaterialIcons name="bed" size={16} color={colors.warning} />
+              <Text variant="bodySmall" style={[{ fontWeight: "bold" }]}>
+                {property.features.bedrooms}
+              </Text>
             </View>
           )}
 
           {property.features?.bathrooms && (
             <View style={styles.featureItem}>
-              <MaterialIcons
-                name="bathtub"
-                size={16}
-                color={colors.background}
-              />
-              <Text variant="bodySmall">{property.features.bathrooms}</Text>
+              <MaterialIcons name="bathtub" size={16} color={colors.warning} />
+              <Text variant="bodySmall" style={[{ fontWeight: "bold" }]}>
+                {property.features.bathrooms}
+              </Text>
             </View>
           )}
 
@@ -113,8 +113,8 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
                 backgroundColor:
                   {
                     available: "#4CAF50",
-                    rented: "#F44336",
-                    sold: "#FFC107",
+                    sold: "#F44336",
+                    rented: "#FFC107",
                   }[property.status] || "#FFC107",
               },
             ]}

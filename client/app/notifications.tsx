@@ -54,7 +54,7 @@ const Notifications = () => {
   const handleMarkAllAsRead = () => {
     markAllAsRead();
     setVisible(false);
-    showSnackbar("Marked all Messages as unread", colors.textSecondary);
+    showSnackbar("Marked all Messages as read", colors.textSecondary);
   };
 
   const closeCurrentlyOpenSwipeable = () => {

@@ -27,13 +27,13 @@ export const PRESET_RANGES: PriceRangePreset[] = [
 
 export const PROPERTY_TYPE_OPTIONS: PropertyTypeOption[] = [
   { label: "Any", value: "Any" },
-  { label: "Apartment", value: "Apartment" },
-  { label: "House", value: "House" },
-  { label: "Condo", value: "Condo" },
-  { label: "Townhouse", value: "Townhouse" },
-  { label: "Villa", value: "Villa" },
-  { label: "Land", value: "Land" },
-  { label: "Commercial", value: "Commercial" },
+  { label: "Apartment", value: "apartment" },
+  { label: "House", value: "house" },
+  { label: "Condo", value: "condo" },
+  { label: "Townhouse", value: "townhouse" },
+  { label: "Villa", value: "villa" },
+  { label: "Land", value: "land" },
+  { label: "Commercial", value: "commercial" },
 ];
 
 export const PROPERTY_DATE: PropertyDate[] = [

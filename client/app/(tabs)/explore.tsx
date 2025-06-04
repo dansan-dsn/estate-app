@@ -9,7 +9,7 @@ import {
   Text,
 } from "react-native";
 import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
-import PropertyCard from "@/components/blocks/PropertyCard";
+import PropertyCard from "@/components/blocks/property/PropertyCard";
 import ExploreMapView from "@/components/Maps/ExploreMapview";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { properties } from "@/shared/data/property";
@@ -61,7 +61,8 @@ const Explore = () => {
     const searchOk =
       !search ||
       item.title?.toLowerCase().includes(search.toLowerCase()) ||
-      item.address?.city?.toLowerCase().includes(search.toLowerCase()) ||
+      item.type?.toLowerCase().includes(search.toLowerCase());
+    item.address?.city?.toLowerCase().includes(search.toLowerCase()) ||
       item.address?.state?.toLowerCase().includes(search.toLowerCase()) ||
       item.address?.country?.toLowerCase().includes(search.toLowerCase());
 

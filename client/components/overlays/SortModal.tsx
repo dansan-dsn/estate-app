@@ -43,7 +43,6 @@ const defaultFilters: PropertyFilters = {
 const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
   const { colors } = useThemeStore();
 
-  // Local UI state
   const [minPrice, setMinPrice] = useState<string>(PRICE_MIN.toLocaleString());
   const [maxPrice, setMaxPrice] = useState<string>(PRICE_MAX.toLocaleString());
 
@@ -64,7 +63,6 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
     matchedRange ? matchedRange.label : PRESET_RANGES[0].label
   );
 
-  // Sync with parent filters on open
   useEffect(() => {
     if (visible) {
       setMinPrice(filters.min.toLocaleString());
@@ -81,17 +79,14 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
     }
   }, [visible, filters]);
 
-  // Animated value for scroll
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  // Handle preset range selection
   const handleSelectRange = (range: (typeof PRESET_RANGES)[0]) => {
     setSelectedRange(range.label);
     setMinPrice(range.min.toLocaleString());
     setMaxPrice(range.max.toLocaleString());
   };
 
-  // Reset all fields to defaults
   const handleClearAll = () => {
     setMinPrice(defaultFilters.min.toLocaleString());
     setMaxPrice(defaultFilters.max.toLocaleString());
@@ -103,7 +98,6 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
     // Optionally immediately apply? Usually not: let user hit "Apply"
   };
 
-  // Apply filter logic
   const handleApply = () => {
     const min = parseInt(minPrice.replace(/,/g, "")) || PRICE_MIN;
     const max = parseInt(maxPrice.replace(/,/g, "")) || PRICE_MAX;

@@ -8,18 +8,23 @@ import {
   Dimensions,
   Animated,
   TouchableOpacity,
+  Linking,
 } from "react-native";
-import { Chip, Divider } from "react-native-paper";
 import { properties } from "@/shared/data/property";
 import { useRef, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useThemeStore } from "@/stores/useTheme";
 import { useFavoriteStore } from "@/stores/favorites";
 import { useSnackbar } from "@/stores/snackbar";
+import {
+  SectionTitle,
+  OverviewSection,
+  FeaturesSection,
+} from "@/components/blocks/property/PropertyDetailSections";
 
 const { width: screenWidth } = Dimensions.get("window");
-const IMAGE_HEIGHT = 350;
-const HEADER_HEIGHT = 100;
+const IMAGE_HEIGHT = 380;
+const HEADER_HEIGHT = 90;
 
 export default function PropertyDetails() {
   const { propertyId } = useLocalSearchParams();
@@ -112,7 +117,7 @@ export default function PropertyDetails() {
             style={styles.iconButton}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="arrow-back" size={24} color={colors.white} />
+            <MaterialIcons name="arrow-back" size={24} color={colors.white} />
           </TouchableOpacity>
 
           <Animated.Text
@@ -130,14 +135,14 @@ export default function PropertyDetails() {
               style={styles.iconButton}
               onPress={onFavoritePress}
             >
-              <Ionicons
-                name={favorite ? "heart" : "heart-outline"}
+              <MaterialIcons
+                name={favorite ? "favorite" : "favorite-border"}
                 size={24}
                 color={favorite ? colors.error : colors.white}
               />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="share-social" size={24} color={colors.white} />
+              <MaterialIcons name="share" size={24} color={colors.white} />
             </TouchableOpacity>
           </View>
         </View>
@@ -194,214 +199,160 @@ export default function PropertyDetails() {
           </Animated.View>
         )}
 
-        {/* Spacer for sticky header */}
         <View style={{ height: HEADER_HEIGHT }} />
 
-        {/* Overview Section */}
-        <View style={[styles.section, { backgroundColor: colors.white }]}>
-          <View style={styles.overviewHeader}>
-            <Text style={[styles.price, { color: colors.primaryDark }]}>
-              ${property.price.toLocaleString()}
+        <View style={styles.mainContent}>
+          <View style={styles.section}>
+            <OverviewSection
+              property={property}
+              colors={colors}
+              styles={styles}
+            />
+          </View>
+
+          {/* VIDEO SECTION */}
+          {property.media?.videos && property.media.videos.length > 0 && (
+            <View style={styles.section}>
+              <SectionTitle title="Property Tour" colors={colors} />
+              {property.media.videos.map((video, idx) => (
+                <TouchableOpacity
+                  key={idx}
+                  onPress={() => Linking.openURL(video.url)}
+                >
+                  <View style={styles.videoContainer}>
+                    <MaterialIcons
+                      name="play-circle-outline"
+                      size={48}
+                      color={colors.white}
+                    />
+                    <Text
+                      style={[styles.videoCaption, { color: colors.white }]}
+                    >
+                      {video.caption}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          {/* Description Section */}
+          <View style={styles.section}>
+            <SectionTitle title="Description" colors={colors} />
+            <Text
+              style={[styles.descriptionText, { color: colors.textSecondary }]}
+            >
+              {property.description}
             </Text>
-            {favorite && (
-              <TouchableOpacity
-                style={[
-                  styles.saveButton,
-                  { backgroundColor: colors.chipBackground },
-                ]}
-              >
-                <Ionicons
-                  name={favorite ? "heart" : "heart-outline"}
+          </View>
+
+          {/* Features Section */}
+          {property.features && (
+            <View style={styles.section}>
+              <SectionTitle title="Property Features" colors={colors} />
+              <FeaturesSection
+                property={property}
+                colors={colors}
+                styles={styles}
+              />
+            </View>
+          )}
+
+          {/* Location Section */}
+          {property.address?.coordinates && (
+            <View style={styles.section}>
+              <SectionTitle title="Location" colors={colors} />
+              <View style={styles.mapPlaceholder}>
+                <Text style={{ color: colors.textSecondary }}>
+                  Map would be displayed here
+                </Text>
+              </View>
+              <View style={styles.locationDetails}>
+                <MaterialIcons
+                  name="location-on"
                   size={20}
-                  color={favorite ? colors.error : colors.textSecondary}
+                  color={colors.primary}
                 />
                 <Text
-                  style={[
-                    styles.saveButtonText,
-                    { color: colors.textSecondary },
-                  ]}
+                  style={[styles.locationText, { color: colors.textSecondary }]}
                 >
-                  Saved
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          <Text style={[styles.addressText, { color: colors.textSecondary }]}>
-            {property.address?.street}, {property.address?.city},{" "}
-            {property.address?.state} {property.address?.postal_code}
-          </Text>
-          <View style={styles.chipContainer}>
-            <Chip
-              icon={() => (
-                <Ionicons name="home" size={16} color={colors.primary} />
-              )}
-              style={[styles.chip, { backgroundColor: colors.chipBackground }]}
-              textStyle={[styles.chipText, { color: colors.primaryDark }]}
-            >
-              {property.type}
-            </Chip>
-            <Chip
-              icon={() => (
-                <Ionicons name="calendar" size={16} color={colors.primary} />
-              )}
-              style={[styles.chip, { backgroundColor: colors.chipBackground }]}
-              textStyle={[styles.chipText, { color: colors.primaryDark }]}
-            >
-              Built: {property.year_built}
-            </Chip>
-          </View>
-        </View>
-
-        <Divider
-          style={[styles.divider, { backgroundColor: colors.divider }]}
-        />
-
-        {/* Features Section */}
-        {property.features && (
-          <View style={[styles.section, { backgroundColor: colors.white }]}>
-            <Text style={[styles.sectionTitle, { color: colors.primaryDark }]}>
-              Property Details
-            </Text>
-            <View style={styles.featuresGrid}>
-              <View
-                style={[
-                  styles.featureItem,
-                  { backgroundColor: colors.cardBackground },
-                ]}
-              >
-                <Ionicons name="bed" size={28} color={colors.primary} />
-                <Text
-                  style={[styles.featureValue, { color: colors.primaryDark }]}
-                >
-                  {property.features.bedrooms}
-                </Text>
-                <Text
-                  style={[styles.featureLabel, { color: colors.textSecondary }]}
-                >
-                  Bedrooms
+                  {property.address.street}, {property.address.city},{" "}
+                  {property.address.state} {property.address.postal_code}
                 </Text>
               </View>
-              <View
-                style={[
-                  styles.featureItem,
-                  { backgroundColor: colors.cardBackground },
-                ]}
-              >
-                <Ionicons name="water" size={28} color={colors.primary} />
-                <Text
-                  style={[styles.featureValue, { color: colors.primaryDark }]}
-                >
-                  {property.features.bathrooms}
-                </Text>
-                <Text
-                  style={[styles.featureLabel, { color: colors.textSecondary }]}
-                >
-                  Bathrooms
-                </Text>
-              </View>
-              <View
-                style={[
-                  styles.featureItem,
-                  { backgroundColor: colors.cardBackground },
-                ]}
-              >
-                <Ionicons name="expand" size={28} color={colors.primary} />
-                <Text
-                  style={[styles.featureValue, { color: colors.primaryDark }]}
-                >
-                  {property.features.floor_area} sqft
-                </Text>
-                <Text
-                  style={[styles.featureLabel, { color: colors.textSecondary }]}
-                >
-                  Area
-                </Text>
-              </View>
-              {property.features.garage?.spaces && (
-                <View
-                  style={[
-                    styles.featureItem,
-                    { backgroundColor: colors.cardBackground },
-                  ]}
-                >
-                  <Ionicons name="car" size={28} color={colors.primary} />
-                  <Text
-                    style={[styles.featureValue, { color: colors.primaryDark }]}
-                  >
-                    {property.features.garage.spaces}
-                  </Text>
+              {property.address.neighborhood && (
+                <View style={styles.locationDetailRow}>
+                  <MaterialIcons
+                    name="people"
+                    size={18}
+                    color={colors.textSecondary}
+                  />
                   <Text
                     style={[
-                      styles.featureLabel,
+                      styles.locationDetailText,
                       { color: colors.textSecondary },
                     ]}
                   >
-                    Garage
+                    Neighborhood: {property.address.neighborhood}
                   </Text>
                 </View>
               )}
             </View>
+          )}
 
-            {property.features.amenities && (
-              <>
-                <Text
-                  style={[
-                    styles.subSectionTitle,
-                    { color: colors.primaryDark },
-                  ]}
-                >
-                  Amenities
-                </Text>
-                <View style={styles.amenitiesContainer}>
-                  {property.features.amenities.map((amenity, index) => (
-                    <Chip
-                      key={index}
-                      style={[
-                        styles.amenityChip,
-                        { backgroundColor: colors.chipBackground },
-                      ]}
-                      textStyle={[
-                        styles.amenityText,
-                        { color: colors.primaryDark },
-                      ]}
-                    >
-                      {amenity}
-                    </Chip>
-                  ))}
+          {/* Contact Section */}
+          {property.listing_agent && (
+            <View style={styles.section}>
+              <SectionTitle title="Listing Agent" colors={colors} />
+              <View style={styles.agentInfo}>
+                <View style={styles.agentDetail}>
+                  <MaterialIcons
+                    name="business"
+                    size={18}
+                    color={colors.textSecondary}
+                  />
+                  <Text
+                    style={[styles.agentText, { color: colors.textSecondary }]}
+                  >
+                    {property.listing_agent.agency}
+                  </Text>
                 </View>
-              </>
-            )}
-          </View>
-        )}
+                <View style={styles.agentDetail}>
+                  <MaterialIcons
+                    name="call"
+                    size={18}
+                    color={colors.textSecondary}
+                  />
+                  <Text
+                    style={[styles.agentText, { color: colors.textSecondary }]}
+                  >
+                    {property.listing_agent.contact}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
 
-        <Divider
-          style={[styles.divider, { backgroundColor: colors.divider }]}
-        />
-
-        {/* Description Section */}
-        <View style={[styles.section, { backgroundColor: colors.white }]}>
-          <Text style={[styles.sectionTitle, { color: colors.primaryDark }]}>
-            Description
-          </Text>
-          <Text
-            style={[styles.descriptionText, { color: colors.textSecondary }]}
-          >
-            {property.description}
-          </Text>
-        </View>
-
-        {/* Contact Section */}
-        <View style={[styles.section, { backgroundColor: colors.white }]}>
+          {/* Contact Button */}
           <TouchableOpacity
             style={[
               styles.contactButton,
               { backgroundColor: colors.primary, shadowColor: colors.primary },
             ]}
+            onPress={() =>
+              property.listing_agent?.contact &&
+              Linking.openURL(`mailto:${property.listing_agent.contact}`)
+            }
           >
-            <Ionicons name="mail" size={24} color={colors.white} />
+            <MaterialIcons name="mail" size={24} color={colors.white} />
             <Text style={[styles.contactButtonText, { color: colors.white }]}>
               Contact Agent
             </Text>
+            <MaterialIcons
+              name="chevron-right"
+              size={20}
+              color={colors.white}
+            />
           </TouchableOpacity>
         </View>
       </Animated.ScrollView>
@@ -412,6 +363,7 @@ export default function PropertyDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f8f9fa",
   },
   headerBackground: {
     position: "absolute",
@@ -439,14 +391,15 @@ const styles = StyleSheet.create({
   headerInner: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 16,
     height: "100%",
   },
   propertyTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
-    marginLeft: 16,
     flex: 1,
+    marginHorizontal: 12,
   },
   iconButton: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
@@ -455,13 +408,17 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 6,
   },
   headerActions: {
     flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   content: {
-    paddingBottom: 80,
+    paddingBottom: 30,
+  },
+  mainContent: {
+    paddingHorizontal: 16,
   },
   carouselContainer: {
     height: IMAGE_HEIGHT,
@@ -481,81 +438,118 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   indicatorDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     marginHorizontal: 4,
   },
   activeDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   section: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    backgroundColor: "#fff",
     borderRadius: 12,
-    marginHorizontal: 12,
-    marginVertical: 8,
+    padding: 20,
+    marginBottom: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 2,
   },
   overviewHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 12,
   },
   price: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "800",
-  },
-  saveButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  saveButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginLeft: 8,
   },
   addressText: {
     fontSize: 16,
-    marginBottom: 12,
+    marginBottom: 16,
     lineHeight: 24,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "700",
-    marginBottom: 12,
+    marginBottom: 16,
   },
   subSectionTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "600",
-    marginTop: 16,
     marginBottom: 12,
   },
   descriptionText: {
-    fontSize: 16,
-    lineHeight: 26,
+    fontSize: 15,
+    lineHeight: 24,
+    color: "#555",
   },
-  chipContainer: {
+  dividerLine: {
+    height: 1,
+    backgroundColor: "#eee",
+    marginVertical: 16,
+  },
+  quickFacts: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 8,
+  },
+  quickFact: {
+    alignItems: "center",
+    flex: 1,
+  },
+  quickFactValue: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginTop: 8,
+  },
+  quickFactLabel: {
+    fontSize: 12,
+    marginTop: 4,
+    color: "#777",
+  },
+  videoContainer: {
+    height: 180,
+    backgroundColor: "#000",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+  videoCaption: {
+    marginTop: 8,
+    fontSize: 14,
+  },
+  featuresGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 12,
+    marginBottom: 8,
   },
-  chip: {
-    borderRadius: 16,
+  featureCard: {
+    width: "48%",
+    padding: 16,
+    borderRadius: 10,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  chipText: {
-    fontSize: 14,
-    fontWeight: "500",
+  featureCardValue: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginVertical: 8,
+  },
+  featureCardLabel: {
+    fontSize: 13,
+    color: "#777",
   },
   amenitiesContainer: {
     flexDirection: "row",
@@ -566,54 +560,65 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   amenityText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "500",
   },
-  featuresGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  featureItem: {
-    width: "47%",
-    padding: 16,
-    borderRadius: 12,
+  mapPlaceholder: {
+    height: 180,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    justifyContent: "center",
+    marginBottom: 12,
   },
-  featureValue: {
-    fontSize: 20,
-    fontWeight: "700",
-    marginVertical: 8,
+  locationDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
   },
-  featureLabel: {
+  locationText: {
+    marginLeft: 8,
+    fontSize: 15,
+  },
+  locationDetailRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  locationDetailText: {
+    marginLeft: 8,
     fontSize: 14,
-    fontWeight: "500",
   },
-  divider: {
-    marginVertical: 12,
-    height: 1,
+  agentInfo: {
+    marginTop: 8,
+  },
+  agentDetail: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  agentText: {
+    marginLeft: 8,
+    fontSize: 15,
   },
   contactButton: {
     height: 56,
     borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 6,
+    marginBottom: 30,
   },
   contactButtonText: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "600",
-    marginLeft: 12,
+    flex: 1,
+    textAlign: "center",
   },
   errorText: {
     fontSize: 18,
