@@ -17,7 +17,7 @@ export default function PropertyCardHorizontal({
 }) {
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={[styles.card, { backgroundColor: colors.cardBackground }]}
       onPress={onPress}
       activeOpacity={0.85}
     >
@@ -27,21 +27,34 @@ export default function PropertyCardHorizontal({
         resizeMode="cover"
       />
       <View style={styles.info}>
-        <Text style={[styles.title, { color: colors.primaryDark }]}>
+        <Text style={[styles.title, { color: colors.text }]}>
           {property.title}
         </Text>
         <Text style={[styles.price, { color: colors.primary }]}>
           ${property.price.toLocaleString()}
         </Text>
         <View style={styles.row}>
-          <Text style={styles.label}>Type: </Text>
-          <Text style={styles.value}>{property.type}</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>
+            Type:
+          </Text>
+          <Text style={[styles.value, { color: colors.textTertiary }]}>
+            {property.type}
+          </Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Bedrooms: </Text>
-          <Text style={styles.value}>{property.features?.bedrooms}</Text>
-          <Text style={styles.label}> Bathrooms: </Text>
-          <Text style={styles.value}>{property.features?.bathrooms}</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>
+            Bedrooms:{" "}
+          </Text>
+          <Text style={[styles.value, { color: colors.textTertiary }]}>
+            {property.features?.bedrooms}
+          </Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>
+            {" "}
+            Bathrooms:{" "}
+          </Text>
+          <Text style={[styles.value, { color: colors.textTertiary }]}>
+            {property.features?.bathrooms}
+          </Text>
         </View>
         <View style={styles.row}>
           <View
@@ -127,11 +140,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 2,
     flexWrap: "wrap",
+    gap: 6,
   },
   label: {
     fontWeight: "600",
     fontSize: 13,
-    color: "#555",
   },
   value: {
     fontSize: 13,

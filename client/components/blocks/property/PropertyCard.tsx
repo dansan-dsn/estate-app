@@ -55,13 +55,20 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
       </View>
 
       <Card.Content style={styles.content}>
-        <Text variant="titleLarge" numberOfLines={1} style={styles.title}>
+        <Text
+          variant="titleLarge"
+          numberOfLines={1}
+          style={[styles.title, { color: colors.text }]}
+        >
           {property.title}
         </Text>
 
         <View style={styles.locationRow}>
           <MaterialIcons name="location-on" size={16} color={colors.primary} />
-          <Text variant="bodyMedium" style={styles.locationText}>
+          <Text
+            variant="bodyMedium"
+            style={[styles.locationText, { color: colors.textSecondary }]}
+          >
             {property.address?.city}, {property.address?.state}
           </Text>
         </View>
@@ -70,7 +77,10 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
           {property.features?.bedrooms && (
             <View style={styles.featureItem}>
               <MaterialIcons name="bed" size={16} color={colors.warning} />
-              <Text variant="bodySmall" style={[{ fontWeight: "bold" }]}>
+              <Text
+                variant="bodySmall"
+                style={[{ fontWeight: "bold", color: colors.text }]}
+              >
                 {property.features.bedrooms}
               </Text>
             </View>
@@ -79,7 +89,10 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
           {property.features?.bathrooms && (
             <View style={styles.featureItem}>
               <MaterialIcons name="bathtub" size={16} color={colors.warning} />
-              <Text variant="bodySmall" style={[{ fontWeight: "bold" }]}>
+              <Text
+                variant="bodySmall"
+                style={[{ fontWeight: "bold", color: colors.text }]}
+              >
                 {property.features.bathrooms}
               </Text>
             </View>
@@ -90,9 +103,9 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
               <MaterialIcons
                 name="straighten"
                 size={16}
-                color={colors.background}
+                color={colors.primary}
               />
-              <Text variant="bodySmall">
+              <Text variant="bodySmall" style={{ color: colors.text }}>
                 {property.features.floor_area} sqm
               </Text>
             </View>
@@ -175,7 +188,6 @@ const styles = StyleSheet.create({
   },
   locationText: {
     marginLeft: 4,
-    color: "#666",
   },
   featuresContainer: {
     flexDirection: "row",

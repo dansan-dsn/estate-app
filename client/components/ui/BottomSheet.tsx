@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SCREEN_HEIGHT } from "@/constants/screen";
+import { useThemeStore } from "@/stores/useTheme";
 
 type BottomSheetProps = {
   visible: boolean;
@@ -53,6 +54,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const backdropAnim = useRef(new Animated.Value(0)).current;
     const [isClosing, setIsClosing] = useState(false);
     const lastTranslateY = useRef(0);
+    const { colors } = useThemeStore();
 
     // --- DRAG LOGIC START ---
     const panResponder = useRef(
@@ -168,12 +170,12 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
               styles.overlay,
               {
                 opacity: backdropAnim,
-                // Ensure full screen coverage
                 height: SCREEN_HEIGHT,
                 top: 0,
                 left: 0,
                 right: 0,
                 position: "absolute",
+                backgroundColor: colors.black,
               },
             ]}
           />
@@ -183,7 +185,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
             styles.container,
             {
               height: maxHeight,
-              backgroundColor,
+              backgroundColor: colors.background,
               transform: [{ translateY }],
               zIndex: 100,
             },
@@ -191,7 +193,11 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
           {...(draggable ? panResponder.panHandlers : {})}
         >
           <SafeAreaView edges={["bottom"]} style={styles.content}>
-            {draggable && <View style={styles.dragHandle} />}
+            {draggable && (
+              <View
+                style={[styles.dragHandle, { backgroundColor: colors.text }]}
+              />
+            )}
             {children}
           </SafeAreaView>
         </Animated.View>
@@ -207,7 +213,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: SCREEN_HEIGHT,
-    backgroundColor: "black",
     zIndex: 99,
   },
   container: {
@@ -218,12 +223,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     overflow: "hidden",
-    backgroundColor: "white",
   },
   dragHandle: {
     width: 40,
     height: 4,
-    backgroundColor: "#ccc",
     borderRadius: 2,
     alignSelf: "center",
     marginVertical: 8,
@@ -234,4 +237,5 @@ const styles = StyleSheet.create({
   },
 });
 
+BottomSheet.displayName = "BottomSheet";
 export default BottomSheet;

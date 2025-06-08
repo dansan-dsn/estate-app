@@ -35,15 +35,32 @@ export const Colors = {
     divider: "#E0E0E0",
     outline: "#CCCCCC",
 
+    // ===== Tab Bar Colors ===== //
+    tabBarBackground: "#FFFFFF",
+    tabBarBorder: "#E0E0E0",
+    tabIconDefault: "#666666",
+    tabIconSelected: "#2E5EAA",
+    tabLabelDefault: "#666666",
+    tabLabelSelected: "#2E5EAA",
+    tabIndicator: "#2E5EAA",
+    tabFocusedBackground: "#E6F0FF",
+    tabFocusedText: "#2E5EAA",
+
     // ===== Components ===== //
-    tabIconDefault: "#666666", // Added missing property
-    tabIconSelected: "#2E5EAA", // Added missing property
     chipBackground: "#E6F0FF",
     cardBackground: "#FFFFFF",
 
     // ===== Utilities ===== //
     white: "#FFFFFF",
-    black: "#000000", // Added missing property
+    black: "#000000",
+    overlay: "rgba(0,0,0,0.5)",
+
+    // segment
+    segmentBackground: "#F0F2F5",
+    segmentActiveBackground: "#2E5EAA",
+    segmentText: "#666666",
+    segmentActiveText: "#FFFFFF",
+    segmentBorder: "#E0E0E0",
   },
 
   dark: {
@@ -82,14 +99,31 @@ export const Colors = {
     divider: "#424242",
     outline: "#555555",
 
+    // ===== Tab Bar Colors ===== //
+    tabBarBackground: "#1E1E1E",
+    tabBarBorder: "#333333",
+    tabIconDefault: "#9E9E9E",
+    tabIconSelected: "#4A89DC",
+    tabLabelDefault: "#9E9E9E",
+    tabLabelSelected: "#4A89DC",
+    tabIndicator: "#4A89DC",
+    tabFocusedBackground: "#1A2A4A",
+    tabFocusedText: "#4A89DC",
+
     // ===== Components ===== //
-    tabIconDefault: "#9E9E9E", // Added missing property
-    tabIconSelected: "#4A89DC", // Added missing property
     chipBackground: "#1A2A4A",
     cardBackground: "#1E1E1E",
 
     // ===== Utilities ===== //
     white: "#FFFFFF",
-    black: "#000000", // Fixed typo (was "#fff")
+    black: "#000000",
+    overlay: "rgba(0,0,0,0.7)",
+
+    // segment
+    segmentBackground: "#2A2A2A",
+    segmentActiveBackground: "#4A89DC",
+    segmentText: "#FFFFFF", // White text for dark mode
+    segmentActiveText: "#FFFFFF",
+    segmentBorder: "#424242",
   },
 };

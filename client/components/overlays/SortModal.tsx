@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Pressable, Animated } from "react-native";
-import { Text, Icon, MD3Colors, Divider } from "react-native-paper";
+import { Text, Icon, MD3Colors } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 import { SCREEN_HEIGHT, HEADER_HEIGHT } from "@/constants/screen";
 import BottomSheetModal from "@/components/ui/BottomSheet";
@@ -130,9 +130,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
           style={[
             styles.header,
             {
-              backgroundColor: colors.surfaceVariant,
-              borderBottomColor: "#eee",
-              borderBottomWidth: 1,
+              backgroundColor: colors.cardBackground,
               zIndex: 10,
               shadowColor: "#000",
               elevation: 2,
@@ -143,7 +141,10 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
             Filter Properties
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <Pressable onPress={handleClearAll} style={styles.iconBtn}>
+            <Pressable
+              onPress={handleClearAll}
+              style={[styles.iconBtn, { backgroundColor: colors.background }]}
+            >
               <Icon source="refresh" size={20} color={colors.primary} />
               <Text
                 style={{
@@ -171,25 +172,33 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
             { useNativeDriver: false }
           )}
         >
-          <Divider
-            style={{ backgroundColor: colors.outline, marginBottom: 8 }}
-          />
-
           {/* Property Type */}
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: colors.text }]}>
               Property Type
             </Text>
-            <View style={styles.pickerWrapper}>
+            <View
+              style={[
+                styles.pickerWrapper,
+                {
+                  backgroundColor: colors.surface,
+                  borderColor: colors.outline,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                },
+              ]}
+            >
               <Picker
                 selectedValue={selectedType}
                 onValueChange={setSelectedType}
-                style={{ height: 50, paddingVertical: 8 }}
+                style={{
+                  height: 50,
+                  color: colors.textSecondary,
+                }}
                 mode="dropdown"
-                dropdownIconColor={colors.textSecondary}
+                dropdownIconColor={colors.icon}
                 itemStyle={{
-                  color: colors.success,
-                  backgroundColor: colors.success,
+                  color: colors.textSecondary,
                 }}
               >
                 {PROPERTY_TYPE_OPTIONS.map((option, i) => (
@@ -197,7 +206,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                     key={i}
                     label={option.label}
                     value={option.value}
-                    color={colors.text}
+                    color={colors.textSecondary}
                   />
                 ))}
               </Picker>
@@ -220,7 +229,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       backgroundColor:
                         selectedRange === range.label
                           ? colors.primary
-                          : colors.surfaceVariant,
+                          : colors.surface,
                       borderColor:
                         selectedRange === range.label
                           ? colors.primary
@@ -247,10 +256,13 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                 <Text style={[styles.inputLabel, { color: colors.secondary }]}>
                   Min Price
                 </Text>
-                <View style={styles.inputContainer}>
-                  <Text
-                    style={[styles.currencySymbol, { color: colors.outline }]}
-                  >
+                <View
+                  style={[
+                    styles.inputContainer,
+                    { backgroundColor: colors.cardBackground },
+                  ]}
+                >
+                  <Text style={[styles.currencySymbol, { color: colors.text }]}>
                     $
                   </Text>
                   <Text
@@ -275,10 +287,13 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                 <Text style={[styles.inputLabel, { color: colors.secondary }]}>
                   Max Price
                 </Text>
-                <View style={styles.inputContainer}>
-                  <Text
-                    style={[styles.currencySymbol, { color: colors.outline }]}
-                  >
+                <View
+                  style={[
+                    styles.inputContainer,
+                    { backgroundColor: colors.cardBackground },
+                  ]}
+                >
+                  <Text style={[styles.currencySymbol, { color: colors.text }]}>
                     $
                   </Text>
                   <Text
@@ -316,7 +331,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       backgroundColor:
                         selectedBed === option.value
                           ? colors.primary
-                          : colors.surfaceVariant,
+                          : colors.surface,
                       borderColor:
                         selectedBed === option.value
                           ? colors.primary
@@ -356,7 +371,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       backgroundColor:
                         selectedBath === option.value
                           ? colors.primary
-                          : colors.surfaceVariant,
+                          : colors.surface,
                       borderColor:
                         selectedBath === option.value
                           ? colors.primary
@@ -386,7 +401,17 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
             <Text style={[styles.sectionTitle, { color: colors.text }]}>
               Date Added
             </Text>
-            <View style={styles.pickerWrapper}>
+            <View
+              style={
+                (styles.pickerWrapper,
+                {
+                  backgroundColor: colors.surface,
+                  borderColor: colors.outline,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                })
+              }
+            >
               <Picker
                 selectedValue={selectedDate}
                 onValueChange={setSelectedDate}
@@ -400,7 +425,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                     key={i}
                     label={option.label}
                     value={option.date}
-                    color={colors.text}
+                    color={colors.textSecondary}
                   />
                 ))}
               </Picker>
@@ -451,7 +476,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,
-    backgroundColor: "rgba(0,0,0,0.03)",
   },
   closeBtn: {
     padding: 6,
@@ -474,7 +498,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e0e0e0",
     borderRadius: 8,
-    backgroundColor: "#f9f9f9",
     overflow: "hidden",
     marginBottom: 12,
   },
@@ -517,7 +540,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
     overflow: "hidden",
-    backgroundColor: "#f0f0f0",
     paddingLeft: 24,
     height: 44,
   },

@@ -39,19 +39,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={navigationTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="property/[propertyId]"
-            options={{
-              headerShown: false,
-              title: "Property Details",
-              headerBackTitle: "Back",
-            }}
-          />
-          <Stack.Screen name="notifications" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-        </Stack>
+        <Stack screenOptions={{ headerShown: false }} />
         <GlobalSnackbar />
         <StatusBar style={theme === "light" ? "dark" : "light"} />
       </ThemeProvider>

@@ -99,6 +99,7 @@ export default function PropertyDetails() {
             opacity: headerBackgroundOpacity,
             transform: [{ translateY: headerTranslateY }],
             backgroundColor: colors.headerBackground,
+            shadowColor: colors.primaryDark,
           },
         ]}
       />
@@ -114,16 +115,23 @@ export default function PropertyDetails() {
       >
         <View style={styles.headerInner}>
           <TouchableOpacity
-            style={styles.iconButton}
+            style={[
+              styles.iconButton,
+              { backgroundColor: colors.iconActive + "33" },
+            ]}
             onPress={() => navigation.goBack()}
           >
-            <MaterialIcons name="arrow-back" size={24} color={colors.white} />
+            <MaterialIcons
+              name="arrow-back"
+              size={24}
+              color={colors.headerTint}
+            />
           </TouchableOpacity>
 
           <Animated.Text
             style={[
               styles.propertyTitle,
-              { opacity: headerTitleOpacity, color: colors.white },
+              { opacity: headerTitleOpacity, color: colors.headerText },
             ]}
             numberOfLines={1}
           >
@@ -132,17 +140,25 @@ export default function PropertyDetails() {
 
           <View style={styles.headerActions}>
             <TouchableOpacity
-              style={styles.iconButton}
+              style={[
+                styles.iconButton,
+                { backgroundColor: colors.iconActive + "33" },
+              ]}
               onPress={onFavoritePress}
             >
               <MaterialIcons
                 name={favorite ? "favorite" : "favorite-border"}
                 size={24}
-                color={favorite ? colors.error : colors.white}
+                color={favorite ? colors.error : colors.headerTint}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <MaterialIcons name="share" size={24} color={colors.white} />
+            <TouchableOpacity
+              style={[
+                styles.iconButton,
+                { backgroundColor: colors.iconActive + "33" },
+              ]}
+            >
+              <MaterialIcons name="share" size={24} color={colors.headerTint} />
             </TouchableOpacity>
           </View>
         </View>
@@ -161,7 +177,10 @@ export default function PropertyDetails() {
         {/* Image Slider */}
         {property.media?.images && property.media.images.length > 0 && (
           <Animated.View
-            style={[styles.carouselContainer, { opacity: imageOpacity }]}
+            style={[
+              styles.carouselContainer,
+              { opacity: imageOpacity, backgroundColor: colors.black },
+            ]}
           >
             <ScrollView
               horizontal
@@ -180,7 +199,10 @@ export default function PropertyDetails() {
               ))}
             </ScrollView>
             <View
-              style={[styles.imageIndicator, { backgroundColor: "#00000080" }]}
+              style={[
+                styles.imageIndicator,
+                { backgroundColor: colors.overlay },
+              ]}
             >
               {property.media.images.map((_, index) => (
                 <View
@@ -190,7 +212,7 @@ export default function PropertyDetails() {
                     { backgroundColor: colors.white + "66" },
                     currentImageIndex === index && [
                       styles.activeDot,
-                      { backgroundColor: colors.white },
+                      { backgroundColor: colors.primary },
                     ],
                   ]}
                 />
@@ -202,7 +224,12 @@ export default function PropertyDetails() {
         <View style={{ height: HEADER_HEIGHT }} />
 
         <View style={styles.mainContent}>
-          <View style={styles.section}>
+          <View
+            style={[
+              styles.section,
+              { backgroundColor: colors.surface, shadowColor: colors.black },
+            ]}
+          >
             <OverviewSection
               property={property}
               colors={colors}
@@ -212,14 +239,24 @@ export default function PropertyDetails() {
 
           {/* VIDEO SECTION */}
           {property.media?.videos && property.media.videos.length > 0 && (
-            <View style={styles.section}>
+            <View
+              style={[
+                styles.section,
+                { backgroundColor: colors.surface, shadowColor: colors.black },
+              ]}
+            >
               <SectionTitle title="Property Tour" colors={colors} />
               {property.media.videos.map((video, idx) => (
                 <TouchableOpacity
                   key={idx}
                   onPress={() => Linking.openURL(video.url)}
                 >
-                  <View style={styles.videoContainer}>
+                  <View
+                    style={[
+                      styles.videoContainer,
+                      { backgroundColor: colors.black },
+                    ]}
+                  >
                     <MaterialIcons
                       name="play-circle-outline"
                       size={48}
@@ -237,7 +274,12 @@ export default function PropertyDetails() {
           )}
 
           {/* Description Section */}
-          <View style={styles.section}>
+          <View
+            style={[
+              styles.section,
+              { backgroundColor: colors.surface, shadowColor: colors.black },
+            ]}
+          >
             <SectionTitle title="Description" colors={colors} />
             <Text
               style={[styles.descriptionText, { color: colors.textSecondary }]}
@@ -248,7 +290,12 @@ export default function PropertyDetails() {
 
           {/* Features Section */}
           {property.features && (
-            <View style={styles.section}>
+            <View
+              style={[
+                styles.section,
+                { backgroundColor: colors.surface, shadowColor: colors.black },
+              ]}
+            >
               <SectionTitle title="Property Features" colors={colors} />
               <FeaturesSection
                 property={property}
@@ -260,9 +307,19 @@ export default function PropertyDetails() {
 
           {/* Location Section */}
           {property.address?.coordinates && (
-            <View style={styles.section}>
+            <View
+              style={[
+                styles.section,
+                { backgroundColor: colors.surface, shadowColor: colors.black },
+              ]}
+            >
               <SectionTitle title="Location" colors={colors} />
-              <View style={styles.mapPlaceholder}>
+              <View
+                style={[
+                  styles.mapPlaceholder,
+                  { backgroundColor: colors.surfaceVariant },
+                ]}
+              >
                 <Text style={{ color: colors.textSecondary }}>
                   Map would be displayed here
                 </Text>
@@ -302,7 +359,12 @@ export default function PropertyDetails() {
 
           {/* Contact Section */}
           {property.listing_agent && (
-            <View style={styles.section}>
+            <View
+              style={[
+                styles.section,
+                { backgroundColor: colors.surface, shadowColor: colors.black },
+              ]}
+            >
               <SectionTitle title="Listing Agent" colors={colors} />
               <View style={styles.agentInfo}>
                 <View style={styles.agentDetail}>
@@ -363,7 +425,6 @@ export default function PropertyDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
   },
   headerBackground: {
     position: "absolute",
@@ -372,7 +433,6 @@ const styles = StyleSheet.create({
     right: 0,
     height: HEADER_HEIGHT,
     zIndex: 10,
-    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 6,
@@ -402,7 +462,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   iconButton: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -422,7 +481,6 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     height: IMAGE_HEIGHT,
-    backgroundColor: "#000",
   },
   mainImage: {
     width: screenWidth,
@@ -449,11 +507,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   section: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
-    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 6,
@@ -487,11 +543,9 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 15,
     lineHeight: 24,
-    color: "#555",
   },
   dividerLine: {
     height: 1,
-    backgroundColor: "#eee",
     marginVertical: 16,
   },
   quickFacts: {
@@ -511,11 +565,9 @@ const styles = StyleSheet.create({
   quickFactLabel: {
     fontSize: 12,
     marginTop: 4,
-    color: "#777",
   },
   videoContainer: {
     height: 180,
-    backgroundColor: "#000",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -536,7 +588,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,
-    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -549,7 +600,6 @@ const styles = StyleSheet.create({
   },
   featureCardLabel: {
     fontSize: 13,
-    color: "#777",
   },
   amenitiesContainer: {
     flexDirection: "row",
@@ -565,7 +615,6 @@ const styles = StyleSheet.create({
   },
   mapPlaceholder: {
     height: 180,
-    backgroundColor: "#f0f0f0",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",

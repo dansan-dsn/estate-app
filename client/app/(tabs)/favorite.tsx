@@ -33,16 +33,16 @@ const Favorite = () => {
       >
         <Appbar.Content
           title="Favorites"
-          color="white"
-          style={{
-            alignItems: "center",
-          }}
+          titleStyle={[
+            { fontWeight: "bold", fontSize: 24, color: colors.headerText },
+          ]}
         />
       </Appbar.Header>
       <Animated.FlatList
         ref={flatListRef}
         data={favoritesProperty}
         keyExtractor={(item) => String(item.property_id)}
+        style={{ backgroundColor: colors.background }}
         renderItem={({ item }) => (
           <PropertyCardHorizontal
             property={item}
@@ -56,14 +56,25 @@ const Favorite = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
-          <View style={styles.noContainer}>
+          <View
+            style={[
+              styles.noContainer,
+              { backgroundColor: colors.cardBackground },
+            ]}
+          >
             <Text variant="displayMedium" style={styles.emoji}>
               💔
             </Text>
-            <Text variant="titleLarge" style={styles.title}>
+            <Text
+              variant="titleLarge"
+              style={[styles.title, { color: colors.text }]}
+            >
               No Favorites Yet
             </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
+            <Text
+              variant="bodyMedium"
+              style={[styles.subtitle, { color: colors.textSecondary }]}
+            >
               Tap the <Text style={styles.heart}>♥</Text> on any property to add
               it to your favorites.
             </Text>
@@ -95,13 +106,12 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginHorizontal: 20,
     padding: 24,
-    backgroundColor: "#fff",
     borderRadius: 16,
     elevation: 2,
   },
   emoji: { marginBottom: 12 },
   title: { fontWeight: "bold", marginBottom: 6 },
-  subtitle: { color: "#666", textAlign: "center", marginBottom: 18 },
+  subtitle: { textAlign: "center", marginBottom: 18 },
   heart: { color: "#e53935", fontWeight: "bold" },
   button: { marginTop: 8, width: "80%", borderRadius: 25 },
 });

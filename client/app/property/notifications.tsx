@@ -124,13 +124,23 @@ const Notifications = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Appbar.Header elevated>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Notifications" />
+      <Appbar.Header
+        elevated
+        style={{ backgroundColor: colors.headerBackground }}
+      >
+        <Appbar.BackAction
+          onPress={() => navigation.goBack()}
+          color={colors.headerTint}
+        />
+        <Appbar.Content
+          title="Notifications"
+          titleStyle={{ color: colors.headerText }}
+        />
         {notifications.length > 0 && (
           <Appbar.Action
             icon="dots-vertical"
             onPress={() => setVisible(true)}
+            color={colors.headerTint}
           />
         )}
       </Appbar.Header>

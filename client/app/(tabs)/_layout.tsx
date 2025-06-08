@@ -55,17 +55,17 @@ export default function TabLayout() {
       labeled={false}
       barStyle={{
         position: Platform.OS === "ios" ? "absolute" : "relative",
-        backgroundColor: colors.surfaceVariant,
+        backgroundColor: colors.tabBarBackground,
         borderTopWidth: 1,
-        borderTopColor: colors.divider,
+        borderTopColor: colors.tabBarBorder,
         elevation: 2,
-        shadowColor: colors.text,
+        // shadowColor: colors.tabIndicator,
         shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
       }}
-      activeColor={colors.iconActive}
-      inactiveColor={colors.icon}
+      activeColor={colors.tabIconSelected}
+      inactiveColor={colors.tabIconDefault}
     />
   );
 }

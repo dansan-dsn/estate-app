@@ -36,20 +36,36 @@ export interface ColorTheme {
   divider: string; // Dividers/lines
   outline: string; // Borders (inputs, cards)
 
+  // ===== Tab Bar Colors ===== //
+  tabBarBackground: string; // Background color of tab bar
+  tabBarBorder: string; // Border color of tab bar
+  tabIconDefault: string; // Default/inactive tab icon color
+  tabIconSelected: string; // Selected/active tab icon color
+  tabLabelDefault: string; // Default/inactive tab label color
+  tabLabelSelected: string; // Selected/active tab label color
+  tabIndicator: string; // Active tab indicator color
+  tabFocusedBackground: string; // Background when tab receives focus
+  tabFocusedText: string; // Text color when tab receives focus
+
   // ===== Components ===== //
-  tabIconDefault: string; // Default tab bar icon
-  tabIconSelected: string; // Selected tab icon
   chipBackground: string; // Chip/tag background
   cardBackground: string; // Custom card background (if different from surface)
 
   // ===== Utilities ===== //
   white: string; // Pure white (fixed)
   black: string; // Pure black (fixed)
+  overlay: string; // Overlay color for modals/dialogs
+
+  segmentBackground: string;
+  segmentActiveBackground: string;
+  segmentText: string;
+  segmentActiveText: string;
+  segmentBorder: string;
 }
 
 export interface ColorState {
-  theme: TypeTheme;
-  colors: ColorTheme;
-  setTheme: (theme: TypeTheme) => void;
-  initializeTheme: () => Promise<void>;
+  theme: TypeTheme; // Current theme ('light' or 'dark')
+  colors: ColorTheme; // Current color palette
+  setTheme: (theme: TypeTheme) => void; // Function to change theme
+  initializeTheme: () => Promise<void>; // Async function to load saved theme
 }

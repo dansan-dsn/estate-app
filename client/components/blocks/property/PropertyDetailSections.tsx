@@ -18,7 +18,7 @@ export function SectionTitle({
         isSubsection
           ? { fontSize: 17, fontWeight: "600", marginBottom: 12 }
           : { fontSize: 20, fontWeight: "700", marginBottom: 16 },
-        { color: colors.primaryDark },
+        { color: colors.text },
       ]}
     >
       {title}

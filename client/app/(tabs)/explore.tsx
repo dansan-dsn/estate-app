@@ -70,8 +70,42 @@ const Explore = () => {
   });
 
   const segmentaView = [
-    { label: "Map", value: "map" },
-    { label: "List", value: "list" },
+    {
+      label: "Map",
+      value: "map",
+      labelStyle:
+        value === "map"
+          ? { color: colors.segmentActiveText }
+          : { color: colors.segmentText },
+      style: {
+        backgroundColor:
+          value === "map"
+            ? colors.segmentActiveBackground
+            : colors.segmentBackground,
+        borderWidth: 0,
+        borderColor: "transparent",
+        elevation: 4,
+        shadowColor: "black",
+      },
+    },
+    {
+      label: "List",
+      value: "list",
+      labelStyle:
+        value === "list"
+          ? { color: colors.segmentActiveText }
+          : { color: colors.segmentText },
+      style: {
+        backgroundColor:
+          value === "list"
+            ? colors.segmentActiveBackground
+            : colors.segmentBackground,
+        borderWidth: 0,
+        borderColor: "transparent",
+        elevation: 4,
+        shadowColor: "black",
+      },
+    },
   ];
 
   const headerTranslateY = scrollY.interpolate({
@@ -110,7 +144,7 @@ const Explore = () => {
                 <MaterialIcons
                   name="search-off"
                   size={64}
-                  color={colors.secondary}
+                  color={colors.text}
                 />
                 <Text
                   style={{
@@ -125,7 +159,7 @@ const Explore = () => {
                 <Text
                   style={{
                     marginTop: 6,
-                    color: colors.secondary,
+                    color: colors.textSecondary,
                     fontSize: 15,
                     textAlign: "center",
                   }}
@@ -159,9 +193,13 @@ const Explore = () => {
           <View style={styles.searchContainer}>
             <TextInput
               placeholder="Search for a property"
-              style={[styles.searchField, { backgroundColor: colors.white }]}
+              style={[
+                styles.searchField,
+                { backgroundColor: colors.surface, color: colors.text },
+              ]}
               value={search}
               onChangeText={(newSearch) => setSearch(newSearch)}
+              placeholderTextColor={colors.textTertiary}
             />
             <MaterialIcons
               name="search"
@@ -187,9 +225,10 @@ const Explore = () => {
             )}
             <Appbar.Action
               icon="bell"
-              style={[styles.sortBtn, { backgroundColor: colors.white }]}
+              style={[styles.sortBtn, { backgroundColor: colors.surface }]}
+              color={colors.icon}
               onPress={() => {
-                router.push("/notifications");
+                router.push("/property/notifications");
               }}
             />
           </View>
@@ -203,7 +242,8 @@ const Explore = () => {
             )}
             <Appbar.Action
               icon="sort-variant"
-              style={[styles.sortBtn, { backgroundColor: colors.white }]}
+              style={[styles.sortBtn, { backgroundColor: colors.surface }]}
+              color={colors.icon}
               onPress={() => setSortVisible(true)}
             />
           </View>
@@ -232,13 +272,7 @@ const Explore = () => {
           value={value}
           onValueChange={setValue}
           buttons={segmentaView}
-          theme={{
-            colors: {
-              primary: colors.primary,
-              onPrimary: colors.white,
-              secondaryContainer: colors.chipBackground,
-            },
-          }}
+          style={{ borderWidth: 0, borderColor: "transparent", elevation: 0 }}
         />
       </Animated.View>
 

@@ -1,9 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { Appbar, Divider, Button } from "react-native-paper";
+import { Appbar, Divider } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 import SettingSection from "@/components/blocks/more/SettingsSection";
-import LoginView from "@/components/blocks/more/LoginView";
 import { SettingConfig } from "@/shared/interfaces/settings";
 import {
   handleEditProfile,
@@ -20,7 +19,6 @@ import {
 const Settings = () => {
   const [pushEnabled, setPushEnabled] = useState(true);
   const [emailEnabled, setEmailEnabled] = useState(false);
-  const [isLoggedIn] = useState(false);
 
   const { colors, setTheme, theme } = useThemeStore();
 
@@ -129,11 +127,6 @@ const Settings = () => {
     },
   ];
 
-  const handleLogout = () => {
-    // Default logout logic
-    console.log("Logout user");
-  };
-
   const settingsConfig = getSettingsConfig();
 
   return (
@@ -152,39 +145,18 @@ const Settings = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {isLoggedIn ? (
-          <LoginView onLoginPress={() => {}} colors={colors} />
-        ) : (
-          <>
-            {settingsConfig.map((section, index) => (
-              <Fragment key={section.title}>
-                <SettingSection section={section} colors={colors} />
-                {index < settingsConfig.length - 1 && (
-                  <Divider
-                    style={[
-                      styles.divider,
-                      { backgroundColor: colors.outline },
-                    ]}
-                  />
-                )}
-              </Fragment>
-            ))}
-
-            <Divider
-              style={[styles.divider, { backgroundColor: colors.outline }]}
-            />
-
-            <Button
-              mode="outlined"
-              style={[styles.logoutButton, { borderColor: colors.error }]}
-              onPress={handleLogout}
-              labelStyle={[styles.buttonLabel, { color: colors.error }]}
-              theme={{ colors: { primary: colors.error } }}
-            >
-              Log Out
-            </Button>
-          </>
-        )}
+        <>
+          {settingsConfig.map((section, index) => (
+            <Fragment key={section.title}>
+              <SettingSection section={section} colors={colors} />
+              {index < settingsConfig.length - 1 && (
+                <Divider
+                  style={[styles.divider, { backgroundColor: colors.outline }]}
+                />
+              )}
+            </Fragment>
+          ))}
+        </>
       </ScrollView>
     </View>
   );
@@ -201,14 +173,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontWeight: "bold",
     fontSize: 24,
-  },
-
-  logoutButton: {
-    margin: 24,
-    marginTop: 32,
-    borderRadius: 8,
-    paddingVertical: 6,
-    borderWidth: 1.5,
   },
 
   divider: {
