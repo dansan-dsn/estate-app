@@ -1,88 +1,50 @@
-# 🏡 Real Estate Application
+# Welcome to your Expo app 👋
 
-![React Native](https://img.shields.io/badge/React_Native-0.72-blue?logo=react)
-![Expo](https://img.shields.io/badge/Expo-48-000020?logo=expo)
-![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=nodedotjs)
-![Mongoose](https://img.shields.io/badge/Mongoose-7.0-880000?logo=mongodb)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-A cross-platform real estate application with React Native (Expo) frontend and Node.js backend with MongoDB.
+## Get started
 
-![Real Estate App Preview](https://via.placeholder.com/800x400/2D3748/FFFFFF?text=Real+Estate+App+Preview)  
-_(actual screenshot required)_
+1. Install dependencies
 
-## ✨ Features
+   ```bash
+   npm install
+   ```
 
-### 🏠 Property Management
+2. Start the app
 
-- Property listings with filters (price, location, type)
-- High-quality image galleries
-- Virtual tours integration
-- Favorite/save properties
+   ```bash
+   npx expo start
+   ```
 
-### 👤 User System
+In the output, you'll find options to open the app in a
 
-- Secure authentication (JWT)
-- User profiles with preferences
-- Role-based access (Buyers, Agents, Admins)
-- Notification system
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-### 🔍 Search & Discovery
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-- Advanced search with maps integration
-- AI-powered recommendations
-- Neighborhood insights
-- Price history tracking
+## Get a fresh project
 
-### 💬 Communication
-
-- In-app messaging
-- Appointment scheduling
-- Agent contact system
-- Document sharing
-
-### ⚡ Tech Stack
-
-- **Frontend**: React Native with Expo + Native Paper UI
-- **Backend**: Node.js + Express + Mongoose (MongoDB)
-- **Real-time**: Socket.io for instant updates
-- **Type-safe**: TypeScript on both frontend and backend
-
-## 🛠️ Setup
-
-### Prerequisites
-
-- Node.js `v18+`
-- npm `v9+`
-- Expo CLI (`npm install -g expo-cli`)
-- MongoDB Atlas account or local MongoDB
-- Git
-
-### Frontend Installation
+When you're ready, run:
 
 ```bash
-# Clone repository
-git clone https://github.com/dansan-dsn/real-estate-app.git
-cd real-estate-app/client
-
-# Install dependencies
-npm install
-
-# Start Expo development server
-npx expo start
+npm run reset-project
 ```
 
-### Frontend Installation
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-```bash
-cd ../server
+## Learn more
 
-# Install dependencies
-npm install
+To learn more about developing your project with Expo, look at the following resources:
 
-# Create .env file (copy from .env.example)
-cp .env.example .env
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-# Start development server
-npm run dev
-```
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
