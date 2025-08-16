@@ -1,12 +1,11 @@
 import React, { useState, Fragment } from "react";
+import { useRouter } from "expo-router";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Appbar, Divider } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 import SettingSection from "@/components/blocks/more/SettingsSection";
 import { SettingConfig } from "@/shared/interfaces/settings";
 import {
-  handleEditProfile,
-  handleChangePassword,
   handleSavedSearches,
   handleFavoriteProperties,
   handleLanguageSettings,
@@ -20,6 +19,8 @@ const Settings = () => {
   const [pushEnabled, setPushEnabled] = useState(true);
   const [emailEnabled, setEmailEnabled] = useState(false);
 
+  const route = useRouter();
+
   const { colors, setTheme, theme } = useThemeStore();
 
   const toggleTheme = (value: boolean): void => {
@@ -31,16 +32,10 @@ const Settings = () => {
       title: "Account",
       items: [
         {
-          id: "edit-profile",
-          title: "Edit Profile",
-          icon: "account",
-          onPress: () => handleEditProfile(),
-        },
-        {
           id: "change-password",
           title: "Change Password",
           icon: "lock",
-          onPress: () => handleChangePassword(),
+          onPress: () => route.push("/auth/change-password"),
         },
         {
           id: "saved-searches",

@@ -14,8 +14,8 @@ import {
 import { useThemeStore } from "@/stores/useTheme";
 
 export default function Account() {
-  const [isAgent] = useState("agent");
-  const [isLoggedIn] = useState(false);
+  const [isAgent] = useState(false);
+  const [isLoggedIn] = useState(true);
   const { colors } = useThemeStore();
   const router = useRouter();
 

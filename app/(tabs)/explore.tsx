@@ -35,7 +35,7 @@ const defaultFilters: PropertyFilters = {
 };
 
 const Explore = () => {
-  const [value, setValue] = useState("map");
+  const [value, setValue] = useState("list");
   const [search, setSearch] = useState("");
   const [sortVisible, setSortVisible] = useState(false);
   const [filters, setFilters] = useState<PropertyFilters>(defaultFilters);
