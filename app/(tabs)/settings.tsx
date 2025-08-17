@@ -5,21 +5,12 @@ import { Appbar, Divider } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 import SettingSection from "@/components/blocks/more/SettingsSection";
 import { SettingConfig } from "@/shared/interfaces/settings";
-import {
-  handleSavedSearches,
-  handleFavoriteProperties,
-  handleLanguageSettings,
-  handleUnitsAndCurrency,
-  handleContactSupport,
-  handleAbout,
-  handlePrivacyPolicy,
-} from "@/services/settings.services";
 
 const Settings = () => {
   const [pushEnabled, setPushEnabled] = useState(true);
   const [emailEnabled, setEmailEnabled] = useState(false);
 
-  const route = useRouter();
+  const router = useRouter();
 
   const { colors, setTheme, theme } = useThemeStore();
 
@@ -35,19 +26,19 @@ const Settings = () => {
           id: "change-password",
           title: "Change Password",
           icon: "lock",
-          onPress: () => route.push("/auth/change-password"),
+          onPress: () => router.push("/auth/change-password"),
         },
         {
           id: "saved-searches",
           title: "Saved Searches",
           icon: "magnify",
-          onPress: () => handleSavedSearches(),
+          onPress: () => {},
         },
         {
           id: "favorite-properties",
           title: "Favorite Properties",
           icon: "heart",
-          onPress: () => handleFavoriteProperties(),
+          onPress: () => router.push("/(tabs)/favorite"),
         },
       ],
     },
@@ -87,13 +78,17 @@ const Settings = () => {
           id: "language",
           title: "Language",
           icon: "translate",
-          onPress: () => handleLanguageSettings(),
+          onPress: () => {
+            router.push("/settings/language");
+          },
         },
         {
           id: "units-currency",
           title: "Units & Currency",
           icon: "ruler-square",
-          onPress: () => handleUnitsAndCurrency(),
+          onPress: () => {
+            router.push("/settings/currency");
+          },
         },
       ],
     },
@@ -104,19 +99,19 @@ const Settings = () => {
           id: "contact-support",
           title: "Contact Support",
           icon: "help-circle",
-          onPress: () => handleContactSupport(),
+          onPress: () => {},
         },
         {
           id: "about",
           title: "About",
           icon: "information",
-          onPress: () => handleAbout(),
+          onPress: () => {},
         },
         {
           id: "privacy-policy",
           title: "Privacy Policy",
           icon: "file-document",
-          onPress: () => handlePrivacyPolicy(),
+          onPress: () => {},
         },
       ],
     },

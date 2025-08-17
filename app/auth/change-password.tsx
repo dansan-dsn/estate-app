@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "expo-router";
-import { Appbar, Card, Text, TextInput, Button } from "react-native-paper";
+import { Appbar, Text, TextInput, Button } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 
 const ChangePassword = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [confirmsecure, setConfirmSecure] = useState(true);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [secureCurrentEntry, setSecureCurrentEntry] = useState(true);
+  const [secureNewEntry, setSecureNewEntry] = useState(true);
 
   const { colors } = useThemeStore();
   const navigation = useNavigation();
@@ -21,90 +22,107 @@ const ChangePassword = () => {
           color={colors.text}
         />
         <Appbar.Content
-          title="Reset Password"
+          title="Change Password"
           titleStyle={{ fontWeight: "bold", color: colors.text }}
         />
       </Appbar.Header>
-      <Card style={[styles.card, { backgroundColor: colors.surface }]}>
-        <Card.Content>
-          <Text
-            variant="bodyMedium"
-            style={{ color: colors.text, marginBottom: 30 }}
-          >
-            Atleast 8 characters with uppercase and lowercase
-          </Text>
+      <View style={styles.card}>
+        <Text
+          variant="bodyMedium"
+          style={{ color: colors.text, marginBottom: 30 }}
+        >
+          Set a New password using the current one
+        </Text>
 
-          <TextInput
-            label="New Password"
-            value={password}
-            onChangeText={setPassword}
-            mode="outlined"
-            style={[
-              styles.input,
-              {
-                backgroundColor: colors.surface,
-                color: colors.text,
-                borderColor: colors.outline,
-              },
-            ]}
-            secureTextEntry={secureTextEntry}
-            autoCapitalize="none"
-            right={
-              <TextInput.Icon
-                icon={secureTextEntry ? "eye-off" : "eye"}
-                color={colors.icon}
-                onPress={() => setSecureTextEntry(!secureTextEntry)}
-              />
-            }
-            textColor={colors.text}
-            placeholderTextColor={colors.textSecondary}
-            outlineColor={colors.tabBarBorder}
-            activeOutlineColor={colors.primary}
-          />
+        <TextInput
+          label="Current Password"
+          value={currentPassword}
+          onChangeText={setCurrentPassword}
+          mode="flat"
+          style={styles.input}
+          secureTextEntry={secureCurrentEntry}
+          autoCapitalize="none"
+          right={
+            <TextInput.Icon
+              icon={secureCurrentEntry ? "eye-off" : "eye"}
+              color={colors.icon}
+              onPress={() => setSecureCurrentEntry(!secureCurrentEntry)}
+            />
+          }
+          theme={{
+            colors: {
+              primary: colors.primary,
+              outline: colors.outline,
+              onSurface: colors.text,
+              onSurfaceVariant: colors.textSecondary,
+            },
+          }}
+        />
 
-          <TextInput
-            label="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            mode="outlined"
-            style={[
-              styles.input,
-              {
-                backgroundColor: colors.surface,
-                color: colors.text,
-                borderColor: colors.outline,
-              },
-            ]}
-            secureTextEntry={confirmsecure}
-            autoCapitalize="none"
-            right={
-              <TextInput.Icon
-                icon={confirmsecure ? "eye-off" : "eye"}
-                color={colors.icon}
-                onPress={() => setConfirmSecure(!confirmsecure)}
-              />
-            }
-            textColor={colors.text}
-            placeholderTextColor={colors.textSecondary}
-            outlineColor={colors.tabBarBorder}
-            activeOutlineColor={colors.primary}
-          />
+        <TextInput
+          label="New Password"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          mode="flat"
+          style={styles.input}
+          secureTextEntry={secureNewEntry}
+          autoCapitalize="none"
+          right={
+            <TextInput.Icon
+              icon={secureNewEntry ? "eye-off" : "eye"}
+              color={colors.icon}
+              onPress={() => setSecureNewEntry(!secureNewEntry)}
+            />
+          }
+          theme={{
+            colors: {
+              primary: colors.primary,
+              outline: colors.outline,
+              onSurface: colors.text,
+              onSurfaceVariant: colors.textSecondary,
+            },
+          }}
+        />
 
-          <Button
-            mode="contained"
-            style={[
-              styles.submitBtn,
-              {
-                backgroundColor: colors.primary,
-              },
-            ]}
-            labelStyle={[styles.buttonLabel, { color: colors.white }]}
-            onPress={() => console.log("Login pressed")}
-          >
-            Continue
-          </Button>
-        </Card.Content>
-      </Card>
+        <TextInput
+          label="Confirm New Password"
+          value={confirmNewPassword}
+          onChangeText={setConfirmNewPassword}
+          mode="flat"
+          secureTextEntry={true}
+          autoCapitalize="none"
+          style={styles.input}
+          right={
+            newPassword.length > 0 &&
+            confirmNewPassword.length > 0 &&
+            newPassword === confirmNewPassword && (
+              <TextInput.Icon icon={"check-circle"} color={colors.success} />
+            )
+          }
+          theme={{
+            colors: {
+              primary: colors.primary,
+              outline: colors.outline,
+              onSurface: colors.text,
+              onSurfaceVariant: colors.textSecondary,
+            },
+          }}
+        />
+
+        <Button
+          mode="contained"
+          style={[
+            styles.submitBtn,
+            {
+              backgroundColor: colors.primary,
+            },
+          ]}
+          labelStyle={[styles.buttonLabel, { color: colors.white }]}
+          onPress={() => console.log("Login pressed")}
+        >
+          Change Password
+        </Button>
+      </View>
     </View>
   );
 };
@@ -116,18 +134,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    borderRadius: 12,
-    elevation: 3,
     paddingVertical: 10,
-    marginHorizontal: 30,
+    marginTop: 30,
+    marginHorizontal: 40,
   },
   input: {
     marginBottom: 15,
+    backgroundColor: "transparent",
   },
   submitBtn: {
     marginTop: 10,
-    paddingVertical: 8,
-    borderRadius: 8,
+    paddingVertical: 5,
+    borderRadius: 25,
   },
   buttonLabel: {
     fontSize: 16,

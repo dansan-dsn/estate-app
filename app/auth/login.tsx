@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { View, StyleSheet, Image, ScrollView } from "react-native";
-import { Button, Text, TextInput, Card, Switch } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Button, Text, TextInput, Switch } from "react-native-paper";
 import { useThemeStore } from "@/stores/useTheme";
 
 export default function LoginScreen() {
@@ -20,158 +20,144 @@ export default function LoginScreen() {
       ]}
       keyboardShouldPersistTaps="handled"
     >
-      <Image
-        source={require("@/assets/images/favicon.png")}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+      <View style={styles.card}>
+        <Text
+          variant="headlineMedium"
+          style={[styles.title, { color: colors.text }]}
+        >
+          Login
+        </Text>
 
-      <Card style={[styles.card, { backgroundColor: colors.surface }]}>
-        <Card.Content>
-          <Text
-            variant="headlineMedium"
-            style={[styles.title, { color: colors.text }]}
-          >
-            Login
-          </Text>
+        <TextInput
+          label="Email Address"
+          value={email}
+          onChangeText={setEmail}
+          mode="flat"
+          style={styles.input}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          left={<TextInput.Icon icon="email-outline" />}
+          theme={{
+            colors: {
+              primary: colors.primary,
+              outline: colors.outline,
+              onSurface: colors.text,
+              onSurfaceVariant: colors.textSecondary,
+            },
+          }}
+        />
 
-          <TextInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            mode="outlined"
-            style={[
-              styles.input,
-              {
-                backgroundColor: colors.surface,
-                color: colors.text,
-                borderColor: colors.outline,
-              },
-            ]}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            left={<TextInput.Icon icon="email" color={colors.icon} />}
-            textColor={colors.text}
-            placeholderTextColor={colors.textSecondary}
-            outlineColor={colors.tabBarBorder}
-            activeOutlineColor={colors.primary}
-          />
-
-          <TextInput
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            mode="outlined"
-            style={[
-              styles.input,
-              {
-                backgroundColor: colors.surface,
-                color: colors.text,
-                borderColor: colors.text,
-              },
-            ]}
-            secureTextEntry={secureTextEntry}
-            right={
-              <TextInput.Icon
-                icon={secureTextEntry ? "eye-off" : "eye"}
-                color={colors.icon}
-                onPress={() => setSecureTextEntry(!secureTextEntry)}
-              />
-            }
-            textColor={colors.text}
-            placeholderTextColor={colors.textSecondary}
-            outlineColor={colors.tabBarBorder}
-            activeOutlineColor={colors.primary}
-          />
-
-          <View style={styles.rememberRow}>
-            <Switch
-              value={rememberMe}
-              onValueChange={setRememberMe}
-              color={colors.primary}
-              trackColor={{
-                false: colors.surfaceVariant,
-                true: colors.primary + "33",
-              }}
-              thumbColor={rememberMe ? colors.primary : colors.icon}
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          mode="flat"
+          style={styles.input}
+          secureTextEntry={secureTextEntry}
+          left={<TextInput.Icon icon="lock-outline" />}
+          right={
+            <TextInput.Icon
+              icon={secureTextEntry ? "eye-off-outline" : "eye-outline"}
+              onPress={() => setSecureTextEntry(!secureTextEntry)}
             />
-            <Text
-              variant="bodyMedium"
-              style={[styles.rememberText, { color: colors.textSecondary }]}
-            >
-              Remember me
-            </Text>
-          </View>
+          }
+          theme={{
+            colors: {
+              primary: colors.primary,
+              outline: colors.outline,
+              onSurface: colors.text,
+              onSurfaceVariant: colors.textSecondary,
+            },
+          }}
+        />
 
-          <Button
-            mode="contained"
-            style={[
-              styles.loginButton,
-              {
-                backgroundColor: colors.primary,
-              },
-            ]}
-            labelStyle={[styles.buttonLabel, { color: colors.white }]}
-            onPress={() => console.log("Login pressed")}
+        <View style={styles.rememberRow}>
+          <Switch
+            value={rememberMe}
+            onValueChange={setRememberMe}
+            color={colors.primary}
+            trackColor={{
+              false: colors.textSecondary,
+              true: colors.primaryDark,
+            }}
+            thumbColor={rememberMe ? colors.primary : colors.primaryLight}
+          />
+          <Text
+            variant="bodyMedium"
+            style={[styles.rememberText, { color: colors.textSecondary }]}
           >
-            Login
-          </Button>
+            Remember me
+          </Text>
+        </View>
 
+        <Button
+          mode="contained"
+          style={[
+            styles.loginButton,
+            {
+              backgroundColor: colors.primary,
+            },
+          ]}
+          labelStyle={[styles.buttonLabel, { color: colors.white }]}
+          onPress={() => console.log("Login pressed")}
+        >
+          Login
+        </Button>
+
+        <Button
+          mode="text"
+          style={styles.forgotButton}
+          labelStyle={{ color: colors.primary }}
+          onPress={() => router.push("/auth/forgot-password")}
+        >
+          Forgot Password?
+        </Button>
+
+        <View style={styles.dividerContainer}>
+          <View
+            style={[
+              styles.dividerLine,
+              { backgroundColor: colors.divider || colors.surface },
+            ]}
+          />
+          <Text
+            variant="bodyMedium"
+            style={[styles.dividerText, { color: colors.textSecondary }]}
+          >
+            OR
+          </Text>
+          <View
+            style={[
+              styles.dividerLine,
+              { backgroundColor: colors.divider || colors.surface },
+            ]}
+          />
+        </View>
+
+        <Button
+          mode="outlined"
+          icon="google"
+          style={[styles.socialButton, { borderColor: "#4285F4" }]}
+          labelStyle={[styles.socialButtonLabel, { color: "#4285F4" }]}
+          onPress={() => console.log("Google login pressed")}
+        >
+          Continue with Google
+        </Button>
+
+        <View style={styles.signupPrompt}>
+          <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
+            Don&apos;t have an account?{" "}
+          </Text>
           <Button
             mode="text"
-            style={styles.forgotButton}
+            compact
+            onPress={() => router.push("/auth/signup")}
             labelStyle={{ color: colors.primary }}
-            onPress={() => {}}
           >
-            Forgot Password?
+            Sign up
           </Button>
-
-          <View style={styles.dividerContainer}>
-            <View
-              style={[
-                styles.dividerLine,
-                { backgroundColor: colors.divider || colors.surface },
-              ]}
-            />
-            <Text
-              variant="bodyMedium"
-              style={[styles.dividerText, { color: colors.textSecondary }]}
-            >
-              OR
-            </Text>
-            <View
-              style={[
-                styles.dividerLine,
-                { backgroundColor: colors.divider || colors.surface },
-              ]}
-            />
-          </View>
-
-          <Button
-            mode="outlined"
-            icon="google"
-            style={[styles.socialButton, { borderColor: "#4285F4" }]}
-            labelStyle={[styles.socialButtonLabel, { color: "#4285F4" }]}
-            onPress={() => console.log("Google login pressed")}
-          >
-            Continue with Google
-          </Button>
-
-          <View style={styles.signupPrompt}>
-            <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
-              Don&apos;t have an account?{" "}
-            </Text>
-            <Button
-              mode="text"
-              compact
-              onPress={() => router.push("/auth/signup")}
-              labelStyle={{ color: colors.primary }}
-            >
-              Sign up
-            </Button>
-          </View>
-        </Card.Content>
-      </Card>
+        </View>
+      </View>
     </ScrollView>
   );
 }
@@ -190,8 +176,8 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 12,
-    elevation: 3,
     paddingVertical: 10,
+    paddingHorizontal: 20,
   },
   title: {
     textAlign: "center",
@@ -200,6 +186,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 15,
+    backgroundColor: "transparent",
   },
   rememberRow: {
     flexDirection: "row",
@@ -210,9 +197,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   loginButton: {
-    marginTop: 10,
-    paddingVertical: 8,
-    borderRadius: 8,
+    // marginTop: 5,
+    paddingVertical: 5,
+    borderRadius: 25,
   },
   buttonLabel: {
     fontSize: 16,
@@ -234,8 +221,8 @@ const styles = StyleSheet.create({
   },
   socialButton: {
     borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: 8,
+    borderRadius: 25,
+    paddingVertical: 5,
   },
   socialButtonLabel: {},
   signupPrompt: {
