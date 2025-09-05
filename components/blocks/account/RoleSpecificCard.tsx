@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Card, Text, Divider, Icon } from "react-native-paper";
-import { UserProfile } from "@/shared/interfaces/user";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text, Divider, Icon } from 'react-native-paper';
+import { UserProfile } from '@/shared/interfaces/user';
 
 interface RoleSpecificCardProps {
   userProfile: UserProfile;
@@ -12,7 +12,7 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
   userProfile,
   colors,
 }) => {
-  if (userProfile.role === "agent") {
+  if (userProfile.role === 'agent') {
     return (
       <Card style={[styles.card, { backgroundColor: colors.surface }]}>
         <Card.Content>
@@ -133,7 +133,7 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
             Current Property:
           </Text>
           <Text variant="bodyMedium" style={{ color: colors.text }}>
-            {userProfile.currentProperty || "Not specified"}
+            {userProfile.currentProperty || 'Not specified'}
           </Text>
         </View>
         <Divider style={styles.divider} />
@@ -143,7 +143,7 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
             Lease End:
           </Text>
           <Text variant="bodyMedium" style={{ color: colors.text }}>
-            {userProfile.leaseEndDate || "N/A"}
+            {userProfile.leaseEndDate || 'N/A'}
           </Text>
         </View>
         <Divider style={styles.divider} />
@@ -153,7 +153,7 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
             Monthly Rent:
           </Text>
           <Text variant="bodyMedium" style={{ color: colors.text }}>
-            {userProfile.monthlyRent || "N/A"}
+            {userProfile.monthlyRent || 'N/A'}
           </Text>
         </View>
 
@@ -185,9 +185,9 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   cardRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 8,
   },
   divider: {
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   ratingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 4,
   },
 });

@@ -1,13 +1,13 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
-import { Button, Text, TextInput, Switch } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { Button, Text, TextInput, Switch } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
 
 export default function SignupScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const { colors } = useThemeStore();
@@ -15,9 +15,9 @@ export default function SignupScreen() {
 
   const isFormValid = () => {
     return (
-      fullName.trim() !== "" &&
-      email.trim() !== "" &&
-      password.trim() !== "" &&
+      fullName.trim() !== '' &&
+      email.trim() !== '' &&
+      password.trim() !== '' &&
       password.length >= 8 &&
       agreeTerms
     );
@@ -92,7 +92,7 @@ export default function SignupScreen() {
           left={<TextInput.Icon icon="lock-outline" />}
           right={
             <TextInput.Icon
-              icon={secureTextEntry ? "eye-off-outline" : "eye-outline"}
+              icon={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
               onPress={() => setSecureTextEntry(!secureTextEntry)}
             />
           }
@@ -132,17 +132,17 @@ export default function SignupScreen() {
               variant="bodyMedium"
               style={[styles.termsText, { color: colors.textSecondary }]}
             >
-              I agree to the{" "}
+              I agree to the{' '}
               <Text
                 style={[styles.linkText, { color: colors.primary }]}
-                onPress={() => console.log("Terms pressed")}
+                onPress={() => console.log('Terms pressed')}
               >
                 Terms of Service
               </Text>
-              {" and "}
+              {' and '}
               <Text
                 style={[styles.linkText, { color: colors.primary }]}
-                onPress={() => console.log("Privacy pressed")}
+                onPress={() => console.log('Privacy pressed')}
               >
                 Privacy Policy
               </Text>
@@ -167,7 +167,7 @@ export default function SignupScreen() {
             { color: isFormValid() ? colors.white : colors.textSecondary },
           ]}
           disabled={!isFormValid()}
-          onPress={() => console.log("Account created")}
+          onPress={() => console.log('Account created')}
         >
           Create Account
         </Button>
@@ -190,7 +190,7 @@ export default function SignupScreen() {
           icon="google"
           style={[styles.socialButton, { borderColor: colors.outline }]}
           labelStyle={[styles.buttonLabel, { color: colors.text }]}
-          onPress={() => console.log("Google signup")}
+          onPress={() => console.log('Google signup')}
         >
           Google
         </Button>
@@ -204,12 +204,12 @@ export default function SignupScreen() {
           variant="bodyMedium"
           style={[styles.agentText, { color: colors.primary }]}
         >
-          Real estate professional?{" "}
+          Real estate professional?{' '}
         </Text>
         <Button
           mode="text"
           compact
-          onPress={() => console.log("Agent application")}
+          onPress={() => console.log('Agent application')}
           labelStyle={[styles.agentLink, { color: colors.primary }]}
           contentStyle={{ paddingHorizontal: 4 }}
         >
@@ -220,12 +220,12 @@ export default function SignupScreen() {
       {/* Footer */}
       <View style={styles.footer}>
         <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
-          Already have an account?{" "}
+          Already have an account?{' '}
         </Text>
         <Button
           mode="text"
           compact
-          onPress={() => router.push("/auth/login")}
+          onPress={() => router.push('/auth/login')}
           labelStyle={[styles.footerLink, { color: colors.primary }]}
           contentStyle={{ paddingHorizontal: 4 }}
         >
@@ -242,17 +242,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   header: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingTop: 80,
     paddingBottom: 40,
   },
   title: {
-    fontWeight: "700",
+    fontWeight: '700',
     marginBottom: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   subtitle: {
-    textAlign: "center",
+    textAlign: 'center',
     lineHeight: 22,
   },
   form: {
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     gap: 18,
   },
   input: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   passwordHint: {
     marginTop: -12,
@@ -268,8 +268,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   termsContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     paddingVertical: 8,
   },
   termsTextContainer: {
@@ -282,8 +282,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   linkText: {
-    fontWeight: "600",
-    textDecorationLine: "underline",
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
   createButton: {
     paddingVertical: 5,
@@ -291,11 +291,11 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   divider: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   line: {
     flex: 1,
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
   dividerText: {
     marginHorizontal: 16,
     fontSize: 12,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   socialButton: {
     paddingVertical: 5,
@@ -312,30 +312,30 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   agentSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderRadius: 12,
     marginVertical: 16,
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
   },
   agentText: {
-    fontWeight: "500",
+    fontWeight: '500',
   },
   agentLink: {
-    fontWeight: "700",
-    textDecorationLine: "underline",
+    fontWeight: '700',
+    textDecorationLine: 'underline',
   },
   footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingBottom: 24,
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
   },
   footerLink: {
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });

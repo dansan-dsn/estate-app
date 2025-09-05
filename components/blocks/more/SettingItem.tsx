@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { List, Switch } from "react-native-paper";
-import { SettingItemProps } from "@/shared/interfaces/settings";
+import { StyleSheet } from 'react-native';
+import { List, Switch } from 'react-native-paper';
+import { SettingItemProps } from '@/shared/interfaces/settings';
 
 const SettingItem = ({ item, colors }: SettingItemProps) => (
   <List.Item
@@ -22,7 +22,7 @@ const SettingItem = ({ item, colors }: SettingItemProps) => (
 
 const styles = StyleSheet.create({
   listItemTitle: {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 16,
   },
 });

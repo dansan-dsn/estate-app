@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { formatDistanceToNow } from "date-fns";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { formatDistanceToNow } from 'date-fns';
 import {
   Notification,
   NotificationState,
-} from "@/shared/interfaces/notifications";
+} from '@/shared/interfaces/notifications';
 
 export const useNotification = create<NotificationState>()(
   persist(
@@ -78,7 +78,7 @@ export const useNotification = create<NotificationState>()(
         formatDistanceToNow(new Date(timestamp), { addSuffix: true }),
     }),
     {
-      name: "notification-storage",
+      name: 'notification-storage',
       partialize: (state) => ({ notifications: state.notifications }),
       storage: {
         getItem: async (name) => {
@@ -86,7 +86,7 @@ export const useNotification = create<NotificationState>()(
             const value = await AsyncStorage.getItem(name);
             return value ? JSON.parse(value) : null;
           } catch (error) {
-            console.error("Failed to load notifications", error);
+            console.error('Failed to load notifications', error);
             return null;
           }
         },

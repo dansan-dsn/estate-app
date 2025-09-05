@@ -1,17 +1,17 @@
-import { useEffect } from "react";
-import { Text } from "react-native";
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
-import { useThemeStore } from "@/stores/useTheme";
-import GlobalSnackbar from "@/components/ui/Snackbar";
+import { useEffect } from 'react';
+import { Text } from 'react-native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import 'react-native-reanimated';
+import { useThemeStore } from '@/stores/useTheme';
+import GlobalSnackbar from '@/components/ui/Snackbar';
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
   const { colors, theme, initializeTheme } = useThemeStore();
 
@@ -41,7 +41,7 @@ export default function RootLayout() {
       <ThemeProvider value={navigationTheme}>
         <Stack screenOptions={{ headerShown: false }} />
         <GlobalSnackbar />
-        <StatusBar style={theme === "light" ? "dark" : "light"} />
+        <StatusBar style={theme === 'light' ? 'dark' : 'light'} />
       </ThemeProvider>
     </GestureHandlerRootView>
   );

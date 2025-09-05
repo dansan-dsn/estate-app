@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,9 +9,9 @@ import {
   Platform,
   FlatList,
   Animated,
-} from "react-native";
-import { useThemeStore } from "@/stores/useTheme";
-import { Ionicons } from "@expo/vector-icons";
+} from 'react-native';
+import { useThemeStore } from '@/stores/useTheme';
+import { Ionicons } from '@expo/vector-icons';
 
 interface SelectOption {
   label: string;
@@ -34,7 +34,7 @@ const NativeSelect = ({
   options,
   selectedValue,
   onValueChange,
-  placeholder = "Select an option",
+  placeholder = 'Select an option',
   label,
   helperText,
   error = false,
@@ -52,7 +52,7 @@ const NativeSelect = ({
     if (buttonRef.current) {
       buttonRef.current.measure((x, y, width, height, pageX, pageY) => {
         setPosition({
-          top: pageY + height + (Platform.OS === "android" ? 0 : 6),
+          top: pageY + height + (Platform.OS === 'android' ? 0 : 6),
           left: pageX,
           width: width,
         });
@@ -79,7 +79,7 @@ const NativeSelect = ({
           {
             backgroundColor: colors.surfaceVariant,
             borderColor: error ? colors.error : colors.outline,
-            shadowColor: colors.black || "#000",
+            shadowColor: colors.black || '#000',
           },
           error && {
             borderWidth: 1.5,
@@ -99,7 +99,7 @@ const NativeSelect = ({
           {selectedLabel}
         </Text>
         <Ionicons
-          name={modalVisible ? "chevron-up" : "chevron-down"}
+          name={modalVisible ? 'chevron-up' : 'chevron-down'}
           size={20}
           color={colors.text}
           style={{ marginLeft: 8 }}
@@ -135,7 +135,7 @@ const NativeSelect = ({
                 width: position.width,
                 backgroundColor: colors.surface,
                 borderColor: colors.outline,
-                shadowColor: colors.black || "#000",
+                shadowColor: colors.black || '#000',
               },
             ]}
           >
@@ -150,7 +150,7 @@ const NativeSelect = ({
                       backgroundColor:
                         selectedValue === item.value
                           ? colors.primary
-                          : "transparent",
+                          : 'transparent',
                     },
                   ]}
                   onPress={() => {
@@ -168,7 +168,7 @@ const NativeSelect = ({
                           ? colors.primary
                           : colors.text,
                       fontWeight:
-                        selectedValue === item.value ? "bold" : "normal",
+                        selectedValue === item.value ? 'bold' : 'normal',
                     }}
                   >
                     {item.label}
@@ -178,7 +178,7 @@ const NativeSelect = ({
                       name="checkmark"
                       size={18}
                       color={colors.primary}
-                      style={{ marginLeft: "auto" }}
+                      style={{ marginLeft: 'auto' }}
                     />
                   )}
                 </TouchableOpacity>
@@ -187,7 +187,7 @@ const NativeSelect = ({
                 <View
                   style={{
                     height: 1,
-                    backgroundColor: colors.outline || "#eee",
+                    backgroundColor: colors.outline || '#eee',
                   }}
                 />
               )}
@@ -206,19 +206,19 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 15,
     marginBottom: 4,
-    fontWeight: "500",
+    fontWeight: '500',
     letterSpacing: 0.1,
   },
   selectButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 14,
     paddingVertical: 13,
     borderWidth: 1,
     borderRadius: 8,
     minWidth: 160,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: '#f8f8f8',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 6,
@@ -230,10 +230,10 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.18)",
+    backgroundColor: 'rgba(0,0,0,0.18)',
   },
   optionsContainer: {
-    position: "absolute",
+    position: 'absolute',
     borderWidth: 1,
     borderRadius: 8,
     marginTop: 2,
@@ -251,8 +251,8 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   option: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 14,
     paddingVertical: 13,
     borderRadius: 6,

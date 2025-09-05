@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const IMAGE_SIZE = 90;
 
@@ -43,14 +43,14 @@ export default function PropertyCardHorizontal({
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: colors.textSecondary }]}>
-            Bedrooms:{" "}
+            Bedrooms:{' '}
           </Text>
           <Text style={[styles.value, { color: colors.textTertiary }]}>
             {property.features?.bedrooms}
           </Text>
           <Text style={[styles.label, { color: colors.textSecondary }]}>
-            {" "}
-            Bathrooms:{" "}
+            {' '}
+            Bathrooms:{' '}
           </Text>
           <Text style={[styles.value, { color: colors.textTertiary }]}>
             {property.features?.bathrooms}
@@ -60,29 +60,29 @@ export default function PropertyCardHorizontal({
           <View
             style={{
               backgroundColor:
-                property.status === "available"
+                property.status === 'available'
                   ? colors.success
-                  : property.status === "sold"
-                  ? colors.error
-                  : colors.warning,
+                  : property.status === 'sold'
+                    ? colors.error
+                    : colors.warning,
               borderRadius: 999,
               paddingHorizontal: 8,
               paddingVertical: 2,
               minWidth: 36,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               marginRight: 8,
               height: 18,
-              alignSelf: "center",
+              alignSelf: 'center',
             }}
           >
             <Text
               style={{
                 color: colors.white,
-                fontWeight: "bold",
+                fontWeight: 'bold',
                 fontSize: 10,
                 lineHeight: 14,
-                textAlign: "center",
+                textAlign: 'center',
                 letterSpacing: 0.5,
               }}
             >
@@ -104,13 +104,13 @@ export default function PropertyCardHorizontal({
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    backgroundColor: '#fff',
     borderRadius: 12,
     elevation: 2,
     marginVertical: 8,
     marginHorizontal: 6,
-    alignItems: "center",
+    alignItems: 'center',
     minHeight: IMAGE_SIZE + 20,
     padding: 10,
   },
@@ -119,50 +119,50 @@ const styles = StyleSheet.create({
     height: IMAGE_SIZE,
     borderRadius: 8,
     marginRight: 12,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: '#f0f0f0',
   },
   info: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 17,
     marginBottom: 2,
   },
   price: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 15,
     marginBottom: 2,
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 2,
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
     gap: 6,
   },
   label: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 13,
   },
   value: {
     fontSize: 13,
-    color: "#222",
+    color: '#222',
     marginRight: 10,
   },
   removeBtn: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: 8,
     paddingVertical: 3,
     paddingHorizontal: 7,
-    backgroundColor: "#f8d7da",
+    backgroundColor: '#f8d7da',
     borderRadius: 12,
   },
   removeText: {
     fontSize: 12,
     marginLeft: 3,
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });

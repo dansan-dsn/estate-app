@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useRouter } from "expo-router";
-import { View, StyleSheet, ScrollView } from "react-native";
-import { Button, Text, TextInput, Switch } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
+import { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Button, Text, TextInput, Switch } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const { colors } = useThemeStore();
@@ -57,7 +57,7 @@ export default function LoginScreen() {
           left={<TextInput.Icon icon="lock-outline" />}
           right={
             <TextInput.Icon
-              icon={secureTextEntry ? "eye-off-outline" : "eye-outline"}
+              icon={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
               onPress={() => setSecureTextEntry(!secureTextEntry)}
             />
           }
@@ -99,7 +99,7 @@ export default function LoginScreen() {
             },
           ]}
           labelStyle={[styles.buttonLabel, { color: colors.white }]}
-          onPress={() => console.log("Login pressed")}
+          onPress={() => console.log('Login pressed')}
         >
           Login
         </Button>
@@ -108,7 +108,7 @@ export default function LoginScreen() {
           mode="text"
           style={styles.forgotButton}
           labelStyle={{ color: colors.primary }}
-          onPress={() => router.push("/auth/forgot-password")}
+          onPress={() => router.push('/auth/forgot-password')}
         >
           Forgot Password?
         </Button>
@@ -137,21 +137,21 @@ export default function LoginScreen() {
         <Button
           mode="outlined"
           icon="google"
-          style={[styles.socialButton, { borderColor: "#4285F4" }]}
-          labelStyle={[styles.socialButtonLabel, { color: "#4285F4" }]}
-          onPress={() => console.log("Google login pressed")}
+          style={[styles.socialButton, { borderColor: '#4285F4' }]}
+          labelStyle={[styles.socialButtonLabel, { color: '#4285F4' }]}
+          onPress={() => console.log('Google login pressed')}
         >
           Continue with Google
         </Button>
 
         <View style={styles.signupPrompt}>
           <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
           </Text>
           <Button
             mode="text"
             compact
-            onPress={() => router.push("/auth/signup")}
+            onPress={() => router.push('/auth/signup')}
             labelStyle={{ color: colors.primary }}
           >
             Sign up
@@ -165,13 +165,13 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 20,
   },
   logo: {
     width: 90,
     height: 90,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginBottom: 20,
   },
   card: {
@@ -180,17 +180,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   input: {
     marginBottom: 15,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   rememberRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 15,
   },
   rememberText: {
@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   dividerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 20,
   },
   dividerLine: {
@@ -226,9 +226,9 @@ const styles = StyleSheet.create({
   },
   socialButtonLabel: {},
   signupPrompt: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 20,
   },
 });

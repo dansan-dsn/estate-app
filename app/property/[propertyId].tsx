@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import {
   View,
   Text,
@@ -9,20 +9,20 @@ import {
   Animated,
   TouchableOpacity,
   Linking,
-} from "react-native";
-import { properties } from "@/shared/data/property";
-import { useRef, useState } from "react";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useThemeStore } from "@/stores/useTheme";
-import { useFavoriteStore } from "@/stores/favorites";
-import { useSnackbar } from "@/stores/snackbar";
+} from 'react-native';
+import { properties } from '@/shared/data/property';
+import { useRef, useState } from 'react';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useThemeStore } from '@/stores/useTheme';
+import { useFavoriteStore } from '@/stores/favorites';
+import { useSnackbar } from '@/stores/snackbar';
 import {
   SectionTitle,
   OverviewSection,
   FeaturesSection,
-} from "@/components/blocks/property/PropertyDetailSections";
+} from '@/components/blocks/property/PropertyDetailSections';
 
-const { width: screenWidth } = Dimensions.get("window");
+const { width: screenWidth } = Dimensions.get('window');
 const IMAGE_HEIGHT = 380;
 const HEADER_HEIGHT = 90;
 
@@ -53,7 +53,7 @@ export default function PropertyDetails() {
   const onFavoritePress = () => {
     toggleFavorite(Number(property.property_id));
     showSnackbar(
-      favorite ? "Removed from favorites" : "Added to favorites",
+      favorite ? 'Removed from favorites' : 'Added to favorites',
       colors.black
     );
   };
@@ -62,25 +62,25 @@ export default function PropertyDetails() {
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, IMAGE_HEIGHT - HEADER_HEIGHT],
     outputRange: [0, 0],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const headerBackgroundOpacity = scrollY.interpolate({
     inputRange: [0, IMAGE_HEIGHT - HEADER_HEIGHT],
     outputRange: [0, 1],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const headerTitleOpacity = scrollY.interpolate({
     inputRange: [0, IMAGE_HEIGHT * 0.6, IMAGE_HEIGHT * 0.8],
     outputRange: [0, 0.3, 1],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const imageOpacity = scrollY.interpolate({
     inputRange: [0, IMAGE_HEIGHT * 0.5, IMAGE_HEIGHT],
     outputRange: [1, 0.5, 0],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const handleScroll = (event: any) => {
@@ -117,7 +117,7 @@ export default function PropertyDetails() {
           <TouchableOpacity
             style={[
               styles.iconButton,
-              { backgroundColor: colors.iconActive + "33" },
+              { backgroundColor: colors.iconActive + '33' },
             ]}
             onPress={() => navigation.goBack()}
           >
@@ -142,12 +142,12 @@ export default function PropertyDetails() {
             <TouchableOpacity
               style={[
                 styles.iconButton,
-                { backgroundColor: colors.iconActive + "33" },
+                { backgroundColor: colors.iconActive + '33' },
               ]}
               onPress={onFavoritePress}
             >
               <MaterialIcons
-                name={favorite ? "favorite" : "favorite-border"}
+                name={favorite ? 'favorite' : 'favorite-border'}
                 size={24}
                 color={favorite ? colors.error : colors.headerTint}
               />
@@ -155,7 +155,7 @@ export default function PropertyDetails() {
             <TouchableOpacity
               style={[
                 styles.iconButton,
-                { backgroundColor: colors.iconActive + "33" },
+                { backgroundColor: colors.iconActive + '33' },
               ]}
             >
               <MaterialIcons name="share" size={24} color={colors.headerTint} />
@@ -209,7 +209,7 @@ export default function PropertyDetails() {
                   key={index}
                   style={[
                     styles.indicatorDot,
-                    { backgroundColor: colors.white + "66" },
+                    { backgroundColor: colors.white + '66' },
                     currentImageIndex === index && [
                       styles.activeDot,
                       { backgroundColor: colors.primary },
@@ -333,7 +333,7 @@ export default function PropertyDetails() {
                 <Text
                   style={[styles.locationText, { color: colors.textSecondary }]}
                 >
-                  {property.address.street}, {property.address.city},{" "}
+                  {property.address.street}, {property.address.city},{' '}
                   {property.address.state} {property.address.postal_code}
                 </Text>
               </View>
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerBackground: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   headerContent: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -449,15 +449,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   headerInner: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
-    height: "100%",
+    height: '100%',
   },
   propertyTitle: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     flex: 1,
     marginHorizontal: 12,
   },
@@ -465,12 +465,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 40,
     height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerActions: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
   },
   content: {
@@ -487,10 +487,10 @@ const styles = StyleSheet.create({
     height: IMAGE_HEIGHT,
   },
   imageIndicator: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 16,
-    alignSelf: "center",
-    flexDirection: "row",
+    alignSelf: 'center',
+    flexDirection: 'row',
     borderRadius: 12,
     paddingVertical: 4,
     paddingHorizontal: 8,
@@ -516,14 +516,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   overviewHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 12,
   },
   price: {
     fontSize: 28,
-    fontWeight: "800",
+    fontWeight: '800',
   },
   addressText: {
     fontSize: 16,
@@ -532,12 +532,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
     marginBottom: 16,
   },
   subSectionTitle: {
     fontSize: 17,
-    fontWeight: "600",
+    fontWeight: '600',
     marginBottom: 12,
   },
   descriptionText: {
@@ -549,17 +549,17 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   quickFacts: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 8,
   },
   quickFact: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
   },
   quickFactValue: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: '700',
     marginTop: 8,
   },
   quickFactLabel: {
@@ -569,8 +569,8 @@ const styles = StyleSheet.create({
   videoContainer: {
     height: 180,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 12,
   },
   videoCaption: {
@@ -578,13 +578,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   featuresGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 12,
     marginBottom: 8,
   },
   featureCard: {
-    width: "48%",
+    width: '48%',
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,
@@ -595,15 +595,15 @@ const styles = StyleSheet.create({
   },
   featureCardValue: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     marginVertical: 8,
   },
   featureCardLabel: {
     fontSize: 13,
   },
   amenitiesContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 8,
   },
   amenityChip: {
@@ -611,18 +611,18 @@ const styles = StyleSheet.create({
   },
   amenityText: {
     fontSize: 13,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   mapPlaceholder: {
     height: 180,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 12,
   },
   locationDetails: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 8,
   },
   locationText: {
@@ -630,8 +630,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   locationDetailRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 6,
   },
   locationDetailText: {
@@ -642,8 +642,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   agentDetail: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 8,
   },
   agentText: {
@@ -653,9 +653,9 @@ const styles = StyleSheet.create({
   contactButton: {
     height: 56,
     borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 24,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -665,13 +665,13 @@ const styles = StyleSheet.create({
   },
   contactButtonText: {
     fontSize: 17,
-    fontWeight: "600",
+    fontWeight: '600',
     flex: 1,
-    textAlign: "center",
+    textAlign: 'center',
   },
   errorText: {
     fontSize: 18,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 40,
   },
 });

@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { Chip } from "react-native-paper";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Chip } from 'react-native-paper';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export function SectionTitle({
   title,
@@ -16,8 +16,8 @@ export function SectionTitle({
     <Text
       style={[
         isSubsection
-          ? { fontSize: 17, fontWeight: "600", marginBottom: 12 }
-          : { fontSize: 20, fontWeight: "700", marginBottom: 16 },
+          ? { fontSize: 17, fontWeight: '600', marginBottom: 12 }
+          : { fontSize: 20, fontWeight: '700', marginBottom: 16 },
         { color: colors.text },
       ]}
     >
@@ -39,7 +39,7 @@ export function OverviewSection({
     <>
       <View style={styles.overviewHeader}>
         <Text style={[styles.price, { color: colors.primaryDark }]}>
-          ${property.price.toLocaleString()}{" "}
+          ${property.price.toLocaleString()}{' '}
           <Text style={{ fontSize: 16, color: colors.textSecondary }}>
             {property.currency}
           </Text>
@@ -47,19 +47,19 @@ export function OverviewSection({
         <Chip
           style={{
             backgroundColor:
-              property.status === "available"
+              property.status === 'available'
                 ? colors.success
-                : property.status === "sold"
-                ? colors.error
-                : colors.warning,
+                : property.status === 'sold'
+                  ? colors.error
+                  : colors.warning,
           }}
-          textStyle={{ color: colors.white, fontWeight: "bold" }}
+          textStyle={{ color: colors.white, fontWeight: 'bold' }}
         >
           {property.status.toUpperCase()}
         </Chip>
       </View>
       <Text style={[styles.addressText, { color: colors.textSecondary }]}>
-        {property.address?.street}, {property.address?.city},{" "}
+        {property.address?.street}, {property.address?.city},{' '}
         {property.address?.state} {property.address?.postal_code}
       </Text>
 
@@ -75,13 +75,13 @@ export function OverviewSection({
         <QuickFact
           icon="king-bed"
           label="Bedrooms"
-          value={property.features?.bedrooms ?? ""}
+          value={property.features?.bedrooms ?? ''}
           colors={colors}
         />
         <QuickFact
           icon="bathtub"
           label="Bathrooms"
-          value={property.features?.bathrooms ?? ""}
+          value={property.features?.bathrooms ?? ''}
           colors={colors}
         />
         <QuickFact
@@ -132,7 +132,7 @@ export function FeaturesSection({
         <FeatureCard
           icon="calendar-today"
           label="Year Built"
-          value={property.year_built ?? ""}
+          value={property.year_built ?? ''}
           colors={colors}
         />
       </View>
@@ -205,12 +205,12 @@ export function QuickFact({
   colors: any;
 }) {
   return (
-    <View style={{ alignItems: "center", flex: 1 }}>
+    <View style={{ alignItems: 'center', flex: 1 }}>
       <MaterialIcons name={icon as any} size={20} color={colors.primary} />
       <Text
         style={{
           fontSize: 16,
-          fontWeight: "700",
+          fontWeight: '700',
           marginTop: 8,
           color: colors.primaryDark,
         }}
@@ -238,12 +238,12 @@ export function FeatureCard({
   return (
     <View
       style={{
-        width: "48%",
+        width: '48%',
         padding: 16,
         borderRadius: 10,
         marginBottom: 12,
         backgroundColor: colors.cardBackground,
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
@@ -254,7 +254,7 @@ export function FeatureCard({
       <Text
         style={{
           fontSize: 18,
-          fontWeight: "700",
+          fontWeight: '700',
           marginVertical: 8,
           color: colors.primaryDark,
         }}

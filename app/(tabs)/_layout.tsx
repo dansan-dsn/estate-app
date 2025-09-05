@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { BottomNavigation } from "react-native-paper";
-import { Platform } from "react-native";
-import HomeScreen from "@/app/(tabs)/explore";
-import FavoriteScreen from "@/app/(tabs)/favorite";
-import AccountScreen from "@/app/(tabs)/account";
-import SettingsScreen from "@/app/(tabs)/settings";
-import { useThemeStore } from "@/stores/useTheme";
+import { useState } from 'react';
+import { BottomNavigation } from 'react-native-paper';
+import { Platform } from 'react-native';
+import HomeScreen from '@/app/(tabs)/explore';
+import FavoriteScreen from '@/app/(tabs)/favorite';
+import AccountScreen from '@/app/(tabs)/account';
+import SettingsScreen from '@/app/(tabs)/settings';
+import { useThemeStore } from '@/stores/useTheme';
 
 export default function TabLayout() {
   const [index, setIndex] = useState(0);
@@ -13,28 +13,28 @@ export default function TabLayout() {
 
   const routes = [
     {
-      key: "explore",
-      title: "Explore",
-      focusedIcon: "compass",
-      unfocusedIcon: "compass-outline",
+      key: 'explore',
+      title: 'Explore',
+      focusedIcon: 'compass',
+      unfocusedIcon: 'compass-outline',
     },
     {
-      key: "favorite",
-      title: "Favorite",
-      focusedIcon: "heart",
-      unfocusedIcon: "heart-outline",
+      key: 'favorite',
+      title: 'Favorite',
+      focusedIcon: 'heart',
+      unfocusedIcon: 'heart-outline',
     },
     {
-      key: "account",
-      title: "Account",
-      focusedIcon: "account",
-      unfocusedIcon: "account-outline",
+      key: 'account',
+      title: 'Account',
+      focusedIcon: 'account',
+      unfocusedIcon: 'account-outline',
     },
     {
-      key: "settings",
-      title: "Settings",
-      focusedIcon: "cog",
-      unfocusedIcon: "cog-outline",
+      key: 'settings',
+      title: 'Settings',
+      focusedIcon: 'cog',
+      unfocusedIcon: 'cog-outline',
     },
   ];
 
@@ -54,7 +54,7 @@ export default function TabLayout() {
       sceneAnimationType="shifting"
       labeled={false}
       barStyle={{
-        position: Platform.OS === "ios" ? "absolute" : "relative",
+        position: Platform.OS === 'ios' ? 'absolute' : 'relative',
         backgroundColor: colors.tabBarBackground,
         borderTopWidth: 1,
         borderTopColor: colors.tabBarBorder,

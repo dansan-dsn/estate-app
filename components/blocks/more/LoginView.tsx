@@ -1,6 +1,6 @@
-import { View, StyleSheet, Text } from "react-native";
-import { Button } from "react-native-paper";
-import { LoginViewProps } from "@/shared/interfaces/settings";
+import { View, StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-paper';
+import { LoginViewProps } from '@/shared/interfaces/settings';
 
 const LoginView = ({ onLoginPress, colors }: LoginViewProps) => (
   <View
@@ -26,28 +26,28 @@ const styles = StyleSheet.create({
     margin: 24,
     padding: 24,
     borderRadius: 12,
-    alignItems: "center",
+    alignItems: 'center',
     elevation: 2,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     marginTop: 80,
   },
   notLoggedInText: {
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 16,
     fontSize: 16,
     lineHeight: 24,
   },
   loginButton: {
     marginTop: 16,
-    width: "80%",
+    width: '80%',
     borderRadius: 8,
     paddingVertical: 6,
   },
   buttonLabel: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 16,
     paddingVertical: 2,
   },

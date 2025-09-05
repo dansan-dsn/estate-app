@@ -1,5 +1,5 @@
-import { Snackbar } from "react-native-paper";
-import { useSnackbar } from "@/stores/snackbar";
+import { Snackbar } from 'react-native-paper';
+import { useSnackbar } from '@/stores/snackbar';
 
 const GlobalSnackbar = () => {
   const { visible, message, color, actionLabel, onAction, hideSnackbar } =

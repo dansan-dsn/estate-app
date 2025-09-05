@@ -1,10 +1,10 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from 'react';
 import {
   View,
   PanResponder,
   StyleSheet,
   LayoutChangeEvent,
-} from "react-native";
+} from 'react-native';
 
 interface RangeSliderProps {
   min: number;
@@ -26,9 +26,9 @@ const RangeSlider = ({
   max,
   step = 1,
   values,
-  trackColor = "#E0E0E0",
-  selectedTrackColor = "#1976d2",
-  thumbColor = "#1976d2",
+  trackColor = '#E0E0E0',
+  selectedTrackColor = '#1976d2',
+  thumbColor = '#1976d2',
   style = {},
   onChange,
 }: RangeSliderProps) => {
@@ -159,29 +159,29 @@ const RangeSlider = ({
 const styles = StyleSheet.create({
   container: {
     height: 48,
-    justifyContent: "center",
+    justifyContent: 'center',
     minWidth: 200,
   },
   track: {
     height: TRACK_HEIGHT,
     borderRadius: TRACK_HEIGHT / 2,
     marginHorizontal: THUMB_SIZE / 2,
-    position: "relative",
+    position: 'relative',
   },
   selectedTrack: {
-    position: "absolute",
+    position: 'absolute',
     height: TRACK_HEIGHT,
     borderRadius: TRACK_HEIGHT / 2,
   },
   thumb: {
-    position: "absolute",
+    position: 'absolute',
     top: -THUMB_SIZE / 2 + TRACK_HEIGHT / 2,
     width: THUMB_SIZE,
     height: THUMB_SIZE,
     borderRadius: THUMB_SIZE / 2,
     borderWidth: 2,
-    borderColor: "#fff",
-    shadowColor: "#000",
+    borderColor: '#fff',
+    shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,

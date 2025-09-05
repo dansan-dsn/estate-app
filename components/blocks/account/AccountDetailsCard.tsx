@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Card, Text, Divider } from "react-native-paper";
-import { UserProfile } from "@/shared/interfaces/user";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text, Divider } from 'react-native-paper';
+import { UserProfile } from '@/shared/interfaces/user';
 
 interface AccountDetailsCardProps {
   userProfile: UserProfile;
@@ -50,7 +50,7 @@ export const AccountDetailsCard: React.FC<AccountDetailsCardProps> = ({
             Account Type:
           </Text>
           <Text variant="bodyMedium" style={{ color: colors.text }}>
-            {userProfile.role === "agent" ? "Real Estate Agent" : "Tenant"}
+            {userProfile.role === 'agent' ? 'Real Estate Agent' : 'Tenant'}
           </Text>
         </View>
       </Card.Content>
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   cardRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 8,
   },
   divider: {
@@ -77,6 +77,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   statusActive: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });

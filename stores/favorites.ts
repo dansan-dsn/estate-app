@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FavoriteState } from "@/shared/interfaces/favorites";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FavoriteState } from '@/shared/interfaces/favorites';
 
 export const useFavoriteStore = create<FavoriteState>()(
   persist(
@@ -28,7 +28,7 @@ export const useFavoriteStore = create<FavoriteState>()(
       isFavorite: (id) => get().favorites.includes(id),
     }),
     {
-      name: "favorite-storage",
+      name: 'favorite-storage',
       storage: {
         getItem: async (name: string) => {
           const value = await AsyncStorage.getItem(name);

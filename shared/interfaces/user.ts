@@ -4,7 +4,7 @@ export interface UserProfile {
   email: string;
   phone: string;
   bio: string;
-  role: "agent" | "tenant";
+  role: 'agent' | 'tenant';
   profileImage?: string;
   memberSince: string;
   // Agent specific fields

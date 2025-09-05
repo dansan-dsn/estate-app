@@ -1,15 +1,15 @@
-import { ImageSourcePropType } from "react-native";
+import { ImageSourcePropType } from 'react-native';
 
-export type PropertyStatus = "available" | "sold" | "rented";
-export type HeatingType = "electric" | "gas" | "none" | "central";
+export type PropertyStatus = 'available' | 'sold' | 'rented';
+export type HeatingType = 'electric' | 'gas' | 'none' | 'central';
 export type PropertyType =
-  | "house"
-  | "apartment"
-  | "villa"
-  | "townhouse"
-  | "condo"
-  | "land"
-  | "commercial";
+  | 'house'
+  | 'apartment'
+  | 'villa'
+  | 'townhouse'
+  | 'condo'
+  | 'land'
+  | 'commercial';
 
 interface PropertyDetails {
   property_id: string;

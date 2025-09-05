@@ -1,4 +1,4 @@
-export type TypeTheme = "light" | "dark";
+export type TypeTheme = 'light' | 'dark';
 
 export interface ColorTheme {
   // ===== Core Colors ===== //

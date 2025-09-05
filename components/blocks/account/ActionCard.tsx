@@ -1,7 +1,7 @@
-import React from "react";
-import { Alert, StyleSheet } from "react-native";
-import { Card, Text, Button, Divider } from "react-native-paper";
-import { UserProfile } from "@/shared/interfaces/user";
+import React from 'react';
+import { Alert, StyleSheet } from 'react-native';
+import { Card, Text, Button, Divider } from 'react-native-paper';
+import { UserProfile } from '@/shared/interfaces/user';
 
 interface ActionsCardProps {
   userProfile: UserProfile;
@@ -13,22 +13,22 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
   colors,
 }) => {
   const handleSignOut = () => {
-    Alert.alert("Sign Out", "Are you sure you want to sign out?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Sign Out", onPress: () => console.log("Sign out") },
+    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Sign Out', onPress: () => console.log('Sign out') },
     ]);
   };
 
   const handleDeleteAccount = () => {
     Alert.alert(
-      "Delete Account",
-      "This action cannot be undone. Are you sure?",
+      'Delete Account',
+      'This action cannot be undone. Are you sure?',
       [
-        { text: "Cancel", style: "cancel" },
+        { text: 'Cancel', style: 'cancel' },
         {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => console.log("Delete account"),
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => console.log('Delete account'),
         },
       ]
     );
@@ -44,7 +44,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
           Actions
         </Text>
 
-        {userProfile.role === "agent" ? (
+        {userProfile.role === 'agent' ? (
           <>
             <Button
               mode="contained"
@@ -52,7 +52,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
               style={[styles.actionButton, { backgroundColor: colors.primary }]}
               textColor={colors.white}
               onPress={() =>
-                Alert.alert("Feature", "Add listing feature coming soon!")
+                Alert.alert('Feature', 'Add listing feature coming soon!')
               }
             >
               Add New Listing
@@ -63,7 +63,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
               style={[styles.actionButton, { borderColor: colors.primary }]}
               textColor={colors.primary}
               onPress={() =>
-                Alert.alert("Feature", "Dashboard feature coming soon!")
+                Alert.alert('Feature', 'Dashboard feature coming soon!')
               }
             >
               View Dashboard
@@ -74,7 +74,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
               style={[styles.actionButton, { borderColor: colors.info }]}
               textColor={colors.info}
               onPress={() =>
-                Alert.alert("Feature", "Client management feature coming soon!")
+                Alert.alert('Feature', 'Client management feature coming soon!')
               }
             >
               Manage Clients
@@ -88,7 +88,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
               style={[styles.actionButton, { backgroundColor: colors.primary }]}
               textColor={colors.white}
               onPress={() =>
-                Alert.alert("Feature", "Property search feature coming soon!")
+                Alert.alert('Feature', 'Property search feature coming soon!')
               }
             >
               Search Properties
@@ -99,7 +99,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
               style={[styles.actionButton, { borderColor: colors.secondary }]}
               textColor={colors.secondary}
               onPress={() =>
-                Alert.alert("Feature", "Favorites feature coming soon!")
+                Alert.alert('Feature', 'Favorites feature coming soon!')
               }
             >
               My Favorites
@@ -110,7 +110,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
               style={[styles.actionButton, { borderColor: colors.info }]}
               textColor={colors.info}
               onPress={() =>
-                Alert.alert("Feature", "Applications feature coming soon!")
+                Alert.alert('Feature', 'Applications feature coming soon!')
               }
             >
               My Applications
@@ -126,7 +126,7 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
           style={[styles.actionButton, { borderColor: colors.textSecondary }]}
           textColor={colors.textSecondary}
           onPress={() =>
-            Alert.alert("Feature", "Settings feature coming soon!")
+            Alert.alert('Feature', 'Settings feature coming soon!')
           }
         >
           Settings

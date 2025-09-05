@@ -1,4 +1,4 @@
-export type NotificationType = "message" | "property" | "payment" | "system";
+export type NotificationType = 'message' | 'property' | 'payment' | 'system';
 
 export interface Notification {
   id: string;
@@ -14,7 +14,7 @@ export interface NotificationState {
   notifications: Notification[];
   lastDeleted?: Notification;
   addNotification: (
-    notification: Omit<Notification, "id" | "read" | "timestamp">
+    notification: Omit<Notification, 'id' | 'read' | 'timestamp'>
   ) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;

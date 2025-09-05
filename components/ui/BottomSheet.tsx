@@ -4,7 +4,7 @@ import React, {
   useRef,
   useEffect,
   useState,
-} from "react";
+} from 'react';
 import {
   StyleSheet,
   View,
@@ -14,10 +14,10 @@ import {
   PanResponder,
   GestureResponderEvent,
   PanResponderGestureState,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { SCREEN_HEIGHT } from "@/constants/screen";
-import { useThemeStore } from "@/stores/useTheme";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SCREEN_HEIGHT } from '@/constants/screen';
+import { useThemeStore } from '@/stores/useTheme';
 
 type BottomSheetProps = {
   visible: boolean;
@@ -43,7 +43,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       children,
       defaultHeight = 300,
       maxHeight = SCREEN_HEIGHT * 0.9,
-      backgroundColor = "white",
+      backgroundColor = 'white',
       onClose,
       backdropOpacity = 0.5,
       draggable = true,
@@ -174,7 +174,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
                 top: 0,
                 left: 0,
                 right: 0,
-                position: "absolute",
+                position: 'absolute',
                 backgroundColor: colors.black,
               },
             ]}
@@ -192,7 +192,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
           ]}
           {...(draggable ? panResponder.panHandlers : {})}
         >
-          <SafeAreaView edges={["bottom"]} style={styles.content}>
+          <SafeAreaView edges={['bottom']} style={styles.content}>
             {draggable && (
               <View
                 style={[styles.dragHandle, { backgroundColor: colors.text }]}
@@ -208,7 +208,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
 
 const styles = StyleSheet.create({
   overlay: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -216,19 +216,19 @@ const styles = StyleSheet.create({
     zIndex: 99,
   },
   container: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   dragHandle: {
     width: 40,
     height: 4,
     borderRadius: 2,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginVertical: 8,
   },
   content: {
@@ -237,5 +237,5 @@ const styles = StyleSheet.create({
   },
 });
 
-BottomSheet.displayName = "BottomSheet";
+BottomSheet.displayName = 'BottomSheet';
 export default BottomSheet;

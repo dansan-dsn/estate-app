@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet, Alert } from "react-native";
-import { Avatar, Button, Text, Chip } from "react-native-paper";
-import { UserProfile } from "@/shared/interfaces/user";
+import React from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import { Avatar, Button, Text, Chip } from 'react-native-paper';
+import { UserProfile } from '@/shared/interfaces/user';
 
 interface ProfileHeaderProps {
   userProfile: UserProfile;
@@ -22,7 +22,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   const getFullName = () => {
     return `${userProfile.firstName} ${userProfile.lastName} (${
-      userProfile.role === "agent" ? "Agent" : "Tenant"
+      userProfile.role === 'agent' ? 'Agent' : 'Tenant'
     })`;
   };
 
@@ -40,7 +40,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           icon="camera"
           textColor={colors.primary}
           style={styles.changePhotoButton}
-          onPress={() => Alert.alert("Feature", "Photo upload coming soon!")}
+          onPress={() => Alert.alert('Feature', 'Photo upload coming soon!')}
         >
           Change Photo
         </Button>
@@ -67,16 +67,16 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           {
             backgroundColor: colors.chipBackground,
             borderColor:
-              userProfile.role === "agent" ? colors.success : colors.info,
+              userProfile.role === 'agent' ? colors.success : colors.info,
           },
         ]}
         textStyle={{
-          color: userProfile.role === "agent" ? colors.success : colors.info,
-          fontWeight: "bold",
+          color: userProfile.role === 'agent' ? colors.success : colors.info,
+          fontWeight: 'bold',
         }}
-        icon={userProfile.role === "agent" ? "check-decagram" : "home-account"}
+        icon={userProfile.role === 'agent' ? 'check-decagram' : 'home-account'}
       >
-        {userProfile.role === "agent" ? "Verified Agent" : "Active Tenant"}
+        {userProfile.role === 'agent' ? 'Verified Agent' : 'Active Tenant'}
       </Chip>
 
       <Button
@@ -94,14 +94,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
 const styles = StyleSheet.create({
   header: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 24,
     paddingVertical: 20,
     borderRadius: 12,
     marginTop: 60,
   },
   avatarContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 12,
   },
   avatar: {
@@ -111,13 +111,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   username: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 4,
-    textAlign: "center",
+    textAlign: 'center',
   },
   email: {
     marginBottom: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   roleChip: {
     marginTop: 8,

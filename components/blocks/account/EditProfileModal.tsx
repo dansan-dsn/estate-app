@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet, ScrollView, Modal } from "react-native";
-import { Text, TextInput, Button, IconButton } from "react-native-paper";
-import { UserProfile } from "@/shared/interfaces/user";
+import React from 'react';
+import { View, StyleSheet, ScrollView, Modal } from 'react-native';
+import { Text, TextInput, Button, IconButton } from 'react-native-paper';
+import { UserProfile } from '@/shared/interfaces/user';
 
 interface EditProfileModalProps {
   visible: boolean;
@@ -125,45 +125,45 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalContent: {
-    width: "90%",
-    maxHeight: "80%",
+    width: '90%',
+    maxHeight: '80%',
     borderRadius: 12,
     padding: 0,
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
   modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(0, 0, 0, 0.1)",
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   modalTitle: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   modalBody: {
     padding: 20,
     maxHeight: 400,
   },
   modalActions: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     padding: 20,
     paddingTop: 16,
     gap: 12,
     borderTopWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0.1)",
+    borderTopColor: 'rgba(0, 0, 0, 0.1)',
   },
   modalButton: {
     minWidth: 100,

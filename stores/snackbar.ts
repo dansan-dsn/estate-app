@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type SnackbarState = {
   visible: boolean;
@@ -17,7 +17,7 @@ type SnackbarState = {
 
 export const useSnackbar = create<SnackbarState>((set) => ({
   visible: false,
-  message: "",
+  message: '',
   color: undefined,
   actionLabel: undefined,
   onAction: undefined,
@@ -26,7 +26,7 @@ export const useSnackbar = create<SnackbarState>((set) => ({
   hideSnackbar: () =>
     set({
       visible: false,
-      message: "",
+      message: '',
       color: undefined,
       actionLabel: undefined,
       onAction: undefined,

@@ -1,9 +1,9 @@
-import { Stack, useRouter } from "expo-router";
-import { View, Image, StyleSheet } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
+import { Stack, useRouter } from 'expo-router';
+import { View, Image, StyleSheet } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
 
-const notFoundImage = require("@/assets/images/not_found.png");
+const notFoundImage = require('@/assets/images/not_found.png');
 
 export default function NotFoundScreen() {
   const { colors } = useThemeStore();
@@ -11,7 +11,7 @@ export default function NotFoundScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: "Oops!" }} />
+      <Stack.Screen options={{ title: 'Oops!' }} />
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <Image
           source={notFoundImage}
@@ -20,7 +20,7 @@ export default function NotFoundScreen() {
         />
         <Text
           variant="titleLarge"
-          style={[styles.text, { color: colors.text, fontFamily: "SpaceMono" }]}
+          style={[styles.text, { color: colors.text, fontFamily: 'SpaceMono' }]}
         >
           Page Not Found
         </Text>
@@ -28,7 +28,7 @@ export default function NotFoundScreen() {
           mode="contained"
           style={[styles.button, { backgroundColor: colors.primary }]}
           labelStyle={{ color: colors.white }}
-          onPress={() => router.push("/(tabs)/explore")}
+          onPress={() => router.push('/(tabs)/explore')}
         >
           Go Back Home
         </Button>
@@ -41,17 +41,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
-    width: "80%",
+    width: '80%',
     height: 250,
     marginBottom: 30,
   },
   text: {
     marginBottom: 20,
-    textAlign: "center",
+    textAlign: 'center',
   },
   button: {
     marginTop: 10,

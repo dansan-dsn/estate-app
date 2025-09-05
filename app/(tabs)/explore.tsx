@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { useRouter } from "expo-router";
+import { useState, useRef } from 'react';
+import { useRouter } from 'expo-router';
 import {
   View,
   StyleSheet,
@@ -7,14 +7,14 @@ import {
   FlatList,
   Animated,
   Text,
-} from "react-native";
-import { Appbar, SegmentedButtons, Badge } from "react-native-paper";
-import PropertyCard from "@/components/blocks/property/PropertyCard";
-import ExploreMapView from "@/components/Maps/ExploreMapview";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { properties } from "@/shared/data/property";
-import { useThemeStore } from "@/stores/useTheme";
-import SortModal, { PropertyFilters } from "@/components/overlays/SortModal";
+} from 'react-native';
+import { Appbar, SegmentedButtons, Badge } from 'react-native-paper';
+import PropertyCard from '@/components/blocks/property/PropertyCard';
+import ExploreMapView from '@/components/Maps/ExploreMapview';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { properties } from '@/shared/data/property';
+import { useThemeStore } from '@/stores/useTheme';
+import SortModal, { PropertyFilters } from '@/components/overlays/SortModal';
 import {
   PRICE_MAX,
   PRICE_MIN,
@@ -22,8 +22,8 @@ import {
   PROPERTY_DATE,
   PROPERTY_BATH,
   PROPERTY_BED,
-} from "@/constants/property";
-import { useNotification } from "@/stores/notifications";
+} from '@/constants/property';
+import { useNotification } from '@/stores/notifications';
 
 const defaultFilters: PropertyFilters = {
   min: PRICE_MIN,
@@ -35,8 +35,8 @@ const defaultFilters: PropertyFilters = {
 };
 
 const Explore = () => {
-  const [value, setValue] = useState("list");
-  const [search, setSearch] = useState("");
+  const [value, setValue] = useState('list');
+  const [search, setSearch] = useState('');
   const [sortVisible, setSortVisible] = useState(false);
   const [filters, setFilters] = useState<PropertyFilters>(defaultFilters);
 
@@ -51,12 +51,12 @@ const Explore = () => {
     if (!item) return false;
     const priceOk = item.price >= filters.min && item.price <= filters.max;
     const typeOk =
-      filters.propertyType === "Any" || item.type === filters.propertyType;
+      filters.propertyType === 'Any' || item.type === filters.propertyType;
     const bedsOk =
-      filters.beds === "Any" ||
+      filters.beds === 'Any' ||
       item.features?.bedrooms.toString() === filters.beds;
     const bathsOk =
-      filters.baths === "Any" ||
+      filters.baths === 'Any' ||
       item.features?.bathrooms.toString() === filters.baths;
     const searchOk =
       !search ||
@@ -71,39 +71,39 @@ const Explore = () => {
 
   const segmentaView = [
     {
-      label: "Map",
-      value: "map",
+      label: 'Map',
+      value: 'map',
       labelStyle:
-        value === "map"
+        value === 'map'
           ? { color: colors.segmentActiveText }
           : { color: colors.segmentText },
       style: {
         backgroundColor:
-          value === "map"
+          value === 'map'
             ? colors.segmentActiveBackground
             : colors.segmentBackground,
         borderWidth: 0,
-        borderColor: "transparent",
+        borderColor: 'transparent',
         elevation: 4,
-        shadowColor: "black",
+        shadowColor: 'black',
       },
     },
     {
-      label: "List",
-      value: "list",
+      label: 'List',
+      value: 'list',
       labelStyle:
-        value === "list"
+        value === 'list'
           ? { color: colors.segmentActiveText }
           : { color: colors.segmentText },
       style: {
         backgroundColor:
-          value === "list"
+          value === 'list'
             ? colors.segmentActiveBackground
             : colors.segmentBackground,
         borderWidth: 0,
-        borderColor: "transparent",
+        borderColor: 'transparent',
         elevation: 4,
-        shadowColor: "black",
+        shadowColor: 'black',
       },
     },
   ];
@@ -111,15 +111,15 @@ const Explore = () => {
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, 50],
     outputRange: [0, -50],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const renderContent = () => {
     switch (value) {
-      case "map":
+      case 'map':
         return <ExploreMapView />;
       // return <Text>Hello</Text>;
-      case "list":
+      case 'list':
         return (
           <Animated.FlatList
             ref={flatListRef}
@@ -140,7 +140,7 @@ const Explore = () => {
             scrollEventThrottle={16}
             contentContainerStyle={styles.listContent}
             ListEmptyComponent={
-              <View style={{ padding: 40, alignItems: "center", opacity: 0.8 }}>
+              <View style={{ padding: 40, alignItems: 'center', opacity: 0.8 }}>
                 <MaterialIcons
                   name="search-off"
                   size={64}
@@ -151,7 +151,7 @@ const Explore = () => {
                     marginTop: 16,
                     color: colors.text,
                     fontSize: 18,
-                    fontWeight: "600",
+                    fontWeight: '600',
                   }}
                 >
                   No properties found
@@ -161,7 +161,7 @@ const Explore = () => {
                     marginTop: 6,
                     color: colors.textSecondary,
                     fontSize: 15,
-                    textAlign: "center",
+                    textAlign: 'center',
                   }}
                 >
                   Try adjusting your filters or search terms.
@@ -178,10 +178,10 @@ const Explore = () => {
   const unRead = getUnreadCount();
 
   const activeFilterCount =
-    (filters.propertyType !== "Any" ? 1 : 0) +
-    (filters.beds !== "Any" ? 1 : 0) +
-    (filters.baths !== "Any" ? 1 : 0) +
-    (filters.date !== "Any" ? 1 : 0) +
+    (filters.propertyType !== 'Any' ? 1 : 0) +
+    (filters.beds !== 'Any' ? 1 : 0) +
+    (filters.baths !== 'Any' ? 1 : 0) +
+    (filters.date !== 'Any' ? 1 : 0) +
     (filters.min !== PRICE_MIN || filters.max !== PRICE_MAX ? 1 : 0);
 
   return (
@@ -213,14 +213,14 @@ const Explore = () => {
                 size={24}
                 color={colors.white}
                 style={[styles.clearIcon, { backgroundColor: colors.info }]}
-                onPress={() => setSearch("")}
+                onPress={() => setSearch('')}
               />
             )}
           </View>
-          <View style={{ position: "relative" }}>
+          <View style={{ position: 'relative' }}>
             {unRead > 0 && (
               <Badge style={[styles.badge, { backgroundColor: colors.error }]}>
-                {unRead > 99 ? "99+" : unRead}
+                {unRead > 99 ? '99+' : unRead}
               </Badge>
             )}
             <Appbar.Action
@@ -228,11 +228,11 @@ const Explore = () => {
               style={[styles.sortBtn, { backgroundColor: colors.surface }]}
               color={colors.icon}
               onPress={() => {
-                router.push("/property/notifications");
+                router.push('/property/notifications');
               }}
             />
           </View>
-          <View style={{ position: "relative" }}>
+          <View style={{ position: 'relative' }}>
             {activeFilterCount > 0 && (
               <Badge
                 style={[styles.badge, { backgroundColor: colors.success }]}
@@ -258,9 +258,9 @@ const Explore = () => {
             opacity: scrollY.interpolate({
               inputRange: [0, 30],
               outputRange: [1, 0],
-              extrapolate: "clamp",
+              extrapolate: 'clamp',
             }),
-            position: "absolute",
+            position: 'absolute',
             top: 110,
             left: 0,
             right: 0,
@@ -272,7 +272,7 @@ const Explore = () => {
           value={value}
           onValueChange={setValue}
           buttons={segmentaView}
-          style={{ borderWidth: 0, borderColor: "transparent", elevation: 0 }}
+          style={{ borderWidth: 0, borderColor: 'transparent', elevation: 0 }}
         />
       </Animated.View>
 
@@ -292,35 +292,35 @@ const Explore = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
   },
   appHeader: {
-    flexDirection: "column",
-    alignItems: "flex-start",
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     paddingVertical: 10,
     zIndex: 2,
     elevation: 4,
   },
   headerContainer: {
-    position: "relative",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   searchContainer: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   searchIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 8,
     left: 5,
     fontSize: 27,
   },
   clearIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 11,
     right: 15,
     fontSize: 14,
@@ -341,10 +341,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   tabContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     gap: 20,
     paddingHorizontal: 16,
     paddingBottom: 10,
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     paddingTop: 45,
   },
   badge: {
-    position: "absolute",
+    position: 'absolute',
     top: -1,
     right: -1,
     zIndex: 2,

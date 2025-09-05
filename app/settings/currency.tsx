@@ -1,10 +1,10 @@
-import { StyleSheet, View, FlatList } from "react-native";
-import { useRouter } from "expo-router";
-import { Appbar, List, RadioButton, Divider } from "react-native-paper";
-import { useCurrencyStore } from "@/stores/currency";
-import { useThemeStore } from "@/stores/useTheme";
+import { StyleSheet, View, FlatList } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Appbar, List, RadioButton, Divider } from 'react-native-paper';
+import { useCurrencyStore } from '@/stores/currency';
+import { useThemeStore } from '@/stores/useTheme';
 
-const CURRENCIES = ["USD", "EUR", "UGX", "JPY", "GBP", "KES", "INR"];
+const CURRENCIES = ['USD', 'EUR', 'UGX', 'JPY', 'GBP', 'KES', 'INR'];
 
 const Currency = () => {
   const { colors } = useThemeStore();
@@ -36,7 +36,7 @@ const Currency = () => {
           right={() => (
             <RadioButton
               value={item}
-              status={isSelected ? "checked" : "unchecked"}
+              status={isSelected ? 'checked' : 'unchecked'}
               color={colors.primary}
             />
           )}
@@ -55,7 +55,7 @@ const Currency = () => {
         />
         <Appbar.Content
           title="Currencies"
-          titleStyle={{ color: colors.headerText, fontWeight: "600" }}
+          titleStyle={{ color: colors.headerText, fontWeight: '600' }}
         />
       </Appbar.Header>
 
@@ -84,15 +84,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     marginBottom: 12,
-    overflow: "hidden",
+    overflow: 'hidden',
     elevation: 1, // Android shadow
-    shadowColor: "#000", // iOS shadow
+    shadowColor: '#000', // iOS shadow
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
   },
   itemTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
   },
 });

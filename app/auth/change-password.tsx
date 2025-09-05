@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { useNavigation } from "expo-router";
-import { Appbar, Text, TextInput, Button } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useNavigation } from 'expo-router';
+import { Appbar, Text, TextInput, Button } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
 
 const ChangePassword = () => {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [secureCurrentEntry, setSecureCurrentEntry] = useState(true);
   const [secureNewEntry, setSecureNewEntry] = useState(true);
 
@@ -23,7 +23,7 @@ const ChangePassword = () => {
         />
         <Appbar.Content
           title="Change Password"
-          titleStyle={{ fontWeight: "bold", color: colors.text }}
+          titleStyle={{ fontWeight: 'bold', color: colors.text }}
         />
       </Appbar.Header>
       <View style={styles.card}>
@@ -44,7 +44,7 @@ const ChangePassword = () => {
           autoCapitalize="none"
           right={
             <TextInput.Icon
-              icon={secureCurrentEntry ? "eye-off" : "eye"}
+              icon={secureCurrentEntry ? 'eye-off' : 'eye'}
               color={colors.icon}
               onPress={() => setSecureCurrentEntry(!secureCurrentEntry)}
             />
@@ -69,7 +69,7 @@ const ChangePassword = () => {
           autoCapitalize="none"
           right={
             <TextInput.Icon
-              icon={secureNewEntry ? "eye-off" : "eye"}
+              icon={secureNewEntry ? 'eye-off' : 'eye'}
               color={colors.icon}
               onPress={() => setSecureNewEntry(!secureNewEntry)}
             />
@@ -96,7 +96,7 @@ const ChangePassword = () => {
             newPassword.length > 0 &&
             confirmNewPassword.length > 0 &&
             newPassword === confirmNewPassword && (
-              <TextInput.Icon icon={"check-circle"} color={colors.success} />
+              <TextInput.Icon icon={'check-circle'} color={colors.success} />
             )
           }
           theme={{
@@ -118,7 +118,7 @@ const ChangePassword = () => {
             },
           ]}
           labelStyle={[styles.buttonLabel, { color: colors.white }]}
-          onPress={() => console.log("Login pressed")}
+          onPress={() => console.log('Login pressed')}
         >
           Change Password
         </Button>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 15,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   submitBtn: {
     marginTop: 10,

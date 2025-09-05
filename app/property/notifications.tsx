@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigation, useRouter } from "expo-router";
-import { Swipeable } from "react-native-gesture-handler";
+import { useState, useRef, useEffect } from 'react';
+import { useNavigation, useRouter } from 'expo-router';
+import { Swipeable } from 'react-native-gesture-handler';
 import {
   View,
   Text,
@@ -9,16 +9,16 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
   Animated,
-} from "react-native";
-import { Appbar, IconButton, List, Button } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
-import { useNotification } from "@/stores/notifications";
-import { useSnackbar } from "@/stores/snackbar";
-import BottomSheetModal from "@/components/ui/BottomSheet";
-import { SCREEN_HEIGHT } from "@/constants/screen";
-import { formatDistanceToNow } from "date-fns";
+} from 'react-native';
+import { Appbar, IconButton, List, Button } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
+import { useNotification } from '@/stores/notifications';
+import { useSnackbar } from '@/stores/snackbar';
+import BottomSheetModal from '@/components/ui/BottomSheet';
+import { SCREEN_HEIGHT } from '@/constants/screen';
+import { formatDistanceToNow } from 'date-fns';
 
-const noNotificationImg: ImageSourcePropType = require("@/assets/images/no_notification.png");
+const noNotificationImg: ImageSourcePropType = require('@/assets/images/no_notification.png');
 
 const Notifications = () => {
   const [visible, setVisible] = useState(false);
@@ -43,7 +43,7 @@ const Notifications = () => {
 
   const handleDelete = (id: string) => {
     deleteNotification(id);
-    showSnackbar("Deleted a message", colors.error, "undo", () => undo());
+    showSnackbar('Deleted a message', colors.error, 'undo', () => undo());
   };
 
   const handleClearAll = () => {
@@ -54,7 +54,7 @@ const Notifications = () => {
   const handleMarkAllAsRead = () => {
     markAllAsRead();
     setVisible(false);
-    showSnackbar("Marked all Messages as read", colors.textSecondary);
+    showSnackbar('Marked all Messages as read', colors.textSecondary);
   };
 
   const closeCurrentlyOpenSwipeable = () => {
@@ -82,10 +82,10 @@ const Notifications = () => {
   useEffect(() => {
     if (notifications.length === 0) {
       addNotification({
-        title: "New Message",
-        message: "You have a new message from John",
-        type: "message",
-        metadata: { userId: "123" },
+        title: 'New Message',
+        message: 'You have a new message from John',
+        type: 'message',
+        metadata: { userId: '123' },
       });
     }
   }, []);
@@ -174,7 +174,7 @@ const Notifications = () => {
                     {
                       backgroundColor: notification.read
                         ? colors.cardBackground
-                        : colors.primary + "10",
+                        : colors.primary + '10',
                       borderLeftWidth: 4,
                       borderLeftColor: notification.read
                         ? colors.cardBackground
@@ -189,7 +189,7 @@ const Notifications = () => {
                           styles.notificationTitle,
                           {
                             color: colors.text,
-                            fontWeight: notification.read ? "normal" : "bold",
+                            fontWeight: notification.read ? 'normal' : 'bold',
                           },
                         ]}
                       >
@@ -246,7 +246,7 @@ const Notifications = () => {
             <Button
               mode="contained"
               onPress={() => {
-                router.push("/(tabs)/explore");
+                router.push('/(tabs)/explore');
               }}
               style={styles.checkUpdatesButton}
               labelStyle={{ color: colors.white }}
@@ -268,7 +268,7 @@ const Notifications = () => {
           <TouchableOpacity
             style={[
               styles.optionButton,
-              { backgroundColor: colors.error + "10" },
+              { backgroundColor: colors.error + '10' },
             ]}
             onPress={handleClearAll}
           >
@@ -328,14 +328,14 @@ const styles = StyleSheet.create({
     // Android elevation
     elevation: 2,
     // iOS shadow
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
   notificationContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   notificationTextContainer: {
     flex: 1,
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   notificationTimeContainer: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
     minWidth: 80,
   },
   notificationTime: {
@@ -363,18 +363,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   rightAction: {
-    justifyContent: "center",
-    alignItems: "flex-end",
+    justifyContent: 'center',
+    alignItems: 'flex-end',
     borderRadius: 12,
     marginVertical: 8,
     marginRight: 16,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   actionButton: {
     width: 80,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   actionText: {
     fontSize: 12,
@@ -382,25 +382,25 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 32,
   },
   emptyTitle: {
     fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginTop: 24,
     marginBottom: 8,
   },
   emptySubtitle: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 24,
     lineHeight: 24,
   },
   checkUpdatesButton: {
-    width: "100%",
+    width: '100%',
     paddingVertical: 8,
     borderRadius: 8,
   },
@@ -413,8 +413,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   optionButton: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 24,
   },
@@ -424,15 +424,15 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   cancelButton: {
     marginTop: 8,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   divider: {
     height: 1,
-    width: "100%",
+    width: '100%',
     marginVertical: 4,
   },
 });

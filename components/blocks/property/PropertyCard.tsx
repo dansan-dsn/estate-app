@@ -1,21 +1,21 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Card, Text, Icon } from "react-native-paper";
-import { PropertyCardProps } from "@/shared/interfaces/property";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useThemeStore } from "@/stores/useTheme";
-import { useFavoriteStore } from "@/stores/favorites";
-import { useSnackbar } from "@/stores/snackbar";
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, Text, Icon } from 'react-native-paper';
+import { PropertyCardProps } from '@/shared/interfaces/property';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useThemeStore } from '@/stores/useTheme';
+import { useFavoriteStore } from '@/stores/favorites';
+import { useSnackbar } from '@/stores/snackbar';
 
-const home5 = require("@/assets/images/home5.jpg");
+const home5 = require('@/assets/images/home5.jpg');
 
 export default function PropertyCard({ property, onPress }: PropertyCardProps) {
   const { colors } = useThemeStore();
   const { isFavorite, toggleFavorite } = useFavoriteStore();
   const { showSnackbar } = useSnackbar();
 
-  const formattedPrice = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: property.currency || "USD",
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: property.currency || 'USD',
     maximumFractionDigits: 0,
   }).format(property.price);
 
@@ -28,7 +28,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
   const onFavoritePress = () => {
     toggleFavorite(Number(property.property_id));
     showSnackbar(
-      favorite ? "Removed from favorites" : "Added to favorites",
+      favorite ? 'Removed from favorites' : 'Added to favorites',
       colors.black
     );
   };
@@ -42,7 +42,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
 
       <TouchableOpacity style={styles.favoriteButton} onPress={onFavoritePress}>
         <Icon
-          source={favorite ? "heart" : "heart-outline"}
+          source={favorite ? 'heart' : 'heart-outline'}
           size={24}
           color={colors.error}
         />
@@ -79,7 +79,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
               <MaterialIcons name="bed" size={16} color={colors.warning} />
               <Text
                 variant="bodySmall"
-                style={[{ fontWeight: "bold", color: colors.text }]}
+                style={[{ fontWeight: 'bold', color: colors.text }]}
               >
                 {property.features.bedrooms}
               </Text>
@@ -91,7 +91,7 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
               <MaterialIcons name="bathtub" size={16} color={colors.warning} />
               <Text
                 variant="bodySmall"
-                style={[{ fontWeight: "bold", color: colors.text }]}
+                style={[{ fontWeight: 'bold', color: colors.text }]}
               >
                 {property.features.bathrooms}
               </Text>
@@ -125,10 +125,10 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
               {
                 backgroundColor:
                   {
-                    available: "#4CAF50",
-                    sold: "#F44336",
-                    rented: "#FFC107",
-                  }[property.status] || "#FFC107",
+                    available: '#4CAF50',
+                    sold: '#F44336',
+                    rented: '#FFC107',
+                  }[property.status] || '#FFC107',
               },
             ]}
           >
@@ -146,23 +146,23 @@ const styles = StyleSheet.create({
   card: {
     margin: 8,
     borderRadius: 12,
-    overflow: "hidden",
+    overflow: 'hidden',
     elevation: 2,
   },
   coverImage: {
     height: 180,
   },
   favoriteButton: {
-    position: "absolute",
+    position: 'absolute',
     top: 8,
     right: 8,
     zIndex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 8,
     borderRadius: 24,
   },
   priceBadge: {
-    position: "absolute",
+    position: 'absolute',
     top: 140,
     left: 16,
     paddingHorizontal: 12,
@@ -171,48 +171,48 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   priceText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
   },
   content: {
     padding: 16,
   },
   title: {
     marginBottom: 4,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   locationRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12,
   },
   locationText: {
     marginLeft: 4,
   },
   featuresContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 12,
     paddingHorizontal: 8,
   },
   featureItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 4,
   },
   metaContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 8,
   },
   typeBadge: {
-    backgroundColor: "#E0E0E0",
+    backgroundColor: '#E0E0E0',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
   },
   typeText: {
-    color: "#424242",
+    color: '#424242',
   },
   statusBadge: {
     paddingHorizontal: 8,
@@ -220,6 +220,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   statusText: {
-    color: "#fff",
+    color: '#fff',
   },
 });

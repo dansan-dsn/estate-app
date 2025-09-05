@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { View, StyleSheet, Pressable, Animated } from "react-native";
-import { Text, Icon, MD3Colors } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
-import { SCREEN_HEIGHT, HEADER_HEIGHT } from "@/constants/screen";
-import BottomSheetModal from "@/components/ui/BottomSheet";
-import { Picker } from "@react-native-picker/picker";
+import { useState, useRef, useEffect } from 'react';
+import { View, StyleSheet, Pressable, Animated } from 'react-native';
+import { Text, Icon, MD3Colors } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
+import { SCREEN_HEIGHT, HEADER_HEIGHT } from '@/constants/screen';
+import BottomSheetModal from '@/components/ui/BottomSheet';
+import { Picker } from '@react-native-picker/picker';
 import {
   PRICE_MAX,
   PRICE_MIN,
@@ -13,7 +13,7 @@ import {
   PROPERTY_DATE,
   PROPERTY_BATH,
   PROPERTY_BED,
-} from "@/constants/property";
+} from '@/constants/property';
 
 export type PropertyFilters = {
   min: number;
@@ -99,8 +99,8 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
   };
 
   const handleApply = () => {
-    const min = parseInt(minPrice.replace(/,/g, "")) || PRICE_MIN;
-    const max = parseInt(maxPrice.replace(/,/g, "")) || PRICE_MAX;
+    const min = parseInt(minPrice.replace(/,/g, '')) || PRICE_MIN;
+    const max = parseInt(maxPrice.replace(/,/g, '')) || PRICE_MAX;
     const finalMin = Math.min(min, max);
     const finalMax = Math.max(min, max);
 
@@ -132,7 +132,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
             {
               backgroundColor: colors.cardBackground,
               zIndex: 10,
-              shadowColor: "#000",
+              shadowColor: '#000',
               elevation: 2,
             },
           ]}
@@ -140,7 +140,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
           <Text style={[styles.title, { color: colors.text }]}>
             Filter Properties
           </Text>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Pressable
               onPress={handleClearAll}
               style={[styles.iconBtn, { backgroundColor: colors.background }]}
@@ -150,7 +150,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                 style={{
                   color: colors.primary,
                   marginLeft: 4,
-                  fontWeight: "500",
+                  fontWeight: '500',
                 }}
               >
                 Reset
@@ -233,7 +233,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       borderColor:
                         selectedRange === range.label
                           ? colors.primary
-                          : "transparent",
+                          : 'transparent',
                     },
                   ]}
                 >
@@ -242,7 +242,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       styles.presetButtonText,
                       {
                         color:
-                          selectedRange === range.label ? "#fff" : colors.text,
+                          selectedRange === range.label ? '#fff' : colors.text,
                       },
                     ]}
                   >
@@ -335,7 +335,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       borderColor:
                         selectedBed === option.value
                           ? colors.primary
-                          : "transparent",
+                          : 'transparent',
                     },
                   ]}
                   onPress={() => setSelectedBed(option.value)}
@@ -345,7 +345,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       styles.presetButtonText,
                       {
                         color:
-                          selectedBed === option.value ? "#fff" : colors.text,
+                          selectedBed === option.value ? '#fff' : colors.text,
                       },
                     ]}
                   >
@@ -375,7 +375,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       borderColor:
                         selectedBath === option.value
                           ? colors.primary
-                          : "transparent",
+                          : 'transparent',
                     },
                   ]}
                   onPress={() => setSelectedBath(option.value)}
@@ -385,7 +385,7 @@ const SortModal = ({ visible, close, filters, setFilters }: SortModalProps) => {
                       styles.presetButtonText,
                       {
                         color:
-                          selectedBath === option.value ? "#fff" : colors.text,
+                          selectedBath === option.value ? '#fff' : colors.text,
                       },
                     ]}
                   >
@@ -455,24 +455,24 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 16,
     paddingHorizontal: 20,
     height: HEADER_HEIGHT,
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
   },
   title: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   iconBtn: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,
@@ -490,20 +490,20 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: '700',
     marginBottom: 12,
     letterSpacing: 0.1,
   },
   pickerWrapper: {
     borderWidth: 1,
-    borderColor: "#e0e0e0",
+    borderColor: '#e0e0e0',
     borderRadius: 8,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginBottom: 12,
   },
   presetContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 8,
     marginBottom: 12,
   },
@@ -517,12 +517,12 @@ const styles = StyleSheet.create({
   },
   presetButtonText: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: '500',
     letterSpacing: 0.2,
   },
   priceInputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 10,
     marginBottom: 8,
     gap: 12,
@@ -533,22 +533,22 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 13,
     marginBottom: 4,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderRadius: 8,
-    overflow: "hidden",
+    overflow: 'hidden',
     paddingLeft: 24,
     height: 44,
   },
   currencySymbol: {
-    position: "absolute",
+    position: 'absolute',
     left: 12,
     zIndex: 1,
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     opacity: 0.7,
   },
   input: {
@@ -557,15 +557,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: 8,
     paddingRight: 8,
-    backgroundColor: "transparent",
-    textAlignVertical: "center",
+    backgroundColor: 'transparent',
+    textAlignVertical: 'center',
   },
   spacer: {
     width: 16,
   },
   applyBtn: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 16,
     borderRadius: 8,
     marginHorizontal: 20,
@@ -574,8 +574,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   applyBtnText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
     fontSize: 17,
     letterSpacing: 0.2,
   },

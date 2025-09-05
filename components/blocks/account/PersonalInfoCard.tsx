@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Card, Text, Button, Divider } from "react-native-paper";
-import { UserProfile } from "@/shared/interfaces/user";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text, Button, Divider } from 'react-native-paper';
+import { UserProfile } from '@/shared/interfaces/user';
 
 interface PersonalInfoCardProps {
   userProfile: UserProfile;
@@ -65,7 +65,7 @@ export const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({
             variant="bodyMedium"
             style={{ color: colors.text, lineHeight: 20 }}
           >
-            {userProfile.bio || "No bio added yet."}
+            {userProfile.bio || 'No bio added yet.'}
           </Text>
         </View>
       </Card.Content>
@@ -80,15 +80,15 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 12,
   },
   cardRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 8,
   },
   cardColumn: {

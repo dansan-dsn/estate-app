@@ -1,12 +1,12 @@
-import { useRef, useMemo } from "react";
-import { useRouter } from "expo-router";
-import { View, StyleSheet, Animated, FlatList } from "react-native";
-import { Appbar, Button, Text } from "react-native-paper";
-import { properties } from "@/shared/data/property";
-import { useThemeStore } from "@/stores/useTheme";
-import { useFavoriteStore } from "@/stores/favorites";
-import { useSnackbar } from "@/stores/snackbar";
-import PropertyCardHorizontal from "@/components/blocks/property/PropertyCardHorizontal";
+import { useRef, useMemo } from 'react';
+import { useRouter } from 'expo-router';
+import { View, StyleSheet, Animated, FlatList } from 'react-native';
+import { Appbar, Button, Text } from 'react-native-paper';
+import { properties } from '@/shared/data/property';
+import { useThemeStore } from '@/stores/useTheme';
+import { useFavoriteStore } from '@/stores/favorites';
+import { useSnackbar } from '@/stores/snackbar';
+import PropertyCardHorizontal from '@/components/blocks/property/PropertyCardHorizontal';
 
 const Favorite = () => {
   const flatListRef = useRef<FlatList>(null);
@@ -22,7 +22,7 @@ const Favorite = () => {
 
   const handleFavRemove = (id: number) => {
     toggleFavorite(Number(id));
-    showSnackbar("Removed from favorites", colors.black);
+    showSnackbar('Removed from favorites', colors.black);
   };
 
   return (
@@ -34,7 +34,7 @@ const Favorite = () => {
         <Appbar.Content
           title="Favorites"
           titleStyle={[
-            { fontWeight: "bold", fontSize: 24, color: colors.headerText },
+            { fontWeight: 'bold', fontSize: 24, color: colors.headerText },
           ]}
         />
       </Appbar.Header>
@@ -75,15 +75,15 @@ const Favorite = () => {
               variant="bodyMedium"
               style={[styles.subtitle, { color: colors.textSecondary }]}
             >
-              Tap the <Text style={styles.heart}>♥</Text> on any property to add
-              it to your favorites.
+              Tap the <Text style={styles.heart}>♥</Text> on any property to
+              add it to your favorites.
             </Text>
             <Button
               mode="contained"
               style={styles.button}
-              onPress={() => router.push("/explore")}
+              onPress={() => router.push('/explore')}
               icon="magnify"
-              labelStyle={{ fontWeight: "bold" }}
+              labelStyle={{ fontWeight: 'bold' }}
             >
               Explore Properties
             </Button>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   noContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 60,
     marginHorizontal: 20,
     padding: 24,
@@ -110,10 +110,10 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   emoji: { marginBottom: 12 },
-  title: { fontWeight: "bold", marginBottom: 6 },
-  subtitle: { textAlign: "center", marginBottom: 18 },
-  heart: { color: "#e53935", fontWeight: "bold" },
-  button: { marginTop: 8, width: "80%", borderRadius: 25 },
+  title: { fontWeight: 'bold', marginBottom: 6 },
+  subtitle: { textAlign: 'center', marginBottom: 18 },
+  heart: { color: '#e53935', fontWeight: 'bold' },
+  button: { marginTop: 8, width: '80%', borderRadius: 25 },
 });
 
 export default Favorite;

@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { useNavigation } from "expo-router";
-import { Appbar, Text, TextInput, Button } from "react-native-paper";
-import { useThemeStore } from "@/stores/useTheme";
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useNavigation } from 'expo-router';
+import { Appbar, Text, TextInput, Button } from 'react-native-paper';
+import { useThemeStore } from '@/stores/useTheme';
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [showPasswordFields, setShowPasswordFields] = useState(false);
 
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [confirmsecure, setConfirmSecure] = useState(true);
 
@@ -31,8 +31,8 @@ const ForgotPassword = () => {
           color={colors.text}
         />
         <Appbar.Content
-          title={!showPasswordFields ? "Forgot Password" : "Creat New Password"}
-          titleStyle={{ fontWeight: "bold", color: colors.text }}
+          title={!showPasswordFields ? 'Forgot Password' : 'Creat New Password'}
+          titleStyle={{ fontWeight: 'bold', color: colors.text }}
         />
       </Appbar.Header>
 
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
               left={<TextInput.Icon icon="lock-outline" />}
               right={
                 <TextInput.Icon
-                  icon={secureTextEntry ? "eye-off-outline" : "eye-outline"}
+                  icon={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
                   onPress={() => setSecureTextEntry(!secureTextEntry)}
                 />
               }
@@ -123,7 +123,7 @@ const ForgotPassword = () => {
               left={<TextInput.Icon icon="lock-outline" />}
               right={
                 <TextInput.Icon
-                  icon={confirmsecure ? "eye-off-outline" : "eye-outline"}
+                  icon={confirmsecure ? 'eye-off-outline' : 'eye-outline'}
                   onPress={() => setConfirmSecure(!confirmsecure)}
                 />
               }
@@ -146,7 +146,7 @@ const ForgotPassword = () => {
                 },
               ]}
               labelStyle={[styles.buttonLabel, { color: colors.white }]}
-              onPress={() => console.log("Reset pressed")}
+              onPress={() => console.log('Reset pressed')}
             >
               Continue
             </Button>
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 15,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   submitBtn: {
     marginTop: 10,
