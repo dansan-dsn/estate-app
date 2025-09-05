@@ -1,0 +1,83 @@
+name: Simple CI/CD for Estate App
+# WHEN does this workflow run?
+# Every time you push code to the "main" branch
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+# WHAT version of Node.js to use (matches your React Native needs)
+
+env:
+  NODE_VERSION: '18'
+# JOBS are the tasks that run (think of them as steps in a recipe)
+
+jobs:
+  # JOB 1: Check if your code is good (linting, type checking)
+  code-quality:
+    name: 'Check Code quality'
+    runs-on: ubuntu-latest
+
+    steps:
+      # STEP 1: Get your code from GitHub
+      - name: 'Get the code'
+        uses: actions/checkout@v4
+
+      # STEP 2: Install Node.js (JavaScript runtime)
+      - name: 'Set up Node.js'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm' # This makes installing faster by caching dependencies
+
+      # STEP 3: Install your app's dependencies (like npm install)
+      - name: 'Install dependencies'
+        run: |
+          npm ci
+          npx expo install --fix
+
+      # STEP 4: Check if TypeScript code has errors
+      - name: 'Check Typescript types'
+        run: npx tsc --noEmit
+
+      # STEP 5: Check if code follows style rules
+      - name: 'Run ESLint'
+        run: npm run lint
+
+      # STEP 6: Check code formatting (we'll add this script)
+      - name: 'Check code formatting'
+        run: npm run format:check
+
+  # JOB 2: Build your app (only runs if code quality passes)
+  build-app:
+    name: 'Build the app'
+    runs-on: ubuntu-latest
+    needs: code-quality # This job runs only if "code-quality" job is successful
+    if: github.ref == 'refs/heads/main' # Only builds on main branch
+
+    steps:
+      - name: 'Get the code'
+        uses: actions/checkout@v4
+
+      - name: 'Set up Node.js'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 'Install dependencies'
+        run: |
+          npm ci
+          npx expo install --fix
+
+      # Install Expo CLI (tool to build React Native apps)
+      - name: 'Install Expo CLI'
+        run: npm install -g @expo/cli@latest
+
+      # Check if the app can be built (without actually building the full app)
+      - name: 'Test Native Build'
+        run: npx expo prebuild --no-install
+
+      - name: 'Build Successful!'
+        run: echo "Your app builds successfully!"

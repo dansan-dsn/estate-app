@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Text } from "react-native";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFonts } from "expo-font";
@@ -6,7 +7,6 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { useThemeStore } from "@/stores/useTheme";
-import Loader from "@/components/loaders/Loader";
 import GlobalSnackbar from "@/components/ui/Snackbar";
 
 export default function RootLayout() {
@@ -20,7 +20,7 @@ export default function RootLayout() {
   }, [initializeTheme]);
 
   if (!loaded) {
-    return <Loader />;
+    return <Text>Loading...</Text>;
   }
 
   // Customize navigation theme with colors from useThemeStore

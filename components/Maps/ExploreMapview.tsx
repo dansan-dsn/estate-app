@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { View, Text, Platform } from "react-native";
-import MapView, { Region } from "react-native-maps";
-import { useThemeStore } from "@/stores/useTheme";
+import { useState } from 'react';
+import { View, Text } from 'react-native';
+import MapView, { Region, PROVIDER_GOOGLE } from 'react-native-maps';
+import { useThemeStore } from '@/stores/useTheme';
 
 export default function ExploreMapView() {
   const { colors } = useThemeStore();
@@ -12,35 +12,19 @@ export default function ExploreMapView() {
     longitudeDelta: 0.0421,
   });
 
-  const handleRegionChange = (newRegion: Region) => {
-    setRegion(newRegion);
-  };
-
-  if (Platform.OS === "web") {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{ color: colors.error, fontWeight: "bold" }}>
-          Map is not supported on web yet.
-        </Text>
-        <Text style={{ color: colors.error }}>
-          Please use the mobile app to view the map.
-        </Text>
-      </View>
-    );
-  }
-
   return (
     <View style={{ flex: 1 }}>
       <MapView
+        provider={PROVIDER_GOOGLE}
         style={{ flex: 1 }}
         initialRegion={region}
-        onRegionChangeComplete={handleRegionChange}
+        onRegionChangeComplete={setRegion}
       />
-      <View style={{ position: "absolute", top: 50, left: 10 }}>
-        <Text style={{ fontSize: 16, color: colors.error, fontWeight: "bold" }}>
+      <View style={{ position: 'absolute', top: 50, left: 10 }}>
+        <Text style={{ fontSize: 16, color: colors.error, fontWeight: 'bold' }}>
           Lat: {region.latitude.toFixed(5)}
         </Text>
-        <Text style={{ fontSize: 16, color: colors.error, fontWeight: "bold" }}>
+        <Text style={{ fontSize: 16, color: colors.error, fontWeight: 'bold' }}>
           Lng: {region.longitude.toFixed(5)}
         </Text>
       </View>
