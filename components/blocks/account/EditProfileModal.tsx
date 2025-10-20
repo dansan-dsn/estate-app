@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, Modal } from 'react-native';
-import { Text, TextInput, Button, IconButton } from 'react-native-paper';
+import { Text, TextInput, Button, IconButton, SegmentedButtons, Chip } from 'react-native-paper';
 import { UserProfile } from '@/shared/interfaces/user';
 
 interface EditProfileModalProps {
@@ -96,6 +96,251 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               style={styles.input}
               mode="outlined"
             />
+
+            <Text style={[styles.sectionHeading, { color: colors.textSecondary }]}>
+              Profile preferences
+            </Text>
+            <SegmentedButtons
+              value={editedProfile.role}
+              onValueChange={(value) =>
+                onProfileChange({ ...editedProfile, role: value as UserProfile['role'] })
+              }
+              buttons={[
+                { value: 'agent', label: 'Agent' },
+                { value: 'broker', label: 'Broker' },
+                { value: 'tenant', label: 'Tenant' },
+              ]}
+              style={{ marginBottom: 16 }}
+            />
+
+            <TextInput
+              label="Language"
+              value={editedProfile.language || ''}
+              onChangeText={(text) =>
+                onProfileChange({ ...editedProfile, language: text })
+              }
+              style={styles.input}
+              mode="outlined"
+            />
+            <TextInput
+              label="Timezone"
+              value={editedProfile.timezone || ''}
+              onChangeText={(text) =>
+                onProfileChange({ ...editedProfile, timezone: text })
+              }
+              style={styles.input}
+              mode="outlined"
+            />
+            <TextInput
+              label="Preferred Currency"
+              value={editedProfile.preferredCurrency || ''}
+              onChangeText={(text) =>
+                onProfileChange({ ...editedProfile, preferredCurrency: text })
+              }
+              style={styles.input}
+              mode="outlined"
+            />
+
+            <Text style={[styles.sectionHeading, { color: colors.textSecondary }]}>
+              Role specifics
+            </Text>
+
+            {editedProfile.role !== 'tenant' && (
+              <>
+                <TextInput
+                  label={editedProfile.role === 'agent' ? 'Agency name' : 'Brokerage name'}
+                  value={
+                    editedProfile.role === 'agent'
+                      ? editedProfile.companyName || ''
+                      : editedProfile.brokerageName || ''
+                  }
+                  onChangeText={(text) =>
+                    onProfileChange(
+                      editedProfile.role === 'agent'
+                        ? { ...editedProfile, companyName: text }
+                        : { ...editedProfile, brokerageName: text }
+                    )
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+                <TextInput
+                  label="License / Compliance"
+                  value={
+                    editedProfile.role === 'agent'
+                      ? editedProfile.licenseNumber || ''
+                      : String(editedProfile.complianceScore ?? '')
+                  }
+                  onChangeText={(text) =>
+                    onProfileChange(
+                      editedProfile.role === 'agent'
+                        ? { ...editedProfile, licenseNumber: text }
+                        : {
+                            ...editedProfile,
+                            complianceScore: text ? Number(text) : undefined,
+                          }
+                    )
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                  keyboardType={editedProfile.role === 'agent' ? 'default' : 'numeric'}
+                />
+              </>
+            )}
+
+            {editedProfile.role === 'agent' && (
+              <>
+                <TextInput
+                  label="Specialties (comma separated)"
+                  value={(editedProfile.specialties || []).join(', ')}
+                  onChangeText={(text) =>
+                    onProfileChange({
+                      ...editedProfile,
+                      specialties: text
+                        .split(',')
+                        .map((item) => item.trim())
+                        .filter(Boolean),
+                    })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+                <TextInput
+                  label="Territories (comma separated)"
+                  value={(editedProfile.territories || []).join(', ')}
+                  onChangeText={(text) =>
+                    onProfileChange({
+                      ...editedProfile,
+                      territories: text
+                        .split(',')
+                        .map((item) => item.trim())
+                        .filter(Boolean),
+                    })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+              </>
+            )}
+
+            {editedProfile.role === 'broker' && (
+              <>
+                <TextInput
+                  label="Team size"
+                  value={String(editedProfile.brokerTeamSize ?? '')}
+                  onChangeText={(text) =>
+                    onProfileChange({
+                      ...editedProfile,
+                      brokerTeamSize: text ? Number(text) : undefined,
+                    })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                  keyboardType="numeric"
+                />
+                <TextInput
+                  label="Network size"
+                  value={String(editedProfile.brokerNetworkSize ?? '')}
+                  onChangeText={(text) =>
+                    onProfileChange({
+                      ...editedProfile,
+                      brokerNetworkSize: text ? Number(text) : undefined,
+                    })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                  keyboardType="numeric"
+                />
+                <TextInput
+                  label="Focus markets (comma separated)"
+                  value={(editedProfile.flagshipMarkets || []).join(', ')}
+                  onChangeText={(text) =>
+                    onProfileChange({
+                      ...editedProfile,
+                      flagshipMarkets: text
+                        .split(',')
+                        .map((item) => item.trim())
+                        .filter(Boolean),
+                    })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+              </>
+            )}
+
+            {editedProfile.role === 'tenant' && (
+              <>
+                <TextInput
+                  label="Current Property"
+                  value={editedProfile.currentProperty || ''}
+                  onChangeText={(text) =>
+                    onProfileChange({ ...editedProfile, currentProperty: text })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+                <TextInput
+                  label="Lease end date"
+                  value={editedProfile.leaseEndDate || ''}
+                  onChangeText={(text) =>
+                    onProfileChange({ ...editedProfile, leaseEndDate: text })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+                <TextInput
+                  label="Monthly rent"
+                  value={editedProfile.monthlyRent || ''}
+                  onChangeText={(text) =>
+                    onProfileChange({ ...editedProfile, monthlyRent: text })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+                <TextInput
+                  label="Emergency contact"
+                  value={editedProfile.emergencyContact || ''}
+                  onChangeText={(text) =>
+                    onProfileChange({ ...editedProfile, emergencyContact: text })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+              </>
+            )}
+
+            <Text style={[styles.sectionHeading, { color: colors.textSecondary }]}>Notifications</Text>
+            <View style={styles.chipRow}>
+              {['Email', 'SMS', 'Push'].map((channel) => {
+                const isActive = editedProfile.notificationChannels?.includes(
+                  channel
+                );
+                return (
+                  <Chip
+                    key={channel}
+                    style={{
+                      backgroundColor: isActive
+                        ? colors.primary + '22'
+                        : colors.surfaceVariant,
+                    }}
+                    textStyle={{
+                      color: isActive ? colors.primary : colors.textSecondary,
+                    }}
+                    icon={isActive ? 'check-bold' : 'bell-outline'}
+                    onPress={() => {
+                      const current = editedProfile.notificationChannels || [];
+                      const next = isActive
+                        ? current.filter((c) => c !== channel)
+                        : [...current, channel];
+                      onProfileChange({ ...editedProfile, notificationChannels: next });
+                    }}
+                  >
+                    {channel}
+                  </Chip>
+                );
+              })}
+            </View>
           </ScrollView>
 
           <View style={styles.modalActions}>
@@ -170,5 +415,16 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 12,
+  },
+  sectionHeading: {
+    fontWeight: '600',
+    marginBottom: 8,
+    marginTop: 12,
+  },
+  chipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 8,
   },
 });

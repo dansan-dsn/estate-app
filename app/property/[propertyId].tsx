@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { properties } from '@/shared/data/property';
 import { useRef, useState } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -314,15 +315,27 @@ export default function PropertyDetails() {
               ]}
             >
               <SectionTitle title="Location" colors={colors} />
-              <View
-                style={[
-                  styles.mapPlaceholder,
-                  { backgroundColor: colors.surfaceVariant },
-                ]}
-              >
-                <Text style={{ color: colors.textSecondary }}>
-                  Map would be displayed here
-                </Text>
+              <View style={styles.mapContainer}>
+                <MapView
+                  provider={PROVIDER_GOOGLE}
+                  style={styles.map}
+                  initialRegion={{
+                    latitude: property.address.coordinates.lat,
+                    longitude: property.address.coordinates.lng,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                  }}
+                  liteMode
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: property.address.coordinates.lat,
+                      longitude: property.address.coordinates.lng,
+                    }}
+                    title={property.title}
+                    description={`${property.address.street}, ${property.address.city}`}
+                  />
+                </MapView>
               </View>
               <View style={styles.locationDetails}>
                 <MaterialIcons
@@ -613,12 +626,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
-  mapPlaceholder: {
-    height: 180,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
+  mapContainer: {
+    borderRadius: 12,
+    overflow: 'hidden',
+    height: 220,
+    marginBottom: 16,
+  },
+  map: {
+    flex: 1,
   },
   locationDetails: {
     flexDirection: 'row',

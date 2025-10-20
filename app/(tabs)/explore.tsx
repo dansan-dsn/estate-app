@@ -49,6 +49,7 @@ const Explore = () => {
 
   const filteredProperties = properties.filter((item) => {
     if (!item) return false;
+
     const priceOk = item.price >= filters.min && item.price <= filters.max;
     const typeOk =
       filters.propertyType === 'Any' || item.type === filters.propertyType;
@@ -58,13 +59,20 @@ const Explore = () => {
     const bathsOk =
       filters.baths === 'Any' ||
       item.features?.bathrooms.toString() === filters.baths;
+
+    const normalizedSearch = search.trim().toLowerCase();
     const searchOk =
-      !search ||
-      item.title?.toLowerCase().includes(search.toLowerCase()) ||
-      item.type?.toLowerCase().includes(search.toLowerCase());
-    item.address?.city?.toLowerCase().includes(search.toLowerCase()) ||
-      item.address?.state?.toLowerCase().includes(search.toLowerCase()) ||
-      item.address?.country?.toLowerCase().includes(search.toLowerCase());
+      !normalizedSearch ||
+      [
+        item.title,
+        item.type,
+        item.address?.street,
+        item.address?.city,
+        item.address?.state,
+        item.address?.country,
+      ].some((field) =>
+        field ? field.toLowerCase().includes(normalizedSearch) : false
+      );
 
     return priceOk && typeOk && bedsOk && bathsOk && searchOk;
   });
