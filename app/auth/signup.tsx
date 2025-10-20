@@ -15,26 +15,29 @@ import { z } from 'zod';
 import { useThemeStore } from '@/stores/useTheme';
 import GlassCard from '@/components/ui/GlassCard';
 
-const signupSchema = z
-  .object({
-    fullName: z.string().min(3, 'Please provide your full name'),
-    email: z.string().email('Use a valid email address'),
-    password: z
-      .string()
-      .min(8, 'Password must contain at least 8 characters')
-      .regex(/[A-Z]/, 'Include at least one uppercase letter')
-      .regex(/[0-9]/, 'Include at least one number'),
-    confirmPassword: z.string(),
-    agreeTerms: z
-      .boolean()
-      .refine((val) => val, 'You must accept the terms to proceed'),
-    role: z.enum(['tenant', 'agent', 'broker']),
-    subscribe: z.boolean().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+const signupBaseSchema = z.object({
+  fullName: z.string().min(3, 'Please provide your full name'),
+  email: z.string().email('Use a valid email address'),
+  password: z
+    .string()
+    .min(8, 'Password must contain at least 8 characters')
+    .regex(/[A-Z]/, 'Include at least one uppercase letter')
+    .regex(/[0-9]/, 'Include at least one number'),
+  confirmPassword: z.string(),
+  agreeTerms: z
+    .boolean()
+    .refine((val) => val, 'You must accept the terms to proceed'),
+  role: z.enum(['tenant', 'agent', 'broker']),
+  subscribe: z.boolean().optional(),
+});
+
+const signupSchema = signupBaseSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
     path: ['confirmPassword'],
     message: 'Passwords must match',
-  });
+  }
+);
 
 type SignupForm = {
   fullName: string;
@@ -70,11 +73,25 @@ export default function SignupScreen() {
   );
 
   const validateField = (field: keyof SignupForm) => {
-    const partialSchema = signupSchema.pick({ [field]: true } as any);
-    const result = partialSchema.safeParse({ [field]: formData[field] });
+    const schema =
+      signupBaseSchema.shape[field as keyof typeof signupBaseSchema.shape];
+    if (!schema) {
+      return;
+    }
+
+    const result = schema.safeParse(formData[field]);
+    let message = result.success ? undefined : result.error.issues[0]?.message;
+
+    if (!message && field === 'confirmPassword') {
+      message =
+        formData.confirmPassword === formData.password
+          ? undefined
+          : 'Passwords must match';
+    }
+
     setErrors((prev) => ({
       ...prev,
-      [field]: result.success ? undefined : result.error.issues[0]?.message,
+      [field]: message,
     }));
   };
 

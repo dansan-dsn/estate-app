@@ -13,17 +13,18 @@ import { z } from 'zod';
 import { useThemeStore } from '@/stores/useTheme';
 import GlassCard from '@/components/ui/GlassCard';
 
-const changeSchema = z
-  .object({
-    currentPassword: z.string().min(8, 'Enter your current password'),
-    newPassword: z
-      .string()
-      .min(8, 'New password must contain at least 8 characters')
-      .regex(/[A-Z]/, 'Include at least one uppercase letter')
-      .regex(/[0-9]/, 'Include at least one number'),
-    confirmPassword: z.string(),
-    enableBiometric: z.boolean().optional(),
-  })
+const changeBaseSchema = z.object({
+  currentPassword: z.string().min(8, 'Enter your current password'),
+  newPassword: z
+    .string()
+    .min(8, 'New password must contain at least 8 characters')
+    .regex(/[A-Z]/, 'Include at least one uppercase letter')
+    .regex(/[0-9]/, 'Include at least one number'),
+  confirmPassword: z.string(),
+  enableBiometric: z.boolean().optional(),
+});
+
+const changeSchema = changeBaseSchema
   .refine((data) => data.newPassword === data.confirmPassword, {
     path: ['confirmPassword'],
     message: 'Passwords must match',
@@ -67,12 +68,32 @@ export default function ChangePasswordScreen() {
   };
 
   const validateField = (field: keyof ChangeForm) => {
-    const result = changeSchema
-      .pick({ [field]: true } as any)
-      .safeParse({ [field]: formData[field] });
+    const schema =
+      changeBaseSchema.shape[field as keyof typeof changeBaseSchema.shape];
+    if (!schema) {
+      return;
+    }
+
+    const result = schema.safeParse(formData[field]);
+    let message = result.success ? undefined : result.error.issues[0]?.message;
+
+    if (!message && field === 'confirmPassword') {
+      message =
+        formData.confirmPassword === formData.newPassword
+          ? undefined
+          : 'Passwords must match';
+    }
+
+    if (!message && field === 'newPassword') {
+      message =
+        formData.newPassword !== formData.currentPassword
+          ? undefined
+          : 'New password must be different from current password';
+    }
+
     setErrors((prev) => ({
       ...prev,
-      [field]: result.success ? undefined : result.error.issues[0]?.message,
+      [field]: message,
     }));
   };
 
