@@ -11,7 +11,7 @@ git clone git@github.com:dansan-dsn/estate-app.git
 1. Install dependencies
 
    ```bash
-   npm install
+   yarn install
    ```
 
 2. Start the app
@@ -27,13 +27,13 @@ git clone git@github.com:dansan-dsn/estate-app.git
 1.Run all CI-like checks
 
 ```bash
-npm run type-check      # TypeScript type checking
-npm run lint            # Code quality with ESLint
-npm run format:check    # Check code formatting with Prettier
+yarn run type-check      # TypeScript type checking
+yarn run lint            # Code quality with ESLint
+yarn run format:check    # Check code formatting with Prettier
 ```
 
 2. Auto-fix formatting issues
 
    ```bash
-      npm run format
+      yarn run format
    ```

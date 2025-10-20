@@ -29,25 +29,39 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm' # This makes installing faster by caching dependencies
 
-      # STEP 3: Install your app's dependencies (like npm install)
+      - name: 'Enable Corepack'
+        run: corepack enable
+
+      - name: 'Prepare Yarn 4'
+        run: corepack prepare yarn@4 --activate
+
+      - name: 'Cache Yarn artifacts'
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/install-state.gz
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # STEP 3: Install your app's dependencies (like yarn install)
       - name: 'Install dependencies'
         run: |
-          npm ci
-          npx expo install --fix
+          yarn install --immutable
 
       # STEP 4: Check if TypeScript code has errors
       - name: 'Check Typescript types'
-        run: npx tsc --noEmit
+        run: yarn type-check
 
       # STEP 5: Check if code follows style rules
       - name: 'Run ESLint'
-        run: npm run lint
+        run: yarn lint
 
       # STEP 6: Check code formatting (we'll add this script)
       - name: 'Check code formatting'
-        run: npm run format:check
+        run: yarn format:check
 
   # JOB 2: Build your app (only runs if code quality passes)
   build-app:
@@ -64,20 +78,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+
+      - name: 'Enable Corepack'
+        run: corepack enable
+
+      - name: 'Prepare Yarn 4'
+        run: corepack prepare yarn@4 --activate
+
+      - name: 'Cache Yarn artifacts'
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/install-state.gz
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: 'Install dependencies'
         run: |
-          npm ci
-          npx expo install --fix
-
-      # Install Expo CLI (tool to build React Native apps)
-      - name: 'Install Expo CLI'
-        run: npm install -g @expo/cli@latest
+          yarn install --immutable
 
       # Check if the app can be built (without actually building the full app)
       - name: 'Test Native Build'
-        run: npx expo prebuild --no-install
+        run: yarn dlx expo prebuild --no-install
 
       - name: 'Build Successful!'
         run: echo "Your app builds successfully!"

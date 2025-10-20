@@ -1,341 +1,412 @@
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
-import { Button, Text, TextInput, Switch } from 'react-native-paper';
+import { useState, useMemo } from 'react';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import {
+  Button,
+  Text,
+  TextInput,
+  Switch,
+  HelperText,
+  Chip,
+  Checkbox,
+} from 'react-native-paper';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { z } from 'zod';
 import { useThemeStore } from '@/stores/useTheme';
+import GlassCard from '@/components/ui/GlassCard';
+
+const signupBaseSchema = z.object({
+  fullName: z.string().min(3, 'Please provide your full name'),
+  email: z.string().email('Use a valid email address'),
+  password: z
+    .string()
+    .min(8, 'Password must contain at least 8 characters')
+    .regex(/[A-Z]/, 'Include at least one uppercase letter')
+    .regex(/[0-9]/, 'Include at least one number'),
+  confirmPassword: z.string(),
+  agreeTerms: z
+    .boolean()
+    .refine((val) => val, 'You must accept the terms to proceed'),
+  role: z.enum(['tenant', 'agent', 'broker']),
+  subscribe: z.boolean().optional(),
+});
+
+const signupSchema = signupBaseSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
+    path: ['confirmPassword'],
+    message: 'Passwords must match',
+  }
+);
+
+type SignupForm = {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  agreeTerms: boolean;
+  role: 'tenant' | 'agent' | 'broker';
+  subscribe?: boolean;
+};
 
 export default function SignupScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const { colors } = useThemeStore();
   const router = useRouter();
+  const { colors } = useThemeStore();
+  const [formData, setFormData] = useState<SignupForm>({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    agreeTerms: false,
+    role: 'tenant',
+    subscribe: true,
+  });
+  const [secureEntry, setSecureEntry] = useState(true);
+  const [confirmSecureEntry, setConfirmSecureEntry] = useState(true);
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof SignupForm, string>>
+  >({});
 
-  const isFormValid = () => {
-    return (
-      fullName.trim() !== '' &&
-      email.trim() !== '' &&
-      password.trim() !== '' &&
-      password.length >= 8 &&
-      agreeTerms
+  const formIsValid = useMemo(
+    () => signupSchema.safeParse(formData).success,
+    [formData]
+  );
+
+  const validateField = (field: keyof SignupForm) => {
+    const schema =
+      signupBaseSchema.shape[field as keyof typeof signupBaseSchema.shape];
+    if (!schema) {
+      return;
+    }
+
+    const result = schema.safeParse(formData[field]);
+    let message = result.success ? undefined : result.error.issues[0]?.message;
+
+    if (!message && field === 'confirmPassword') {
+      message =
+        formData.confirmPassword === formData.password
+          ? undefined
+          : 'Passwords must match';
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: message,
+    }));
+  };
+
+  const handleChange = (field: keyof SignupForm, value: string | boolean) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = () => {
+    const result = signupSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof SignupForm, string>> = {};
+      result.error.issues.forEach((issue) => {
+        const key = issue.path[0] as keyof SignupForm;
+        fieldErrors[key] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    Alert.alert(
+      'Account created',
+      'Your profile is ready. Connect to APIs to persist data.'
     );
+    router.push('/auth/login');
   };
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: colors.background }]}
+    <ScrollView
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: colors.background },
+      ]}
+      keyboardShouldPersistTaps="handled"
     >
-      {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.hero, { backgroundColor: colors.secondary + '1a' }]}>
+        <MaterialCommunityIcons
+          name="account-network"
+          size={36}
+          color={colors.secondary}
+        />
         <Text
-          variant="headlineLarge"
-          style={[styles.title, { color: colors.text }]}
+          variant="headlineSmall"
+          style={{ color: colors.secondary, marginTop: 8 }}
         >
-          Join Our Platform
+          Create your EstateOS identity
         </Text>
         <Text
-          variant="bodyLarge"
-          style={[styles.subtitle, { color: colors.textSecondary }]}
+          variant="bodyMedium"
+          style={{
+            color: colors.textSecondary,
+            marginTop: 6,
+            textAlign: 'center',
+          }}
         >
-          Find your perfect home with ease
+          Unlock a glassmorphic workspace tailored for investors, brokers, and
+          modern tenants.
         </Text>
       </View>
 
-      {/* Form */}
-      <View style={styles.form}>
-        <TextInput
-          label="Full Name"
-          value={fullName}
-          onChangeText={setFullName}
-          mode="flat"
-          style={styles.input}
-          autoCapitalize="words"
-          left={<TextInput.Icon icon="account-outline" />}
-          theme={{
-            colors: {
-              primary: colors.primary,
-              outline: colors.outline,
-              onSurface: colors.text,
-              onSurfaceVariant: colors.textSecondary,
-            },
-          }}
-        />
+      <GlassCard style={styles.formCard}>
+        <Text
+          variant="titleMedium"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
+          Profile details
+        </Text>
 
         <TextInput
-          label="Email Address"
-          value={email}
-          onChangeText={setEmail}
-          mode="flat"
+          label="Full name"
+          value={formData.fullName}
+          onChangeText={(value) => handleChange('fullName', value)}
+          onBlur={() => validateField('fullName')}
+          style={styles.input}
+          left={<TextInput.Icon icon="account-outline" />}
+        />
+        <HelperText type="error" visible={Boolean(errors.fullName)}>
+          {errors.fullName}
+        </HelperText>
+
+        <TextInput
+          label="Email address"
+          value={formData.email}
+          onChangeText={(value) => handleChange('email', value)}
+          onBlur={() => validateField('email')}
           style={styles.input}
           keyboardType="email-address"
           autoCapitalize="none"
           left={<TextInput.Icon icon="email-outline" />}
-          theme={{
-            colors: {
-              primary: colors.primary,
-              outline: colors.outline,
-              onSurface: colors.text,
-              onSurfaceVariant: colors.textSecondary,
-            },
-          }}
         />
+        <HelperText type="error" visible={Boolean(errors.email)}>
+          {errors.email}
+        </HelperText>
 
         <TextInput
           label="Password"
-          value={password}
-          onChangeText={setPassword}
-          mode="flat"
+          value={formData.password}
+          onChangeText={(value) => handleChange('password', value)}
+          onBlur={() => validateField('password')}
           style={styles.input}
-          secureTextEntry={secureTextEntry}
+          secureTextEntry={secureEntry}
           left={<TextInput.Icon icon="lock-outline" />}
           right={
             <TextInput.Icon
-              icon={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
-              onPress={() => setSecureTextEntry(!secureTextEntry)}
+              icon={secureEntry ? 'eye-off-outline' : 'eye-outline'}
+              onPress={() => setSecureEntry((prev) => !prev)}
             />
           }
-          theme={{
-            colors: {
-              primary: colors.primary,
-              outline: colors.outline,
-              onSurface: colors.text,
-              onSurfaceVariant: colors.textSecondary,
-            },
-          }}
         />
+        <HelperText type="error" visible={Boolean(errors.password)}>
+          {errors.password}
+        </HelperText>
 
-        {password.length > 0 && password.length < 8 && (
-          <Text
-            variant="bodySmall"
-            style={[styles.passwordHint, { color: colors.warning }]}
-          >
-            Password must be at least 8 characters
-          </Text>
-        )}
+        <TextInput
+          label="Confirm password"
+          value={formData.confirmPassword}
+          onChangeText={(value) => handleChange('confirmPassword', value)}
+          onBlur={() => validateField('confirmPassword')}
+          style={styles.input}
+          secureTextEntry={confirmSecureEntry}
+          left={<TextInput.Icon icon="shield-lock-outline" />}
+          right={
+            <TextInput.Icon
+              icon={confirmSecureEntry ? 'eye-off-outline' : 'eye-outline'}
+              onPress={() => setConfirmSecureEntry((prev) => !prev)}
+            />
+          }
+        />
+        <HelperText type="error" visible={Boolean(errors.confirmPassword)}>
+          {errors.confirmPassword}
+        </HelperText>
 
-        {/* Terms */}
-        <View style={styles.termsContainer}>
+        <Text
+          variant="bodySmall"
+          style={{ color: colors.textSecondary, marginTop: 8 }}
+        >
+          Choose the experience that fits you best
+        </Text>
+        <View style={styles.roleRow}>
+          {(
+            [
+              { value: 'tenant', label: 'Tenant' },
+              { value: 'agent', label: 'Agent' },
+              { value: 'broker', label: 'Broker' },
+            ] as const
+          ).map((option) => (
+            <Chip
+              key={option.value}
+              selected={formData.role === option.value}
+              onPress={() => handleChange('role', option.value)}
+              style={{
+                backgroundColor:
+                  formData.role === option.value
+                    ? colors.primary + '22'
+                    : colors.surfaceVariant,
+              }}
+              textStyle={{
+                color:
+                  formData.role === option.value
+                    ? colors.primary
+                    : colors.textSecondary,
+                fontWeight: '600',
+              }}
+              icon={
+                formData.role === option.value
+                  ? 'check-circle-outline'
+                  : 'circle-outline'
+              }
+            >
+              {option.label}
+            </Chip>
+          ))}
+        </View>
+
+        <View style={styles.switchRow}>
           <Switch
-            value={agreeTerms}
-            onValueChange={setAgreeTerms}
+            value={formData.agreeTerms}
+            onValueChange={(value) => {
+              handleChange('agreeTerms', value);
+              validateField('agreeTerms');
+            }}
             color={colors.primary}
             trackColor={{
               false: colors.textSecondary,
               true: colors.primaryDark,
             }}
-            thumbColor={agreeTerms ? colors.primary : colors.primaryLight}
           />
-          <View style={styles.termsTextContainer}>
-            <Text
-              variant="bodyMedium"
-              style={[styles.termsText, { color: colors.textSecondary }]}
-            >
-              I agree to the{' '}
-              <Text
-                style={[styles.linkText, { color: colors.primary }]}
-                onPress={() => console.log('Terms pressed')}
-              >
-                Terms of Service
-              </Text>
-              {' and '}
-              <Text
-                style={[styles.linkText, { color: colors.primary }]}
-                onPress={() => console.log('Privacy pressed')}
-              >
-                Privacy Policy
-              </Text>
-            </Text>
-          </View>
+          <Text
+            variant="bodyMedium"
+            style={{ color: colors.textSecondary, flex: 1 }}
+          >
+            I agree to the Terms of Service and Privacy Policy
+          </Text>
+        </View>
+        <HelperText type="error" visible={Boolean(errors.agreeTerms)}>
+          {errors.agreeTerms}
+        </HelperText>
+
+        <View style={styles.checkboxRow}>
+          <Checkbox
+            status={formData.subscribe ? 'checked' : 'unchecked'}
+            onPress={() => handleChange('subscribe', !formData.subscribe)}
+            color={colors.primary}
+          />
+          <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
+            Send me curated market reports and launch updates
+          </Text>
         </View>
 
-        {/* Main Action */}
         <Button
           mode="contained"
           style={[
-            styles.createButton,
+            styles.primaryButton,
             {
-              backgroundColor: isFormValid()
+              backgroundColor: formIsValid
                 ? colors.primary
                 : colors.primaryLight,
-              elevation: isFormValid() ? 2 : 0,
             },
           ]}
-          labelStyle={[
-            styles.buttonLabel,
-            { color: isFormValid() ? colors.white : colors.textSecondary },
-          ]}
-          disabled={!isFormValid()}
-          onPress={() => console.log('Account created')}
+          textColor={formIsValid ? colors.white : colors.textSecondary}
+          disabled={!formIsValid}
+          onPress={handleSubmit}
         >
-          Create Account
+          Create workspace
         </Button>
+      </GlassCard>
 
-        {/* Divider */}
-        <View style={styles.divider}>
-          <View style={[styles.line, { backgroundColor: colors.outline }]} />
-          <Text
-            variant="bodySmall"
-            style={[styles.dividerText, { color: colors.textTertiary }]}
-          >
-            or continue with
-          </Text>
-          <View style={[styles.line, { backgroundColor: colors.outline }]} />
-        </View>
-
-        {/* Social Login */}
+      <GlassCard style={styles.secondaryCard} intensity={25} borderless>
+        <Text
+          variant="titleSmall"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
+          Quick onboarding
+        </Text>
         <Button
           mode="outlined"
-          icon="google"
-          style={[styles.socialButton, { borderColor: colors.outline }]}
-          labelStyle={[styles.buttonLabel, { color: colors.text }]}
-          onPress={() => console.log('Google signup')}
+          icon="linkedin"
+          style={[styles.socialButton, { borderColor: '#0A66C2' }]}
+          labelStyle={{ color: '#0A66C2' }}
+          onPress={() =>
+            Alert.alert('LinkedIn', 'LinkedIn onboarding coming soon.')
+          }
         >
-          Google
+          Import from LinkedIn
         </Button>
-      </View>
+      </GlassCard>
 
-      {/* Agent Interest Link */}
-      <View
-        style={[styles.agentSection, { backgroundColor: colors.primaryLight }]}
-      >
-        <Text
-          variant="bodyMedium"
-          style={[styles.agentText, { color: colors.primary }]}
-        >
-          Real estate professional?{' '}
-        </Text>
-        <Button
-          mode="text"
-          compact
-          onPress={() => console.log('Agent application')}
-          labelStyle={[styles.agentLink, { color: colors.primary }]}
-          contentStyle={{ paddingHorizontal: 4 }}
-        >
-          Apply to become an agent
-        </Button>
-      </View>
-
-      {/* Footer */}
       <View style={styles.footer}>
         <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
-          Already have an account?{' '}
+          Already have an account?
         </Text>
         <Button
           mode="text"
-          compact
+          labelStyle={{ color: colors.primary }}
           onPress={() => router.push('/auth/login')}
-          labelStyle={[styles.footerLink, { color: colors.primary }]}
-          contentStyle={{ paddingHorizontal: 4 }}
         >
-          Sign In
+          Sign in
         </Button>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 40,
-  },
-  header: {
-    alignItems: 'center',
-    paddingTop: 80,
-    paddingBottom: 40,
-  },
-  title: {
-    fontWeight: '700',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  subtitle: {
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  form: {
-    flex: 1,
+    flexGrow: 1,
+    padding: 24,
     gap: 18,
   },
+  hero: {
+    borderRadius: 24,
+    paddingVertical: 30,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    gap: 8,
+  },
+  formCard: {
+    gap: 8,
+  },
   input: {
+    marginBottom: 4,
     backgroundColor: 'transparent',
   },
-  passwordHint: {
-    marginTop: -12,
-    marginLeft: 16,
-    fontSize: 12,
-  },
-  termsContainer: {
+  roleRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingVertical: 8,
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 10,
   },
-  termsTextContainer: {
-    flex: 1,
-    marginLeft: 12,
-    marginTop: 4,
-  },
-  termsText: {
-    lineHeight: 20,
-    fontSize: 14,
-  },
-  linkText: {
-    fontWeight: '600',
-    textDecorationLine: 'underline',
-  },
-  createButton: {
-    paddingVertical: 5,
-    borderRadius: 25,
-  },
-  buttonLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  divider: {
+  switchRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
+    marginTop: 8,
   },
-  line: {
-    flex: 1,
-    height: 1,
+  checkboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 12,
   },
-  dividerText: {
-    marginHorizontal: 16,
-    fontSize: 12,
-    fontWeight: '500',
+  primaryButton: {
+    marginTop: 16,
+    borderRadius: 18,
   },
   socialButton: {
-    paddingVertical: 5,
-    borderRadius: 25,
-    borderWidth: 1.5,
+    marginVertical: 6,
   },
-  agentSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    marginVertical: 16,
-    flexWrap: 'wrap',
-  },
-  agentText: {
-    fontWeight: '500',
-  },
-  agentLink: {
-    fontWeight: '700',
-    textDecorationLine: 'underline',
+  secondaryCard: {
+    gap: 8,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 24,
-    flexWrap: 'wrap',
-  },
-  footerLink: {
-    fontWeight: '600',
+    gap: 6,
+    marginBottom: 12,
   },
 });

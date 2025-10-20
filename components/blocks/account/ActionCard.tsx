@@ -1,7 +1,8 @@
 import React from 'react';
-import { Alert, StyleSheet } from 'react-native';
-import { Card, Text, Button, Divider } from 'react-native-paper';
+import { Alert, StyleSheet, View } from 'react-native';
+import { Text, Button, Divider, Chip } from 'react-native-paper';
 import { UserProfile } from '@/shared/interfaces/user';
+import GlassCard from '@/components/ui/GlassCard';
 
 interface ActionsCardProps {
   userProfile: UserProfile;
@@ -34,142 +35,204 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
     );
   };
 
+  const actionSets: Record<
+    UserProfile['role'],
+    {
+      icon: string;
+      label: string;
+      mode: 'contained' | 'outlined';
+      color: string;
+      onPress: () => void;
+    }[]
+  > = {
+    agent: [
+      {
+        icon: 'home-plus',
+        label: 'Create listing',
+        mode: 'contained',
+        color: colors.primary,
+        onPress: () =>
+          Alert.alert('Feature', 'Add listing feature coming soon!'),
+      },
+      {
+        icon: 'chart-line',
+        label: 'Analytics dashboard',
+        mode: 'outlined',
+        color: colors.primary,
+        onPress: () => Alert.alert('Feature', 'Dashboard feature coming soon!'),
+      },
+      {
+        icon: 'account-group',
+        label: 'Manage clients',
+        mode: 'outlined',
+        color: colors.info,
+        onPress: () =>
+          Alert.alert('Feature', 'Client management feature coming soon!'),
+      },
+    ],
+    broker: [
+      {
+        icon: 'account-multiple-plus',
+        label: 'Invite broker partner',
+        mode: 'contained',
+        color: colors.secondary,
+        onPress: () =>
+          Alert.alert('Feature', 'Partner invitations coming soon!'),
+      },
+      {
+        icon: 'briefcase-account',
+        label: 'Manage portfolio',
+        mode: 'outlined',
+        color: colors.primary,
+        onPress: () => Alert.alert('Feature', 'Portfolio tools coming soon!'),
+      },
+      {
+        icon: 'chart-bell-curve',
+        label: 'Deal pipeline',
+        mode: 'outlined',
+        color: colors.info,
+        onPress: () => Alert.alert('Feature', 'Deal pipeline coming soon!'),
+      },
+    ],
+    tenant: [
+      {
+        icon: 'home-search',
+        label: 'Explore residences',
+        mode: 'contained',
+        color: colors.primary,
+        onPress: () =>
+          Alert.alert('Feature', 'Property search feature coming soon!'),
+      },
+      {
+        icon: 'heart',
+        label: 'View favorites',
+        mode: 'outlined',
+        color: colors.secondary,
+        onPress: () => Alert.alert('Feature', 'Favorites feature coming soon!'),
+      },
+      {
+        icon: 'file-document-outline',
+        label: 'Rental applications',
+        mode: 'outlined',
+        color: colors.info,
+        onPress: () =>
+          Alert.alert('Feature', 'Applications feature coming soon!'),
+      },
+    ],
+  };
+
   return (
-    <Card style={[styles.card, { backgroundColor: colors.surface }]}>
-      <Card.Content>
-        <Text
-          variant="titleMedium"
-          style={[styles.sectionTitle, { color: colors.text }]}
-        >
-          Actions
-        </Text>
+    <GlassCard style={styles.card}>
+      <Text
+        variant="titleMedium"
+        style={[styles.sectionTitle, { color: colors.text }]}
+      >
+        Quick Actions
+      </Text>
 
-        {userProfile.role === 'agent' ? (
-          <>
-            <Button
-              mode="contained"
-              icon="plus"
-              style={[styles.actionButton, { backgroundColor: colors.primary }]}
-              textColor={colors.white}
-              onPress={() =>
-                Alert.alert('Feature', 'Add listing feature coming soon!')
-              }
-            >
-              Add New Listing
-            </Button>
-            <Button
-              mode="outlined"
-              icon="chart-bar"
-              style={[styles.actionButton, { borderColor: colors.primary }]}
-              textColor={colors.primary}
-              onPress={() =>
-                Alert.alert('Feature', 'Dashboard feature coming soon!')
-              }
-            >
-              View Dashboard
-            </Button>
-            <Button
-              mode="outlined"
-              icon="account-group"
-              style={[styles.actionButton, { borderColor: colors.info }]}
-              textColor={colors.info}
-              onPress={() =>
-                Alert.alert('Feature', 'Client management feature coming soon!')
-              }
-            >
-              Manage Clients
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              mode="contained"
-              icon="home-search"
-              style={[styles.actionButton, { backgroundColor: colors.primary }]}
-              textColor={colors.white}
-              onPress={() =>
-                Alert.alert('Feature', 'Property search feature coming soon!')
-              }
-            >
-              Search Properties
-            </Button>
-            <Button
-              mode="outlined"
-              icon="heart"
-              style={[styles.actionButton, { borderColor: colors.secondary }]}
-              textColor={colors.secondary}
-              onPress={() =>
-                Alert.alert('Feature', 'Favorites feature coming soon!')
-              }
-            >
-              My Favorites
-            </Button>
-            <Button
-              mode="outlined"
-              icon="file-document"
-              style={[styles.actionButton, { borderColor: colors.info }]}
-              textColor={colors.info}
-              onPress={() =>
-                Alert.alert('Feature', 'Applications feature coming soon!')
-              }
-            >
-              My Applications
-            </Button>
-          </>
-        )}
-
-        <Divider style={[styles.divider, { marginVertical: 16 }]} />
-
+      {actionSets[userProfile.role].map((action) => (
         <Button
-          mode="outlined"
-          icon="cog"
-          style={[styles.actionButton, { borderColor: colors.textSecondary }]}
-          textColor={colors.textSecondary}
-          onPress={() =>
-            Alert.alert('Feature', 'Settings feature coming soon!')
-          }
+          key={action.label}
+          mode={action.mode}
+          icon={action.icon as any}
+          style={[
+            styles.actionButton,
+            action.mode === 'contained'
+              ? { backgroundColor: action.color }
+              : { borderColor: action.color },
+          ]}
+          textColor={action.mode === 'contained' ? colors.white : action.color}
+          onPress={action.onPress}
         >
-          Settings
+          {action.label}
         </Button>
+      ))}
 
-        <Button
-          mode="contained-tonal"
-          icon="logout"
-          style={[styles.actionButton, { backgroundColor: colors.warning }]}
-          textColor={colors.white}
-          onPress={handleSignOut}
-        >
-          Sign Out
-        </Button>
+      {userProfile.quickLinks && userProfile.quickLinks.length > 0 && (
+        <View style={styles.quickLinksSection}>
+          <Divider style={[styles.divider, { marginBottom: 12 }]} />
+          <Text
+            variant="bodySmall"
+            style={{ color: colors.textSecondary, marginBottom: 8 }}
+          >
+            Workflows
+          </Text>
+          <View style={styles.quickLinkRow}>
+            {userProfile.quickLinks.map((link) => (
+              <Chip
+                key={link.label}
+                icon={link.icon as any}
+                style={{ backgroundColor: colors.surfaceVariant }}
+                textStyle={{ color: colors.text }}
+                onPress={() =>
+                  Alert.alert(
+                    'Navigation',
+                    `${link.label} will open once APIs are wired.`
+                  )
+                }
+              >
+                {link.label}
+              </Chip>
+            ))}
+          </View>
+        </View>
+      )}
 
-        <Button
-          mode="outlined"
-          icon="delete"
-          style={[styles.actionButton, { borderColor: colors.error }]}
-          textColor={colors.error}
-          onPress={handleDeleteAccount}
-        >
-          Delete Account
-        </Button>
-      </Card.Content>
-    </Card>
+      <Divider style={[styles.divider, { marginVertical: 16 }]} />
+
+      <Button
+        mode="outlined"
+        icon="cog"
+        style={[styles.actionButton, { borderColor: colors.textSecondary }]}
+        textColor={colors.textSecondary}
+        onPress={() => Alert.alert('Feature', 'Settings feature coming soon!')}
+      >
+        Workspace settings
+      </Button>
+
+      <Button
+        mode="contained-tonal"
+        icon="logout"
+        style={[styles.actionButton, { backgroundColor: colors.warning }]}
+        textColor={colors.white}
+        onPress={handleSignOut}
+      >
+        Sign out
+      </Button>
+
+      <Button
+        mode="outlined"
+        icon="delete"
+        style={[styles.actionButton, { borderColor: colors.error }]}
+        textColor={colors.error}
+        onPress={handleDeleteAccount}
+      >
+        Delete account
+      </Button>
+    </GlassCard>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 16,
-    borderRadius: 8,
-    elevation: 2,
+    marginBottom: 24,
   },
   sectionTitle: {
     marginBottom: 12,
   },
   actionButton: {
     marginVertical: 6,
-    borderRadius: 4,
+    borderRadius: 12,
   },
   divider: {
     marginVertical: 4,
+  },
+  quickLinksSection: {
+    marginTop: 10,
+  },
+  quickLinkRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
   },
 });
