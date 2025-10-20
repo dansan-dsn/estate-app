@@ -27,7 +27,7 @@ const signupBaseSchema = z.object({
   agreeTerms: z
     .boolean()
     .refine((val) => val, 'You must accept the terms to proceed'),
-  role: z.enum(['tenant', 'agent', 'broker']),
+  role: z.enum(['tenant', 'agent']),
   subscribe: z.boolean().optional(),
 });
 
@@ -45,7 +45,7 @@ type SignupForm = {
   password: string;
   confirmPassword: string;
   agreeTerms: boolean;
-  role: 'tenant' | 'agent' | 'broker';
+  role: 'tenant' | 'agent';
   subscribe?: boolean;
 };
 
@@ -146,8 +146,8 @@ export default function SignupScreen() {
             textAlign: 'center',
           }}
         >
-          Unlock a glassmorphic workspace tailored for investors, brokers, and
-          modern tenants.
+          Unlock a glassmorphic workspace tailored for modern agents and
+          experience-driven residents.
         </Text>
       </View>
 
@@ -234,7 +234,6 @@ export default function SignupScreen() {
             [
               { value: 'tenant', label: 'Tenant' },
               { value: 'agent', label: 'Agent' },
-              { value: 'broker', label: 'Broker' },
             ] as const
           ).map((option) => (
             <Chip

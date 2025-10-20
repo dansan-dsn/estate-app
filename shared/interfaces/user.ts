@@ -32,7 +32,7 @@ export interface UserProfile {
   email: string;
   phone: string;
   bio: string;
-  role: 'agent' | 'tenant' | 'broker';
+  role: 'agent' | 'tenant';
   profileImage?: string;
   memberSince: string;
   status?: 'active' | 'pending' | 'suspended';
@@ -62,14 +62,6 @@ export interface UserProfile {
   tenantScore?: number;
   moveInDate?: string;
   roommates?: number;
-  // Broker specific fields
-  brokerageName?: string;
-  brokerTeamSize?: number;
-  brokerNetworkSize?: number;
-  brokerPortfolioValue?: string;
-  brokerMonthlyVolume?: string;
-  complianceScore?: number;
-  flagshipMarkets?: string[];
   // Shared analytics
   analysis?: UserAnalysisItem[];
   pipeline?: UserPipelineItem[];

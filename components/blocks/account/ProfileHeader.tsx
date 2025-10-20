@@ -41,11 +41,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       icon: 'account-key',
       tone: colors.info,
     },
-    broker: {
-      label: 'Broker Partner',
-      icon: 'account-group',
-      tone: colors.secondary,
-    },
   };
 
   const roleBadge = roleBadgeMap[userProfile.role];

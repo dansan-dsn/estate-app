@@ -18,7 +18,6 @@ export const AccountDetailsCard: React.FC<AccountDetailsCardProps> = ({
   const roleLabelMap: Record<UserProfile['role'], string> = {
     agent: 'Real Estate Agent',
     tenant: 'Tenant Resident',
-    broker: 'Brokerage Partner',
   };
 
   return (

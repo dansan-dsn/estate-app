@@ -70,30 +70,6 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
           Alert.alert('Feature', 'Client management feature coming soon!'),
       },
     ],
-    broker: [
-      {
-        icon: 'account-multiple-plus',
-        label: 'Invite broker partner',
-        mode: 'contained',
-        color: colors.secondary,
-        onPress: () =>
-          Alert.alert('Feature', 'Partner invitations coming soon!'),
-      },
-      {
-        icon: 'briefcase-account',
-        label: 'Manage portfolio',
-        mode: 'outlined',
-        color: colors.primary,
-        onPress: () => Alert.alert('Feature', 'Portfolio tools coming soon!'),
-      },
-      {
-        icon: 'chart-bell-curve',
-        label: 'Deal pipeline',
-        mode: 'outlined',
-        color: colors.info,
-        onPress: () => Alert.alert('Feature', 'Deal pipeline coming soon!'),
-      },
-    ],
     tenant: [
       {
         icon: 'home-search',

@@ -119,7 +119,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               }
               buttons={[
                 { value: 'agent', label: 'Agent' },
-                { value: 'broker', label: 'Broker' },
                 { value: 'tenant', label: 'Tenant' },
               ]}
               style={{ marginBottom: 16 }}
@@ -159,57 +158,26 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               Role specifics
             </Text>
 
-            {editedProfile.role !== 'tenant' && (
-              <>
-                <TextInput
-                  label={
-                    editedProfile.role === 'agent'
-                      ? 'Agency name'
-                      : 'Brokerage name'
-                  }
-                  value={
-                    editedProfile.role === 'agent'
-                      ? editedProfile.companyName || ''
-                      : editedProfile.brokerageName || ''
-                  }
-                  onChangeText={(text) =>
-                    onProfileChange(
-                      editedProfile.role === 'agent'
-                        ? { ...editedProfile, companyName: text }
-                        : { ...editedProfile, brokerageName: text }
-                    )
-                  }
-                  style={styles.input}
-                  mode="outlined"
-                />
-                <TextInput
-                  label="License / Compliance"
-                  value={
-                    editedProfile.role === 'agent'
-                      ? editedProfile.licenseNumber || ''
-                      : String(editedProfile.complianceScore ?? '')
-                  }
-                  onChangeText={(text) =>
-                    onProfileChange(
-                      editedProfile.role === 'agent'
-                        ? { ...editedProfile, licenseNumber: text }
-                        : {
-                            ...editedProfile,
-                            complianceScore: text ? Number(text) : undefined,
-                          }
-                    )
-                  }
-                  style={styles.input}
-                  mode="outlined"
-                  keyboardType={
-                    editedProfile.role === 'agent' ? 'default' : 'numeric'
-                  }
-                />
-              </>
-            )}
-
             {editedProfile.role === 'agent' && (
               <>
+                <TextInput
+                  label="Agency name"
+                  value={editedProfile.companyName || ''}
+                  onChangeText={(text) =>
+                    onProfileChange({ ...editedProfile, companyName: text })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
+                <TextInput
+                  label="License number"
+                  value={editedProfile.licenseNumber || ''}
+                  onChangeText={(text) =>
+                    onProfileChange({ ...editedProfile, licenseNumber: text })
+                  }
+                  style={styles.input}
+                  mode="outlined"
+                />
                 <TextInput
                   label="Specialties (comma separated)"
                   value={(editedProfile.specialties || []).join(', ')}
@@ -232,52 +200,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     onProfileChange({
                       ...editedProfile,
                       territories: text
-                        .split(',')
-                        .map((item) => item.trim())
-                        .filter(Boolean),
-                    })
-                  }
-                  style={styles.input}
-                  mode="outlined"
-                />
-              </>
-            )}
-
-            {editedProfile.role === 'broker' && (
-              <>
-                <TextInput
-                  label="Team size"
-                  value={String(editedProfile.brokerTeamSize ?? '')}
-                  onChangeText={(text) =>
-                    onProfileChange({
-                      ...editedProfile,
-                      brokerTeamSize: text ? Number(text) : undefined,
-                    })
-                  }
-                  style={styles.input}
-                  mode="outlined"
-                  keyboardType="numeric"
-                />
-                <TextInput
-                  label="Network size"
-                  value={String(editedProfile.brokerNetworkSize ?? '')}
-                  onChangeText={(text) =>
-                    onProfileChange({
-                      ...editedProfile,
-                      brokerNetworkSize: text ? Number(text) : undefined,
-                    })
-                  }
-                  style={styles.input}
-                  mode="outlined"
-                  keyboardType="numeric"
-                />
-                <TextInput
-                  label="Focus markets (comma separated)"
-                  value={(editedProfile.flagshipMarkets || []).join(', ')}
-                  onChangeText={(text) =>
-                    onProfileChange({
-                      ...editedProfile,
-                      flagshipMarkets: text
                         .split(',')
                         .map((item) => item.trim())
                         .filter(Boolean),

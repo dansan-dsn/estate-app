@@ -230,7 +230,7 @@ export default function LoginScreen() {
           style={{ marginTop: 12, backgroundColor: colors.surfaceVariant }}
           textStyle={{ color: colors.textSecondary }}
         >
-          Enterprise SSO available for brokerage partners
+          Enterprise SSO available for agency partners
         </Chip>
       </GlassCard>
 
