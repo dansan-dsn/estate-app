@@ -37,7 +37,11 @@ export const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({
       </View>
 
       <View style={styles.cardRow}>
-        <MaterialCommunityIcons name="card-account-details" size={18} color={colors.primary} />
+        <MaterialCommunityIcons
+          name="card-account-details"
+          size={18}
+          color={colors.primary}
+        />
         <Text variant="bodyMedium" style={{ color: colors.text }}>
           {userProfile.firstName} {userProfile.lastName}
         </Text>

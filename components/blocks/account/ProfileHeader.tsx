@@ -27,10 +27,25 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     return `${userProfile.firstName} ${userProfile.lastName}`;
   };
 
-  const roleBadgeMap: Record<UserProfile['role'], { label: string; icon: string; tone: string }> = {
-    agent: { label: 'Certified Agent', icon: 'account-tie', tone: colors.success },
-    tenant: { label: 'Verified Tenant', icon: 'account-key', tone: colors.info },
-    broker: { label: 'Broker Partner', icon: 'account-group', tone: colors.secondary },
+  const roleBadgeMap: Record<
+    UserProfile['role'],
+    { label: string; icon: string; tone: string }
+  > = {
+    agent: {
+      label: 'Certified Agent',
+      icon: 'account-tie',
+      tone: colors.success,
+    },
+    tenant: {
+      label: 'Verified Tenant',
+      icon: 'account-key',
+      tone: colors.info,
+    },
+    broker: {
+      label: 'Broker Partner',
+      icon: 'account-group',
+      tone: colors.secondary,
+    },
   };
 
   const roleBadge = roleBadgeMap[userProfile.role];
@@ -88,7 +103,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </Text>
           </View>
           <View style={styles.contactRow}>
-            <MaterialIcons name="phone" size={18} color={colors.textSecondary} />
+            <MaterialIcons
+              name="phone"
+              size={18}
+              color={colors.textSecondary}
+            />
             <Text style={{ color: colors.textSecondary, marginLeft: 6 }}>
               {userProfile.phone}
             </Text>

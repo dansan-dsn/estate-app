@@ -1,7 +1,14 @@
 import { useRouter } from 'expo-router';
 import { useState, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Button, Text, TextInput, HelperText, Chip, Checkbox } from 'react-native-paper';
+import {
+  Button,
+  Text,
+  TextInput,
+  HelperText,
+  Chip,
+  Checkbox,
+} from 'react-native-paper';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { z } from 'zod';
 import { useThemeStore } from '@/stores/useTheme';
@@ -29,7 +36,10 @@ export default function ForgotPasswordScreen() {
   });
   const [errors, setErrors] = useState<Partial<Record<'email', string>>>({});
 
-  const formIsValid = useMemo(() => forgotSchema.safeParse(formData).success, [formData]);
+  const formIsValid = useMemo(
+    () => forgotSchema.safeParse(formData).success,
+    [formData]
+  );
 
   const handleSubmit = () => {
     const result = forgotSchema.safeParse(formData);
@@ -39,27 +49,51 @@ export default function ForgotPasswordScreen() {
       return;
     }
 
-    Alert.alert('Reset link sent', 'Follow the instructions sent to your inbox.');
+    Alert.alert(
+      'Reset link sent',
+      'Follow the instructions sent to your inbox.'
+    );
     router.push('/auth/login');
   };
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: colors.background },
+      ]}
       keyboardShouldPersistTaps="handled"
     >
       <View style={[styles.hero, { backgroundColor: colors.info + '1a' }]}>
-        <MaterialCommunityIcons name="shield-key" size={36} color={colors.info} />
-        <Text variant="headlineSmall" style={{ color: colors.info, marginTop: 8 }}>
+        <MaterialCommunityIcons
+          name="shield-key"
+          size={36}
+          color={colors.info}
+        />
+        <Text
+          variant="headlineSmall"
+          style={{ color: colors.info, marginTop: 8 }}
+        >
           Recover your access
         </Text>
-        <Text variant="bodyMedium" style={{ color: colors.textSecondary, marginTop: 6, textAlign: 'center' }}>
-          We&apos;ll send a secure recovery link aligned with your preferred channel.
+        <Text
+          variant="bodyMedium"
+          style={{
+            color: colors.textSecondary,
+            marginTop: 6,
+            textAlign: 'center',
+          }}
+        >
+          We&apos;ll send a secure recovery link aligned with your preferred
+          channel.
         </Text>
       </View>
 
       <GlassCard style={styles.formCard}>
-        <Text variant="titleMedium" style={{ color: colors.text, marginBottom: 12 }}>
+        <Text
+          variant="titleMedium"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
           Account email
         </Text>
         <TextInput
@@ -70,8 +104,12 @@ export default function ForgotPasswordScreen() {
             setErrors({});
           }}
           onBlur={() => {
-            const result = forgotSchema.pick({ email: true }).safeParse({ email: formData.email });
-            setErrors(result.success ? {} : { email: result.error.issues[0]?.message });
+            const result = forgotSchema
+              .pick({ email: true })
+              .safeParse({ email: formData.email });
+            setErrors(
+              result.success ? {} : { email: result.error.issues[0]?.message }
+            );
           }}
           style={styles.input}
           keyboardType="email-address"
@@ -82,27 +120,41 @@ export default function ForgotPasswordScreen() {
           {errors.email}
         </HelperText>
 
-        <Text variant="bodySmall" style={{ color: colors.textSecondary, marginTop: 8 }}>
+        <Text
+          variant="bodySmall"
+          style={{ color: colors.textSecondary, marginTop: 8 }}
+        >
           Delivery method
         </Text>
         <View style={styles.channelRow}>
           {(
             [
-              { value: 'email', label: 'Email link', icon: 'email-fast-outline' },
+              {
+                value: 'email',
+                label: 'Email link',
+                icon: 'email-fast-outline',
+              },
               { value: 'sms', label: 'SMS code', icon: 'cellphone-key' },
             ] as const
           ).map((option) => (
             <Chip
               key={option.value}
               selected={formData.channel === option.value}
-              onPress={() => setFormData((prev) => ({ ...prev, channel: option.value }))}
+              onPress={() =>
+                setFormData((prev) => ({ ...prev, channel: option.value }))
+              }
               icon={option.icon}
               style={{
                 backgroundColor:
-                  formData.channel === option.value ? colors.primary + '22' : colors.surfaceVariant,
+                  formData.channel === option.value
+                    ? colors.primary + '22'
+                    : colors.surfaceVariant,
               }}
               textStyle={{
-                color: formData.channel === option.value ? colors.primary : colors.textSecondary,
+                color:
+                  formData.channel === option.value
+                    ? colors.primary
+                    : colors.textSecondary,
                 fontWeight: '600',
               }}
             >
@@ -114,7 +166,9 @@ export default function ForgotPasswordScreen() {
         <View style={styles.checkboxRow}>
           <Checkbox
             status={formData.sendCopy ? 'checked' : 'unchecked'}
-            onPress={() => setFormData((prev) => ({ ...prev, sendCopy: !prev.sendCopy }))}
+            onPress={() =>
+              setFormData((prev) => ({ ...prev, sendCopy: !prev.sendCopy }))
+            }
             color={colors.primary}
           />
           <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
@@ -124,7 +178,14 @@ export default function ForgotPasswordScreen() {
 
         <Button
           mode="contained"
-          style={[styles.primaryButton, { backgroundColor: formIsValid ? colors.primary : colors.primaryLight }]}
+          style={[
+            styles.primaryButton,
+            {
+              backgroundColor: formIsValid
+                ? colors.primary
+                : colors.primaryLight,
+            },
+          ]}
           textColor={formIsValid ? colors.white : colors.textSecondary}
           disabled={!formIsValid}
           onPress={handleSubmit}
@@ -134,7 +195,11 @@ export default function ForgotPasswordScreen() {
       </GlassCard>
 
       <View style={styles.footer}>
-        <Button mode="text" labelStyle={{ color: colors.primary }} onPress={() => router.push('/auth/login')}>
+        <Button
+          mode="text"
+          labelStyle={{ color: colors.primary }}
+          onPress={() => router.push('/auth/login')}
+        >
           Return to sign in
         </Button>
       </View>

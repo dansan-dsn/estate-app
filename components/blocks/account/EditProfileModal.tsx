@@ -1,6 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, Modal } from 'react-native';
-import { Text, TextInput, Button, IconButton, SegmentedButtons, Chip } from 'react-native-paper';
+import {
+  Text,
+  TextInput,
+  Button,
+  IconButton,
+  SegmentedButtons,
+  Chip,
+} from 'react-native-paper';
 import { UserProfile } from '@/shared/interfaces/user';
 
 interface EditProfileModalProps {
@@ -97,13 +104,18 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               mode="outlined"
             />
 
-            <Text style={[styles.sectionHeading, { color: colors.textSecondary }]}>
+            <Text
+              style={[styles.sectionHeading, { color: colors.textSecondary }]}
+            >
               Profile preferences
             </Text>
             <SegmentedButtons
               value={editedProfile.role}
               onValueChange={(value) =>
-                onProfileChange({ ...editedProfile, role: value as UserProfile['role'] })
+                onProfileChange({
+                  ...editedProfile,
+                  role: value as UserProfile['role'],
+                })
               }
               buttons={[
                 { value: 'agent', label: 'Agent' },
@@ -141,14 +153,20 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               mode="outlined"
             />
 
-            <Text style={[styles.sectionHeading, { color: colors.textSecondary }]}>
+            <Text
+              style={[styles.sectionHeading, { color: colors.textSecondary }]}
+            >
               Role specifics
             </Text>
 
             {editedProfile.role !== 'tenant' && (
               <>
                 <TextInput
-                  label={editedProfile.role === 'agent' ? 'Agency name' : 'Brokerage name'}
+                  label={
+                    editedProfile.role === 'agent'
+                      ? 'Agency name'
+                      : 'Brokerage name'
+                  }
                   value={
                     editedProfile.role === 'agent'
                       ? editedProfile.companyName || ''
@@ -183,7 +201,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   }
                   style={styles.input}
                   mode="outlined"
-                  keyboardType={editedProfile.role === 'agent' ? 'default' : 'numeric'}
+                  keyboardType={
+                    editedProfile.role === 'agent' ? 'default' : 'numeric'
+                  }
                 />
               </>
             )}
@@ -302,7 +322,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   label="Emergency contact"
                   value={editedProfile.emergencyContact || ''}
                   onChangeText={(text) =>
-                    onProfileChange({ ...editedProfile, emergencyContact: text })
+                    onProfileChange({
+                      ...editedProfile,
+                      emergencyContact: text,
+                    })
                   }
                   style={styles.input}
                   mode="outlined"
@@ -310,12 +333,15 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               </>
             )}
 
-            <Text style={[styles.sectionHeading, { color: colors.textSecondary }]}>Notifications</Text>
+            <Text
+              style={[styles.sectionHeading, { color: colors.textSecondary }]}
+            >
+              Notifications
+            </Text>
             <View style={styles.chipRow}>
               {['Email', 'SMS', 'Push'].map((channel) => {
-                const isActive = editedProfile.notificationChannels?.includes(
-                  channel
-                );
+                const isActive =
+                  editedProfile.notificationChannels?.includes(channel);
                 return (
                   <Chip
                     key={channel}
@@ -333,7 +359,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       const next = isActive
                         ? current.filter((c) => c !== channel)
                         : [...current, channel];
-                      onProfileChange({ ...editedProfile, notificationChannels: next });
+                      onProfileChange({
+                        ...editedProfile,
+                        notificationChannels: next,
+                      });
                     }}
                   >
                     {channel}

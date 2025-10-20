@@ -26,7 +26,10 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, colors }) => {
 
   return (
     <GlassCard style={styles.card}>
-      <Text variant="titleMedium" style={{ color: colors.text, marginBottom: 16 }}>
+      <Text
+        variant="titleMedium"
+        style={{ color: colors.text, marginBottom: 16 }}
+      >
         Upcoming Actions
       </Text>
       <View style={styles.list}>
@@ -44,7 +47,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, colors }) => {
                   variant="titleSmall"
                   style={{
                     color: task.completed ? colors.textSecondary : colors.text,
-                    textDecorationLine: task.completed ? 'line-through' : 'none',
+                    textDecorationLine: task.completed
+                      ? 'line-through'
+                      : 'none',
                   }}
                 >
                   {task.title}
@@ -63,7 +68,10 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, colors }) => {
                   size={18}
                   color={colors.primary}
                 />
-                <Text variant="bodySmall" style={{ color: colors.textSecondary, marginLeft: 6 }}>
+                <Text
+                  variant="bodySmall"
+                  style={{ color: colors.textSecondary, marginLeft: 6 }}
+                >
                   {task.type === 'call' && 'Follow-up call'}
                   {task.type === 'meeting' && 'Client meeting'}
                   {task.type === 'document' && 'Document review'}

@@ -35,14 +35,24 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
     );
   };
 
-  const actionSets: Record<UserProfile['role'], { icon: string; label: string; mode: 'contained' | 'outlined'; color: string; onPress: () => void }[]> = {
+  const actionSets: Record<
+    UserProfile['role'],
+    {
+      icon: string;
+      label: string;
+      mode: 'contained' | 'outlined';
+      color: string;
+      onPress: () => void;
+    }[]
+  > = {
     agent: [
       {
         icon: 'home-plus',
         label: 'Create listing',
         mode: 'contained',
         color: colors.primary,
-        onPress: () => Alert.alert('Feature', 'Add listing feature coming soon!'),
+        onPress: () =>
+          Alert.alert('Feature', 'Add listing feature coming soon!'),
       },
       {
         icon: 'chart-line',
@@ -56,7 +66,8 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
         label: 'Manage clients',
         mode: 'outlined',
         color: colors.info,
-        onPress: () => Alert.alert('Feature', 'Client management feature coming soon!'),
+        onPress: () =>
+          Alert.alert('Feature', 'Client management feature coming soon!'),
       },
     ],
     broker: [
@@ -65,7 +76,8 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
         label: 'Invite broker partner',
         mode: 'contained',
         color: colors.secondary,
-        onPress: () => Alert.alert('Feature', 'Partner invitations coming soon!'),
+        onPress: () =>
+          Alert.alert('Feature', 'Partner invitations coming soon!'),
       },
       {
         icon: 'briefcase-account',
@@ -88,7 +100,8 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
         label: 'Explore residences',
         mode: 'contained',
         color: colors.primary,
-        onPress: () => Alert.alert('Feature', 'Property search feature coming soon!'),
+        onPress: () =>
+          Alert.alert('Feature', 'Property search feature coming soon!'),
       },
       {
         icon: 'heart',
@@ -102,7 +115,8 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
         label: 'Rental applications',
         mode: 'outlined',
         color: colors.info,
-        onPress: () => Alert.alert('Feature', 'Applications feature coming soon!'),
+        onPress: () =>
+          Alert.alert('Feature', 'Applications feature coming soon!'),
       },
     ],
   };
@@ -137,7 +151,10 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
       {userProfile.quickLinks && userProfile.quickLinks.length > 0 && (
         <View style={styles.quickLinksSection}>
           <Divider style={[styles.divider, { marginBottom: 12 }]} />
-          <Text variant="bodySmall" style={{ color: colors.textSecondary, marginBottom: 8 }}>
+          <Text
+            variant="bodySmall"
+            style={{ color: colors.textSecondary, marginBottom: 8 }}
+          >
             Workflows
           </Text>
           <View style={styles.quickLinkRow}>
@@ -148,7 +165,10 @@ export const ActionsCard: React.FC<ActionsCardProps> = ({
                 style={{ backgroundColor: colors.surfaceVariant }}
                 textStyle={{ color: colors.text }}
                 onPress={() =>
-                  Alert.alert('Navigation', `${link.label} will open once APIs are wired.`)
+                  Alert.alert(
+                    'Navigation',
+                    `${link.label} will open once APIs are wired.`
+                  )
                 }
               >
                 {link.label}

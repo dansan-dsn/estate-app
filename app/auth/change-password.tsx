@@ -53,16 +53,23 @@ export default function ChangePasswordScreen() {
     next: true,
     confirm: true,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof ChangeForm, string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof ChangeForm, string>>
+  >({});
 
-  const formIsValid = useMemo(() => changeSchema.safeParse(formData).success, [formData]);
+  const formIsValid = useMemo(
+    () => changeSchema.safeParse(formData).success,
+    [formData]
+  );
 
   const handleChange = (field: keyof ChangeForm, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const validateField = (field: keyof ChangeForm) => {
-    const result = changeSchema.pick({ [field]: true } as any).safeParse({ [field]: formData[field] });
+    const result = changeSchema
+      .pick({ [field]: true } as any)
+      .safeParse({ [field]: formData[field] });
     setErrors((prev) => ({
       ...prev,
       [field]: result.success ? undefined : result.error.issues[0]?.message,
@@ -86,21 +93,41 @@ export default function ChangePasswordScreen() {
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: colors.background },
+      ]}
       keyboardShouldPersistTaps="handled"
     >
       <View style={[styles.hero, { backgroundColor: colors.primary + '1a' }]}>
-        <MaterialCommunityIcons name="form-textbox-password" size={34} color={colors.primary} />
-        <Text variant="headlineSmall" style={{ color: colors.primary, marginTop: 8 }}>
+        <MaterialCommunityIcons
+          name="form-textbox-password"
+          size={34}
+          color={colors.primary}
+        />
+        <Text
+          variant="headlineSmall"
+          style={{ color: colors.primary, marginTop: 8 }}
+        >
           Refresh your password
         </Text>
-        <Text variant="bodyMedium" style={{ color: colors.textSecondary, marginTop: 6, textAlign: 'center' }}>
+        <Text
+          variant="bodyMedium"
+          style={{
+            color: colors.textSecondary,
+            marginTop: 6,
+            textAlign: 'center',
+          }}
+        >
           Keep your EstateOS workspace secure with a modern credential policy.
         </Text>
       </View>
 
       <GlassCard style={styles.formCard}>
-        <Text variant="titleMedium" style={{ color: colors.text, marginBottom: 12 }}>
+        <Text
+          variant="titleMedium"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
           Secure update
         </Text>
 
@@ -115,7 +142,9 @@ export default function ChangePasswordScreen() {
           right={
             <TextInput.Icon
               icon={secureStates.current ? 'eye-off-outline' : 'eye-outline'}
-              onPress={() => setSecureStates((prev) => ({ ...prev, current: !prev.current }))}
+              onPress={() =>
+                setSecureStates((prev) => ({ ...prev, current: !prev.current }))
+              }
             />
           }
         />
@@ -134,7 +163,9 @@ export default function ChangePasswordScreen() {
           right={
             <TextInput.Icon
               icon={secureStates.next ? 'eye-off-outline' : 'eye-outline'}
-              onPress={() => setSecureStates((prev) => ({ ...prev, next: !prev.next }))}
+              onPress={() =>
+                setSecureStates((prev) => ({ ...prev, next: !prev.next }))
+              }
             />
           }
         />
@@ -153,7 +184,9 @@ export default function ChangePasswordScreen() {
           right={
             <TextInput.Icon
               icon={secureStates.confirm ? 'eye-off-outline' : 'eye-outline'}
-              onPress={() => setSecureStates((prev) => ({ ...prev, confirm: !prev.confirm }))}
+              onPress={() =>
+                setSecureStates((prev) => ({ ...prev, confirm: !prev.confirm }))
+              }
             />
           }
         />
@@ -161,7 +194,10 @@ export default function ChangePasswordScreen() {
           {errors.confirmPassword}
         </HelperText>
 
-        <Text variant="bodySmall" style={{ color: colors.textSecondary, marginTop: 8 }}>
+        <Text
+          variant="bodySmall"
+          style={{ color: colors.textSecondary, marginTop: 8 }}
+        >
           Recommended security additions
         </Text>
         <View style={styles.securityRow}>
@@ -171,7 +207,12 @@ export default function ChangePasswordScreen() {
               { label: 'Enable MFA', icon: 'key-chain-variant' },
             ] as const
           ).map((hint) => (
-            <Chip key={hint.label} icon={hint.icon} style={{ backgroundColor: colors.surfaceVariant }} textStyle={{ color: colors.textSecondary }}>
+            <Chip
+              key={hint.label}
+              icon={hint.icon}
+              style={{ backgroundColor: colors.surfaceVariant }}
+              textStyle={{ color: colors.textSecondary }}
+            >
               {hint.label}
             </Chip>
           ))}
@@ -190,7 +231,14 @@ export default function ChangePasswordScreen() {
 
         <Button
           mode="contained"
-          style={[styles.primaryButton, { backgroundColor: formIsValid ? colors.primary : colors.primaryLight }]}
+          style={[
+            styles.primaryButton,
+            {
+              backgroundColor: formIsValid
+                ? colors.primary
+                : colors.primaryLight,
+            },
+          ]}
           textColor={formIsValid ? colors.white : colors.textSecondary}
           disabled={!formIsValid}
           onPress={handleSubmit}

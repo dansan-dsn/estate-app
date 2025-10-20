@@ -25,7 +25,9 @@ const signupSchema = z
       .regex(/[A-Z]/, 'Include at least one uppercase letter')
       .regex(/[0-9]/, 'Include at least one number'),
     confirmPassword: z.string(),
-    agreeTerms: z.boolean().refine((val) => val, 'You must accept the terms to proceed'),
+    agreeTerms: z
+      .boolean()
+      .refine((val) => val, 'You must accept the terms to proceed'),
     role: z.enum(['tenant', 'agent', 'broker']),
     subscribe: z.boolean().optional(),
   })
@@ -58,9 +60,14 @@ export default function SignupScreen() {
   });
   const [secureEntry, setSecureEntry] = useState(true);
   const [confirmSecureEntry, setConfirmSecureEntry] = useState(true);
-  const [errors, setErrors] = useState<Partial<Record<keyof SignupForm, string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof SignupForm, string>>
+  >({});
 
-  const formIsValid = useMemo(() => signupSchema.safeParse(formData).success, [formData]);
+  const formIsValid = useMemo(
+    () => signupSchema.safeParse(formData).success,
+    [formData]
+  );
 
   const validateField = (field: keyof SignupForm) => {
     const partialSchema = signupSchema.pick({ [field]: true } as any);
@@ -87,27 +94,51 @@ export default function SignupScreen() {
       return;
     }
 
-    Alert.alert('Account created', 'Your profile is ready. Connect to APIs to persist data.');
+    Alert.alert(
+      'Account created',
+      'Your profile is ready. Connect to APIs to persist data.'
+    );
     router.push('/auth/login');
   };
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: colors.background },
+      ]}
       keyboardShouldPersistTaps="handled"
     >
       <View style={[styles.hero, { backgroundColor: colors.secondary + '1a' }]}>
-        <MaterialCommunityIcons name="account-network" size={36} color={colors.secondary} />
-        <Text variant="headlineSmall" style={{ color: colors.secondary, marginTop: 8 }}>
+        <MaterialCommunityIcons
+          name="account-network"
+          size={36}
+          color={colors.secondary}
+        />
+        <Text
+          variant="headlineSmall"
+          style={{ color: colors.secondary, marginTop: 8 }}
+        >
           Create your EstateOS identity
         </Text>
-        <Text variant="bodyMedium" style={{ color: colors.textSecondary, marginTop: 6, textAlign: 'center' }}>
-          Unlock a glassmorphic workspace tailored for investors, brokers, and modern tenants.
+        <Text
+          variant="bodyMedium"
+          style={{
+            color: colors.textSecondary,
+            marginTop: 6,
+            textAlign: 'center',
+          }}
+        >
+          Unlock a glassmorphic workspace tailored for investors, brokers, and
+          modern tenants.
         </Text>
       </View>
 
       <GlassCard style={styles.formCard}>
-        <Text variant="titleMedium" style={{ color: colors.text, marginBottom: 12 }}>
+        <Text
+          variant="titleMedium"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
           Profile details
         </Text>
 
@@ -175,7 +206,10 @@ export default function SignupScreen() {
           {errors.confirmPassword}
         </HelperText>
 
-        <Text variant="bodySmall" style={{ color: colors.textSecondary, marginTop: 8 }}>
+        <Text
+          variant="bodySmall"
+          style={{ color: colors.textSecondary, marginTop: 8 }}
+        >
           Choose the experience that fits you best
         </Text>
         <View style={styles.roleRow}>
@@ -192,14 +226,21 @@ export default function SignupScreen() {
               onPress={() => handleChange('role', option.value)}
               style={{
                 backgroundColor:
-                  formData.role === option.value ? colors.primary + '22' : colors.surfaceVariant,
+                  formData.role === option.value
+                    ? colors.primary + '22'
+                    : colors.surfaceVariant,
               }}
               textStyle={{
-                color: formData.role === option.value ? colors.primary : colors.textSecondary,
+                color:
+                  formData.role === option.value
+                    ? colors.primary
+                    : colors.textSecondary,
                 fontWeight: '600',
               }}
               icon={
-                formData.role === option.value ? 'check-circle-outline' : 'circle-outline'
+                formData.role === option.value
+                  ? 'check-circle-outline'
+                  : 'circle-outline'
               }
             >
               {option.label}
@@ -215,9 +256,15 @@ export default function SignupScreen() {
               validateField('agreeTerms');
             }}
             color={colors.primary}
-            trackColor={{ false: colors.textSecondary, true: colors.primaryDark }}
+            trackColor={{
+              false: colors.textSecondary,
+              true: colors.primaryDark,
+            }}
           />
-          <Text variant="bodyMedium" style={{ color: colors.textSecondary, flex: 1 }}>
+          <Text
+            variant="bodyMedium"
+            style={{ color: colors.textSecondary, flex: 1 }}
+          >
             I agree to the Terms of Service and Privacy Policy
           </Text>
         </View>
@@ -238,7 +285,14 @@ export default function SignupScreen() {
 
         <Button
           mode="contained"
-          style={[styles.primaryButton, { backgroundColor: formIsValid ? colors.primary : colors.primaryLight }]}
+          style={[
+            styles.primaryButton,
+            {
+              backgroundColor: formIsValid
+                ? colors.primary
+                : colors.primaryLight,
+            },
+          ]}
           textColor={formIsValid ? colors.white : colors.textSecondary}
           disabled={!formIsValid}
           onPress={handleSubmit}
@@ -248,7 +302,10 @@ export default function SignupScreen() {
       </GlassCard>
 
       <GlassCard style={styles.secondaryCard} intensity={25} borderless>
-        <Text variant="titleSmall" style={{ color: colors.text, marginBottom: 12 }}>
+        <Text
+          variant="titleSmall"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
           Quick onboarding
         </Text>
         <Button
@@ -256,7 +313,9 @@ export default function SignupScreen() {
           icon="linkedin"
           style={[styles.socialButton, { borderColor: '#0A66C2' }]}
           labelStyle={{ color: '#0A66C2' }}
-          onPress={() => Alert.alert('LinkedIn', 'LinkedIn onboarding coming soon.')}
+          onPress={() =>
+            Alert.alert('LinkedIn', 'LinkedIn onboarding coming soon.')
+          }
         >
           Import from LinkedIn
         </Button>
@@ -266,7 +325,11 @@ export default function SignupScreen() {
         <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
           Already have an account?
         </Text>
-        <Button mode="text" labelStyle={{ color: colors.primary }} onPress={() => router.push('/auth/login')}>
+        <Button
+          mode="text"
+          labelStyle={{ color: colors.primary }}
+          onPress={() => router.push('/auth/login')}
+        >
           Sign in
         </Button>
       </View>

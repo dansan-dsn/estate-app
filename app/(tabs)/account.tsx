@@ -367,15 +367,18 @@ const workspaceCopy: Record<
 > = {
   broker: {
     title: 'Broker control tower',
-    description: 'Monitor compliance, capital flows, and team health across your network.',
+    description:
+      'Monitor compliance, capital flows, and team health across your network.',
   },
   agent: {
     title: 'Agent operations desk',
-    description: 'Coordinate listings, nurture leads, and personalize every client hand-off.',
+    description:
+      'Coordinate listings, nurture leads, and personalize every client hand-off.',
   },
   tenant: {
     title: 'Resident living hub',
-    description: 'Track payments, manage requests, and explore your community perks.',
+    description:
+      'Track payments, manage requests, and explore your community perks.',
   },
 };
 
@@ -493,7 +496,10 @@ export default function Account() {
               onEditPress={handleEditPress}
             />
 
-            <AnalyticsHighlights metrics={userProfile.analysis} colors={colors} />
+            <AnalyticsHighlights
+              metrics={userProfile.analysis}
+              colors={colors}
+            />
 
             <PipelineCard items={userProfile.pipeline} colors={colors} />
 
@@ -524,7 +530,7 @@ export default function Account() {
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   screen: {

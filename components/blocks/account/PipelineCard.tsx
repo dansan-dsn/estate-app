@@ -10,10 +10,7 @@ interface PipelineCardProps {
   colors: any;
 }
 
-const statusColor = (
-  colors: any,
-  status: UserPipelineItem['status']
-) => {
+const statusColor = (colors: any, status: UserPipelineItem['status']) => {
   switch (status) {
     case 'success':
       return colors.success;
@@ -34,14 +31,20 @@ const normalizeValue = (value: string) => {
   return Math.max(0.1, Math.min(normalized, 1));
 };
 
-export const PipelineCard: React.FC<PipelineCardProps> = ({ items, colors }) => {
+export const PipelineCard: React.FC<PipelineCardProps> = ({
+  items,
+  colors,
+}) => {
   if (!items || items.length === 0) {
     return null;
   }
 
   return (
     <GlassCard style={styles.card}>
-      <Text variant="titleMedium" style={{ color: colors.text, marginBottom: 16 }}>
+      <Text
+        variant="titleMedium"
+        style={{ color: colors.text, marginBottom: 16 }}
+      >
         Pipeline Overview
       </Text>
       <View style={styles.list}>
@@ -49,7 +52,12 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({ items, colors }) => 
           const accent = statusColor(colors, item.status);
           return (
             <View key={item.id} style={styles.row}>
-              <View style={[styles.iconContainer, { backgroundColor: accent + '1a' }]}>
+              <View
+                style={[
+                  styles.iconContainer,
+                  { backgroundColor: accent + '1a' },
+                ]}
+              >
                 <MaterialCommunityIcons
                   name={item.icon as any}
                   size={20}
@@ -65,7 +73,10 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({ items, colors }) => 
                     {item.value}
                   </Text>
                 </View>
-                <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
+                <Text
+                  variant="bodySmall"
+                  style={{ color: colors.textSecondary }}
+                >
                   {item.description}
                 </Text>
                 <ProgressBar

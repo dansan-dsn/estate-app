@@ -31,7 +31,11 @@ export const AccountDetailsCard: React.FC<AccountDetailsCardProps> = ({
       </Text>
 
       <View style={styles.row}>
-        <MaterialCommunityIcons name="shield-check" size={20} color={colors.success} />
+        <MaterialCommunityIcons
+          name="shield-check"
+          size={20}
+          color={colors.success}
+        />
         <View style={styles.rowContent}>
           <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
             Status
@@ -44,7 +48,11 @@ export const AccountDetailsCard: React.FC<AccountDetailsCardProps> = ({
       <Divider style={styles.divider} />
 
       <View style={styles.row}>
-        <MaterialCommunityIcons name="badge-account" size={20} color={colors.primary} />
+        <MaterialCommunityIcons
+          name="badge-account"
+          size={20}
+          color={colors.primary}
+        />
         <View style={styles.rowContent}>
           <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
             Account type
@@ -69,9 +77,14 @@ export const AccountDetailsCard: React.FC<AccountDetailsCardProps> = ({
       </View>
       <Divider style={styles.divider} />
 
-      {(userProfile.avgResponseTime || userProfile.closingRate || userProfile.avgDaysOnMarket) && (
+      {(userProfile.avgResponseTime ||
+        userProfile.closingRate ||
+        userProfile.avgDaysOnMarket) && (
         <View>
-          <Text variant="bodySmall" style={{ color: colors.textSecondary, marginBottom: 8 }}>
+          <Text
+            variant="bodySmall"
+            style={{ color: colors.textSecondary, marginBottom: 8 }}
+          >
             Engagement insights
           </Text>
           <View style={styles.insightRow}>

@@ -1,14 +1,24 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'expo-router';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Button, Text, TextInput, Switch, HelperText, Chip } from 'react-native-paper';
+import {
+  Button,
+  Text,
+  TextInput,
+  Switch,
+  HelperText,
+  Chip,
+} from 'react-native-paper';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { z } from 'zod';
 import { useThemeStore } from '@/stores/useTheme';
 import GlassCard from '@/components/ui/GlassCard';
 
 const loginSchema = z.object({
-  email: z.string().min(1, 'Email is required').email('Enter a valid email address'),
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Enter a valid email address'),
   password: z
     .string()
     .min(8, 'Password must include at least 8 characters')
@@ -30,7 +40,9 @@ export default function LoginScreen() {
     rememberMe: false,
   });
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [errors, setErrors] = useState<Partial<Record<'email' | 'password', string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<'email' | 'password', string>>
+  >({});
   const { colors } = useThemeStore();
   const router = useRouter();
 
@@ -49,7 +61,10 @@ export default function LoginScreen() {
     }
   };
 
-  const formIsValid = useMemo(() => loginSchema.safeParse(formData).success, [formData]);
+  const formIsValid = useMemo(
+    () => loginSchema.safeParse(formData).success,
+    [formData]
+  );
 
   const handleSubmit = () => {
     const result = loginSchema.safeParse(formData);
@@ -70,21 +85,42 @@ export default function LoginScreen() {
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: colors.background },
+      ]}
       keyboardShouldPersistTaps="handled"
     >
       <View style={[styles.hero, { backgroundColor: colors.primary + '1a' }]}>
-        <MaterialCommunityIcons name="home-analytics" size={32} color={colors.primary} />
-        <Text variant="headlineSmall" style={{ color: colors.primary, marginTop: 8 }}>
+        <MaterialCommunityIcons
+          name="home-analytics"
+          size={32}
+          color={colors.primary}
+        />
+        <Text
+          variant="headlineSmall"
+          style={{ color: colors.primary, marginTop: 8 }}
+        >
           EstateOS Control Room
         </Text>
-        <Text variant="bodyMedium" style={{ color: colors.textSecondary, marginTop: 6, textAlign: 'center' }}>
-          Sign in to manage portfolios, tenants, and analytics in a single modern workspace.
+        <Text
+          variant="bodyMedium"
+          style={{
+            color: colors.textSecondary,
+            marginTop: 6,
+            textAlign: 'center',
+          }}
+        >
+          Sign in to manage portfolios, tenants, and analytics in a single
+          modern workspace.
         </Text>
       </View>
 
       <GlassCard style={styles.formCard}>
-        <Text variant="titleMedium" style={{ color: colors.text, marginBottom: 12 }}>
+        <Text
+          variant="titleMedium"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
           Credentials
         </Text>
 
@@ -126,8 +162,15 @@ export default function LoginScreen() {
             value={formData.rememberMe ?? false}
             onValueChange={(value) => handleChange('rememberMe', value)}
             color={colors.primary}
-            trackColor={{ false: colors.textSecondary, true: colors.primaryDark }}
-            thumbColor={(formData.rememberMe ?? false) ? colors.primary : colors.primaryLight}
+            trackColor={{
+              false: colors.textSecondary,
+              true: colors.primaryDark,
+            }}
+            thumbColor={
+              (formData.rememberMe ?? false)
+                ? colors.primary
+                : colors.primaryLight
+            }
           />
           <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
             Remember this device
@@ -136,7 +179,14 @@ export default function LoginScreen() {
 
         <Button
           mode="contained"
-          style={[styles.primaryButton, { backgroundColor: formIsValid ? colors.primary : colors.primaryLight }]}
+          style={[
+            styles.primaryButton,
+            {
+              backgroundColor: formIsValid
+                ? colors.primary
+                : colors.primaryLight,
+            },
+          ]}
           textColor={formIsValid ? colors.white : colors.textSecondary}
           disabled={!formIsValid}
           onPress={handleSubmit}
@@ -155,7 +205,10 @@ export default function LoginScreen() {
       </GlassCard>
 
       <GlassCard style={styles.secondaryCard} intensity={20} borderless>
-        <Text variant="titleSmall" style={{ color: colors.text, marginBottom: 12 }}>
+        <Text
+          variant="titleSmall"
+          style={{ color: colors.text, marginBottom: 12 }}
+        >
           Continue with
         </Text>
         <Button
@@ -163,7 +216,12 @@ export default function LoginScreen() {
           icon="google"
           style={[styles.socialButton, { borderColor: '#4285F4' }]}
           labelStyle={{ color: '#4285F4' }}
-          onPress={() => Alert.alert('Google Sign-In', 'Google authentication will be available soon.')}
+          onPress={() =>
+            Alert.alert(
+              'Google Sign-In',
+              'Google authentication will be available soon.'
+            )
+          }
         >
           Google
         </Button>
@@ -180,7 +238,11 @@ export default function LoginScreen() {
         <Text variant="bodyMedium" style={{ color: colors.textSecondary }}>
           New to EstateOS?
         </Text>
-        <Button mode="text" labelStyle={{ color: colors.primary }} onPress={() => router.push('/auth/signup')}>
+        <Button
+          mode="text"
+          labelStyle={{ color: colors.primary }}
+          onPress={() => router.push('/auth/signup')}
+        >
           Create an account
         </Button>
       </View>

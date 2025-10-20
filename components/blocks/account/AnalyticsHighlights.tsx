@@ -16,10 +16,7 @@ const trendIconMap: Record<string, string> = {
   steady: 'arrow-right',
 };
 
-const trendColor = (
-  colors: any,
-  trend?: UserAnalysisItem['trend']
-) => {
+const trendColor = (colors: any, trend?: UserAnalysisItem['trend']) => {
   switch (trend) {
     case 'up':
       return colors.success;
@@ -63,10 +60,7 @@ export const AnalyticsHighlights: React.FC<AnalyticsHighlightsProps> = ({
                 color={colors.primary}
               />
             </View>
-            <Text
-              variant="bodySmall"
-              style={{ color: colors.textSecondary }}
-            >
+            <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
               {metric.label}
             </Text>
             <Text variant="headlineSmall" style={{ color: colors.text }}>

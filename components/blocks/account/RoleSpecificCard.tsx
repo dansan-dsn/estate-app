@@ -26,7 +26,11 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
         </Text>
 
         <View style={styles.row}>
-          <MaterialCommunityIcons name="identifier" size={20} color={colors.primary} />
+          <MaterialCommunityIcons
+            name="identifier"
+            size={20}
+            color={colors.primary}
+          />
           <Text style={{ color: colors.text }}>
             {userProfile.agentId || 'ID pending'}
           </Text>
@@ -35,15 +39,27 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
         {userProfile.companyName && (
           <View style={styles.row}>
-            <MaterialCommunityIcons name="office-building" size={20} color={colors.primary} />
-            <Text style={{ color: colors.text }}>{userProfile.companyName}</Text>
+            <MaterialCommunityIcons
+              name="office-building"
+              size={20}
+              color={colors.primary}
+            />
+            <Text style={{ color: colors.text }}>
+              {userProfile.companyName}
+            </Text>
           </View>
         )}
 
         {userProfile.licenseNumber && (
           <View style={styles.row}>
-            <MaterialIcons name="workspace-premium" size={20} color={colors.primary} />
-            <Text style={{ color: colors.text }}>License {userProfile.licenseNumber}</Text>
+            <MaterialIcons
+              name="workspace-premium"
+              size={20}
+              color={colors.primary}
+            />
+            <Text style={{ color: colors.text }}>
+              License {userProfile.licenseNumber}
+            </Text>
           </View>
         )}
 
@@ -75,7 +91,11 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
                 <Text variant="titleLarge" style={{ color: colors.text }}>
                   {userProfile.rating.toFixed(1)}
                 </Text>
-                <MaterialCommunityIcons name="star" size={18} color={colors.secondary} />
+                <MaterialCommunityIcons
+                  name="star"
+                  size={18}
+                  color={colors.secondary}
+                />
               </View>
             </View>
           )}
@@ -83,37 +103,64 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
         <View style={styles.chipRow}>
           {userProfile.closingRate && (
-            <Chip icon="chart-line" style={{ backgroundColor: colors.success + '1a' }} textStyle={{ color: colors.success }}>
+            <Chip
+              icon="chart-line"
+              style={{ backgroundColor: colors.success + '1a' }}
+              textStyle={{ color: colors.success }}
+            >
               Closing rate {userProfile.closingRate}
             </Chip>
           )}
           {userProfile.avgResponseTime && (
-            <Chip icon="clock-outline" style={{ backgroundColor: colors.info + '1a' }} textStyle={{ color: colors.info }}>
+            <Chip
+              icon="clock-outline"
+              style={{ backgroundColor: colors.info + '1a' }}
+              textStyle={{ color: colors.info }}
+            >
               Response {userProfile.avgResponseTime}
             </Chip>
           )}
           {userProfile.avgDaysOnMarket && (
-            <Chip icon="calendar-clock" style={{ backgroundColor: colors.warning + '1a' }} textStyle={{ color: colors.warning }}>
+            <Chip
+              icon="calendar-clock"
+              style={{ backgroundColor: colors.warning + '1a' }}
+              textStyle={{ color: colors.warning }}
+            >
               {userProfile.avgDaysOnMarket} days on market
             </Chip>
           )}
         </View>
 
-        {(userProfile.specialties?.length || userProfile.territories?.length) && (
+        {(userProfile.specialties?.length ||
+          userProfile.territories?.length) && (
           <>
             <Divider style={[styles.divider, { marginVertical: 12 }]} />
             {userProfile.specialties && userProfile.specialties.length > 0 && (
               <View style={styles.supportRow}>
-                <MaterialCommunityIcons name="target-account" size={18} color={colors.primary} />
-                <Text style={[styles.supportText, { color: colors.text }]} numberOfLines={2}>
+                <MaterialCommunityIcons
+                  name="target-account"
+                  size={18}
+                  color={colors.primary}
+                />
+                <Text
+                  style={[styles.supportText, { color: colors.text }]}
+                  numberOfLines={2}
+                >
                   {userProfile.specialties.join(' • ')}
                 </Text>
               </View>
             )}
             {userProfile.territories && userProfile.territories.length > 0 && (
               <View style={styles.supportRow}>
-                <MaterialCommunityIcons name="map-marker-radius" size={18} color={colors.primary} />
-                <Text style={[styles.supportText, { color: colors.text }]} numberOfLines={2}>
+                <MaterialCommunityIcons
+                  name="map-marker-radius"
+                  size={18}
+                  color={colors.primary}
+                />
+                <Text
+                  style={[styles.supportText, { color: colors.text }]}
+                  numberOfLines={2}
+                >
                   {userProfile.territories.join(' • ')}
                 </Text>
               </View>
@@ -136,8 +183,14 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
         {userProfile.brokerageName && (
           <View style={styles.row}>
-            <MaterialCommunityIcons name="domain" size={20} color={colors.primary} />
-            <Text style={{ color: colors.text }}>{userProfile.brokerageName}</Text>
+            <MaterialCommunityIcons
+              name="domain"
+              size={20}
+              color={colors.primary}
+            />
+            <Text style={{ color: colors.text }}>
+              {userProfile.brokerageName}
+            </Text>
           </View>
         )}
 
@@ -174,49 +227,74 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
         <View style={styles.chipRow}>
           {userProfile.brokerPortfolioValue && (
-            <Chip icon="cash-multiple" style={{ backgroundColor: colors.secondary + '1a' }} textStyle={{ color: colors.secondary }}>
+            <Chip
+              icon="cash-multiple"
+              style={{ backgroundColor: colors.secondary + '1a' }}
+              textStyle={{ color: colors.secondary }}
+            >
               Portfolio {userProfile.brokerPortfolioValue}
             </Chip>
           )}
           {userProfile.brokerMonthlyVolume && (
-            <Chip icon="chart-areaspline" style={{ backgroundColor: colors.info + '1a' }} textStyle={{ color: colors.info }}>
+            <Chip
+              icon="chart-areaspline"
+              style={{ backgroundColor: colors.info + '1a' }}
+              textStyle={{ color: colors.info }}
+            >
               Monthly volume {userProfile.brokerMonthlyVolume}
             </Chip>
           )}
         </View>
 
-        {userProfile.flagshipMarkets && userProfile.flagshipMarkets.length > 0 && (
-          <View style={{ marginTop: 12 }}>
-            <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
-              Focus markets
-            </Text>
-            <View style={styles.chipRow}>
-              {userProfile.flagshipMarkets.map((market) => (
-                <Chip key={market} style={{ backgroundColor: colors.primary + '12' }} textStyle={{ color: colors.primary }}>
-                  {market}
-                </Chip>
-              ))}
+        {userProfile.flagshipMarkets &&
+          userProfile.flagshipMarkets.length > 0 && (
+            <View style={{ marginTop: 12 }}>
+              <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
+                Focus markets
+              </Text>
+              <View style={styles.chipRow}>
+                {userProfile.flagshipMarkets.map((market) => (
+                  <Chip
+                    key={market}
+                    style={{ backgroundColor: colors.primary + '12' }}
+                    textStyle={{ color: colors.primary }}
+                  >
+                    {market}
+                  </Chip>
+                ))}
+              </View>
             </View>
-          </View>
-        )}
+          )}
 
         <Divider style={[styles.divider, { marginVertical: 12 }]} />
 
         <View style={styles.supportRow}>
-          <MaterialCommunityIcons name="cash-multiple" size={18} color={colors.secondary} />
+          <MaterialCommunityIcons
+            name="cash-multiple"
+            size={18}
+            color={colors.secondary}
+          />
           <Text style={[styles.supportText, { color: colors.text }]}>
             Portfolio value {userProfile.brokerPortfolioValue || '—'}
           </Text>
         </View>
         <View style={styles.supportRow}>
-          <MaterialCommunityIcons name="finance" size={18} color={colors.info} />
+          <MaterialCommunityIcons
+            name="finance"
+            size={18}
+            color={colors.info}
+          />
           <Text style={[styles.supportText, { color: colors.text }]}>
             Monthly volume {userProfile.brokerMonthlyVolume || '—'}
           </Text>
         </View>
         {userProfile.complianceScore && (
           <View style={styles.supportRow}>
-            <MaterialCommunityIcons name="shield-star" size={18} color={colors.success} />
+            <MaterialCommunityIcons
+              name="shield-star"
+              size={18}
+              color={colors.success}
+            />
             <Text style={[styles.supportText, { color: colors.success }]}>
               Compliance score {userProfile.complianceScore}%
             </Text>
@@ -236,7 +314,11 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
       </Text>
 
       <View style={styles.row}>
-        <MaterialCommunityIcons name="home-city" size={20} color={colors.primary} />
+        <MaterialCommunityIcons
+          name="home-city"
+          size={20}
+          color={colors.primary}
+        />
         <Text style={{ color: colors.text }}>
           {userProfile.currentProperty || 'No active lease'}
         </Text>
@@ -244,7 +326,11 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
       <Divider style={styles.divider} />
 
       <View style={styles.row}>
-        <MaterialCommunityIcons name="calendar-end" size={20} color={colors.primary} />
+        <MaterialCommunityIcons
+          name="calendar-end"
+          size={20}
+          color={colors.primary}
+        />
         <Text style={{ color: colors.text }}>
           Lease ends {userProfile.leaseEndDate || '—'}
         </Text>
@@ -285,12 +371,20 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
       <View style={styles.chipRow}>
         {userProfile.tenantPaymentStatus && (
-          <Chip icon="calendar-check" style={{ backgroundColor: colors.success + '1a' }} textStyle={{ color: colors.success }}>
+          <Chip
+            icon="calendar-check"
+            style={{ backgroundColor: colors.success + '1a' }}
+            textStyle={{ color: colors.success }}
+          >
             {userProfile.tenantPaymentStatus}
           </Chip>
         )}
         {userProfile.emergencyContact && (
-          <Chip icon="account-heart" style={{ backgroundColor: colors.info + '1a' }} textStyle={{ color: colors.info }}>
+          <Chip
+            icon="account-heart"
+            style={{ backgroundColor: colors.info + '1a' }}
+            textStyle={{ color: colors.info }}
+          >
             Emergency: {userProfile.emergencyContact}
           </Chip>
         )}
@@ -300,7 +394,11 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
       {userProfile.moveInDate && (
         <View style={styles.supportRow}>
-          <MaterialCommunityIcons name="calendar-start" size={18} color={colors.primary} />
+          <MaterialCommunityIcons
+            name="calendar-start"
+            size={18}
+            color={colors.primary}
+          />
           <Text style={[styles.supportText, { color: colors.text }]}>
             Move-in {userProfile.moveInDate}
           </Text>
@@ -309,9 +407,14 @@ export const RoleSpecificCard: React.FC<RoleSpecificCardProps> = ({
 
       {typeof userProfile.roommates === 'number' && (
         <View style={styles.supportRow}>
-          <MaterialCommunityIcons name="account-multiple" size={18} color={colors.info} />
+          <MaterialCommunityIcons
+            name="account-multiple"
+            size={18}
+            color={colors.info}
+          />
           <Text style={[styles.supportText, { color: colors.text }]}>
-            {userProfile.roommates} roommate{userProfile.roommates === 1 ? '' : 's'}
+            {userProfile.roommates} roommate
+            {userProfile.roommates === 1 ? '' : 's'}
           </Text>
         </View>
       )}
