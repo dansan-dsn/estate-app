@@ -10,7 +10,11 @@ interface PipelineProgressProps {
   parsePercent: (value?: string) => number;
 }
 
-export function PipelineProgress({ items, colors, parsePercent }: PipelineProgressProps) {
+export function PipelineProgress({
+  items,
+  colors,
+  parsePercent,
+}: PipelineProgressProps) {
   if (!items.length) {
     return null;
   }
@@ -26,18 +30,25 @@ export function PipelineProgress({ items, colors, parsePercent }: PipelineProgre
     <GlassCard>
       <View style={styles.pipelineList}>
         {items.map((item) => (
-            <View key={item.id} style={styles.pipelineItem}>
-              <View style={styles.pipelineHeader}>
-                <Chip
-                  style={{ backgroundColor: colors.surfaceVariant }}
-                  icon={item.icon as any}
-                  textStyle={{ color: colors.text }}
-                >
-                  {item.label}
-                </Chip>
-                <Text style={[styles.pipelineValue, { color: colors.text }]}>{item.value}</Text>
-              </View>
-            <Text style={[styles.pipelineDescription, { color: colors.textSecondary }]}>
+          <View key={item.id} style={styles.pipelineItem}>
+            <View style={styles.pipelineHeader}>
+              <Chip
+                style={{ backgroundColor: colors.surfaceVariant }}
+                icon={item.icon as any}
+                textStyle={{ color: colors.text }}
+              >
+                {item.label}
+              </Chip>
+              <Text style={[styles.pipelineValue, { color: colors.text }]}>
+                {item.value}
+              </Text>
+            </View>
+            <Text
+              style={[
+                styles.pipelineDescription,
+                { color: colors.textSecondary },
+              ]}
+            >
               {item.description}
             </Text>
             <ProgressBar

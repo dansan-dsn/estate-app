@@ -11,7 +11,11 @@ interface IdentityCardProps {
   roleLabel: string;
 }
 
-export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) {
+export function IdentityCard({
+  profile,
+  colors,
+  roleLabel,
+}: IdentityCardProps) {
   return (
     <GlassCard style={styles.identityCard}>
       <View style={styles.identityHeader}>
@@ -19,9 +23,13 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
           <Text style={[styles.identityName, { color: colors.text }]}>
             {profile.firstName} {profile.lastName}
           </Text>
-          <Text style={[styles.identitySubhead, { color: colors.textSecondary }]}>
+          <Text
+            style={[styles.identitySubhead, { color: colors.textSecondary }]}
+          >
             {roleLabel}
-            {profile.memberSince ? ` · Member since ${profile.memberSince}` : ''}
+            {profile.memberSince
+              ? ` · Member since ${profile.memberSince}`
+              : ''}
           </Text>
         </View>
       </View>
@@ -31,7 +39,10 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
           {profile.status && (
             <Chip
               icon="shield-check"
-              style={[styles.statusChip, { backgroundColor: colors.success + '15' }]}
+              style={[
+                styles.statusChip,
+                { backgroundColor: colors.success + '15' },
+              ]}
               textStyle={{ color: colors.success, fontWeight: '600' }}
             >
               {profile.status.toUpperCase()}
@@ -40,7 +51,10 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
           {profile.tier && (
             <Chip
               icon="crown"
-              style={[styles.statusChip, { backgroundColor: colors.secondary + '15' }]}
+              style={[
+                styles.statusChip,
+                { backgroundColor: colors.secondary + '15' },
+              ]}
               textStyle={{ color: colors.secondary, fontWeight: '600' }}
             >
               {profile.tier}
@@ -49,7 +63,10 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
           {profile.companyName && (
             <Chip
               icon="office-building"
-              style={[styles.statusChip, { backgroundColor: colors.surfaceVariant }]}
+              style={[
+                styles.statusChip,
+                { backgroundColor: colors.surfaceVariant },
+              ]}
               textStyle={{ color: colors.text }}
             >
               {profile.companyName}
@@ -66,14 +83,27 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
           .filter((item) => item.value)
           .map((item) => (
             <View key={item.label} style={styles.contactRow}>
-              <View style={[styles.contactIcon, { backgroundColor: colors.primary + '12' }]}>
-                <MaterialCommunityIcons name={item.icon as any} size={18} color={colors.primary} />
+              <View
+                style={[
+                  styles.contactIcon,
+                  { backgroundColor: colors.primary + '12' },
+                ]}
+              >
+                <MaterialCommunityIcons
+                  name={item.icon as any}
+                  size={18}
+                  color={colors.primary}
+                />
               </View>
               <View style={styles.contactText}>
-                <Text style={[styles.contactLabel, { color: colors.textSecondary }]}>
+                <Text
+                  style={[styles.contactLabel, { color: colors.textSecondary }]}
+                >
                   {item.label}
                 </Text>
-                <Text style={[styles.contactValue, { color: colors.text }]}>{item.value}</Text>
+                <Text style={[styles.contactValue, { color: colors.text }]}>
+                  {item.value}
+                </Text>
               </View>
             </View>
           ))}
@@ -106,11 +136,22 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
                 },
               ]}
             >
-              <MaterialCommunityIcons name={item.icon as any} size={18} color={colors.textSecondary} />
-              <Text style={[styles.preferenceLabel, { color: colors.textSecondary }]}>
+              <MaterialCommunityIcons
+                name={item.icon as any}
+                size={18}
+                color={colors.textSecondary}
+              />
+              <Text
+                style={[
+                  styles.preferenceLabel,
+                  { color: colors.textSecondary },
+                ]}
+              >
                 {item.label}
               </Text>
-              <Text style={[styles.preferenceValue, { color: colors.text }]}>{item.value}</Text>
+              <Text style={[styles.preferenceValue, { color: colors.text }]}>
+                {item.value}
+              </Text>
             </View>
           ))}
       </View>
@@ -124,8 +165,14 @@ export function IdentityCard({ profile, colors, roleLabel }: IdentityCardProps) 
             },
           ]}
         >
-          <Text style={[styles.preferenceLabel, { color: colors.textSecondary }]}>Bio</Text>
-          <Text style={[styles.bioText, { color: colors.text }]}>{profile.bio}</Text>
+          <Text
+            style={[styles.preferenceLabel, { color: colors.textSecondary }]}
+          >
+            Bio
+          </Text>
+          <Text style={[styles.bioText, { color: colors.text }]}>
+            {profile.bio}
+          </Text>
         </View>
       ) : null}
     </GlassCard>

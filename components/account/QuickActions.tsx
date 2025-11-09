@@ -32,7 +32,10 @@ export function QuickActionsPanel({
       onActionPress(action);
       return;
     }
-    Alert.alert('Coming soon', `${action.label} will be available once services are connected.`);
+    Alert.alert(
+      'Coming soon',
+      `${action.label} will be available once services are connected.`
+    );
   };
 
   const intentTone = (intent: QuickActionIntent) => {
@@ -57,7 +60,9 @@ export function QuickActionsPanel({
             icon={action.icon as any}
             style={[
               styles.actionButton,
-              action.mode === 'contained' ? { backgroundColor: tone } : { borderColor: tone },
+              action.mode === 'contained'
+                ? { backgroundColor: tone }
+                : { borderColor: tone },
             ]}
             textColor={action.mode === 'contained' ? colors.white : tone}
             onPress={() => handleAction(action)}
@@ -77,7 +82,12 @@ export function QuickActionsPanel({
         >
           Edit profile
         </Button>
-        <Button mode="text" icon="logout" onPress={onLogout} textColor={colors.error}>
+        <Button
+          mode="text"
+          icon="logout"
+          onPress={onLogout}
+          textColor={colors.error}
+        >
           Sign out
         </Button>
       </View>

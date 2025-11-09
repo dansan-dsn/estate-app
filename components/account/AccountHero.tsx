@@ -53,7 +53,9 @@ export function AccountHero({
           <Text style={[styles.heroEyebrow, { color: colors.textSecondary }]}>
             {roleMeta.label}
           </Text>
-          <Text style={[styles.heroTitle, { color: colors.text }]}>{roleMeta.heroTitle}</Text>
+          <Text style={[styles.heroTitle, { color: colors.text }]}>
+            {roleMeta.heroTitle}
+          </Text>
           <Text style={[styles.heroSubtitle, { color: colors.textSecondary }]}>
             {roleMeta.description}
           </Text>
@@ -65,7 +67,10 @@ export function AccountHero({
           <Chip
             key={copy}
             icon={roleMeta.icon as any}
-            style={[styles.heroChip, { backgroundColor: colors.primary + '1a' }]}
+            style={[
+              styles.heroChip,
+              { backgroundColor: colors.primary + '1a' },
+            ]}
             textStyle={{ color: colors.primary, fontWeight: '600' }}
           >
             {copy}
@@ -92,7 +97,10 @@ export function AccountHero({
               },
             ],
             labelStyle: {
-              color: role.value === activeRole ? colors.segmentActiveText : colors.segmentText,
+              color:
+                role.value === activeRole
+                  ? colors.segmentActiveText
+                  : colors.segmentText,
               fontWeight: '600',
             },
           }))}

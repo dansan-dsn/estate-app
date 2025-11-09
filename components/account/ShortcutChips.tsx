@@ -21,10 +21,16 @@ export function ShortcutChips({ shortcuts, colors }: ShortcutChipsProps) {
           <Chip
             key={link.label}
             icon={link.icon as any}
-            style={[styles.quickLinkChip, { backgroundColor: colors.surfaceVariant }]}
+            style={[
+              styles.quickLinkChip,
+              { backgroundColor: colors.surfaceVariant },
+            ]}
             textStyle={{ color: colors.text }}
             onPress={() =>
-              Alert.alert('Navigation', `${link.label} opens once APIs are connected.`)
+              Alert.alert(
+                'Navigation',
+                `${link.label} opens once APIs are connected.`
+              )
             }
           >
             {link.label}

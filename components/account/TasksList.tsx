@@ -21,16 +21,28 @@ export function TasksList({ tasks, colors, taskTypeIcons }: TasksListProps) {
       <View style={styles.taskList}>
         {tasks.map((task) => (
           <View key={task.id} style={styles.taskRow}>
-            <View style={[styles.taskIcon, { backgroundColor: colors.primary + '12' }]}>
+            <View
+              style={[
+                styles.taskIcon,
+                { backgroundColor: colors.primary + '12' },
+              ]}
+            >
               <MaterialCommunityIcons
-                name={(taskTypeIcons[task.type] ?? 'checkbox-blank-circle-outline') as any}
+                name={
+                  (taskTypeIcons[task.type] ??
+                    'checkbox-blank-circle-outline') as any
+                }
                 size={20}
                 color={colors.primary}
               />
             </View>
             <View style={styles.taskCopy}>
-              <Text style={[styles.taskTitle, { color: colors.text }]}>{task.title}</Text>
-              <Text style={[styles.taskMeta, { color: colors.textSecondary }]}>Due: {task.due}</Text>
+              <Text style={[styles.taskTitle, { color: colors.text }]}>
+                {task.title}
+              </Text>
+              <Text style={[styles.taskMeta, { color: colors.textSecondary }]}>
+                Due: {task.due}
+              </Text>
             </View>
             <Chip
               compact
@@ -38,7 +50,9 @@ export function TasksList({ tasks, colors, taskTypeIcons }: TasksListProps) {
               style={[
                 styles.taskChip,
                 {
-                  backgroundColor: task.completed ? colors.success + '1a' : colors.surfaceVariant,
+                  backgroundColor: task.completed
+                    ? colors.success + '1a'
+                    : colors.surfaceVariant,
                 },
               ]}
               textStyle={{

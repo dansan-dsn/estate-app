@@ -19,13 +19,28 @@ export function MetricsGrid({ metrics, colors }: MetricsGridProps) {
     <View style={styles.metricGrid}>
       {metrics.map((metric) => (
         <GlassCard key={metric.id} style={styles.metricCard}>
-          <View style={[styles.metricIcon, { backgroundColor: colors.primary + '15' }]}>
-            <MaterialCommunityIcons name={metric.icon as any} size={22} color={colors.primary} />
+          <View
+            style={[
+              styles.metricIcon,
+              { backgroundColor: colors.primary + '15' },
+            ]}
+          >
+            <MaterialCommunityIcons
+              name={metric.icon as any}
+              size={22}
+              color={colors.primary}
+            />
           </View>
-          <Text style={[styles.metricValue, { color: colors.text }]}>{metric.value}</Text>
-          <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>{metric.label}</Text>
+          <Text style={[styles.metricValue, { color: colors.text }]}>
+            {metric.value}
+          </Text>
+          <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
+            {metric.label}
+          </Text>
           {metric.helperText ? (
-            <Text style={[styles.metricHelper, { color: colors.textSecondary }]}>
+            <Text
+              style={[styles.metricHelper, { color: colors.textSecondary }]}
+            >
               {metric.helperText}
             </Text>
           ) : null}
