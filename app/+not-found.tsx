@@ -28,7 +28,7 @@ export default function NotFoundScreen() {
           mode="contained"
           style={[styles.button, { backgroundColor: colors.primary }]}
           labelStyle={{ color: colors.white }}
-          onPress={() => router.push('/(tabs)/explore')}
+          onPress={() => router.back()}
         >
           Go Back Home
         </Button>
